@@ -1,25 +1,28 @@
 import express, { type Express } from "express";
 import cors from "cors";
-import pinoHttp from "pino-http";
+// @ts-ignore
+import pinoHttpImport from "pino-http";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
 const app: Express = express();
+const pinoHttpFn: any = typeof pinoHttpImport === 'function' ? pinoHttpImport : (pinoHttpImport as any)?.pinoHttp || (pinoHttpImport as any)?.default || pinoHttpImport;
 
 app.use(
-  pinoHttp({
+  // @ts-ignore
+  pinoHttpFn({
     logger,
     serializers: {
-      req(req) {
+      req(req: any) {
         return {
-          id: req.id,
-          method: req.method,
-          url: req.url?.split("?")[0],
+          id: req?.id,
+          method: req?.method,
+          url: req?.url?.split("?")[0],
         };
       },
-      res(res) {
+      res(res: any) {
         return {
-          statusCode: res.statusCode,
+          statusCode: res?.statusCode,
         };
       },
     },
