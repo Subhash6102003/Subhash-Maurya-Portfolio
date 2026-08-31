@@ -553,13 +553,14 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--orange); outlin
   .hero-ctas { gap: 12px; flex-wrap: wrap; margin-top: 20px; }
   .hero-ctas .button { width: 100%; justify-content: center; }
   
-  .hero-art { transform: scale(0.72); transform-origin: center top; height: 280px; min-height: 280px; margin: 10px auto 0; position: relative; overflow: visible; }
-  .floating-note { font-size: 9px; padding: 6px 9px; }
-  .note-top { right: -2%; top: 6%; }
-  .note-bottom { left: -2%; bottom: 6%; }
+  .hero-art { width: 100%; height: 250px !important; min-height: 250px !important; margin: 20px auto 0; transform: scale(0.62); transform-origin: center top; position: relative; overflow: visible; }
+  .art-stamp { top: 8px; left: -5px; padding: 4px 8px; font-size: 10px; z-index: 10; }
+  .floating-note { font-size: 9px; padding: 5px 8px; z-index: 10; }
+  .note-top { right: -5px; top: 8px; }
+  .note-bottom { left: -10px; bottom: 55px; }
   .art-caption { display: none; }
   
-  .hero-bottom { grid-template-columns: 1fr; gap: 10px; font-size: 9px; margin-top: 10px; padding-top: 16px; }
+  .hero-bottom { grid-template-columns: 1fr; gap: 10px; font-size: 9px; margin-top: 35px !important; padding-top: 20px; border-top: 1px solid var(--line); position: relative; z-index: 5; }
   .hero-metric strong { font-size: 20px; }
   
   .statement, .projects, .skills, .experience, .resume, .contact { padding-top: 54px; padding-bottom: 54px; }
@@ -600,7 +601,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--orange); outlin
 }
 
 @media (max-width: 420px) {
-  .hero-art { transform: scale(0.62); height: 240px; min-height: 240px; }
+  .hero-art { transform: scale(0.50); height: 185px !important; min-height: 185px !important; margin: 10px auto 0; }
+  .hero-bottom { margin-top: 25px !important; }
   .hero h1 { font-size: clamp(2.1rem, 9.5vw, 3.2rem); }
   .experience-impact-grid { grid-template-columns: 1fr; }
 }
