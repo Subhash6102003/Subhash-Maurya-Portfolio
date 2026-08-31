@@ -553,15 +553,56 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--orange); outlin
   .hero-ctas { gap: 12px; flex-wrap: wrap; margin-top: 20px; }
   .hero-ctas .button { width: 100%; justify-content: center; }
   
-  .hero-art { width: 100%; height: 250px !important; min-height: 250px !important; margin: 20px auto 0; transform: scale(0.62); transform-origin: center top; position: relative; overflow: visible; }
-  .art-stamp { top: 8px; left: -5px; padding: 4px 8px; font-size: 10px; z-index: 10; }
-  .floating-note { font-size: 9px; padding: 5px 8px; z-index: 10; }
-  .note-top { right: -5px; top: 8px; }
-  .note-bottom { left: -10px; bottom: 55px; }
+  /* Mobile Workstation Responsive Dimensions (No Layout Transform Distortions) */
+  .hero-art { width: 100%; height: 260px !important; min-height: 260px !important; margin: 24px auto 0; position: relative; display: flex; align-items: center; justify-content: center; overflow: visible; }
+  .modern-workstation-container { width: 260px; height: 220px; margin: 0 auto; transform: none !important; }
+  .monitor-ambient-glow { width: 220px; height: 140px; }
+  .modern-monitor { width: 250px; height: 160px; border-width: 2px; padding: 5px; border-radius: 10px; }
+  .monitor-bezel { border-width: 5px; border-radius: 6px; }
+  .monitor-screen { padding: 6px; }
+  .screen-header { padding-bottom: 5px; margin-bottom: 6px; gap: 6px; }
+  .window-dots span { width: 5px; height: 5px; }
+  .screen-tabs .tab { font-size: 8px; padding: 1px 5px; }
+  .file-tag { font-size: 8px; }
+  .code-lines { gap: 5px; margin-top: 2px; }
+  .code-lines i { height: 4px; }
+  .screen-status-btn { font-size: 8px; padding: 3px 6px; bottom: 5px; right: 6px; }
+  .slim-monitor-neck { width: 24px; height: 20px; margin-top: -1px; }
+  .slim-monitor-base { width: 110px; height: 8px; border-width: 2px; margin-top: -1px; }
+  .slim-keyboard { width: 220px; height: 42px; padding: 5px 8px; gap: 3px; border-width: 2px; margin-top: 6px; }
+  .slim-keyboard span { width: 21px; height: 11px; }
+  
+  /* Mobile Badge Coordinates */
+  .art-stamp { top: 0px; left: -10px; padding: 4px 8px; font-size: 9px; z-index: 10; transform: rotate(-5deg); }
+  .floating-note { font-size: 8px; padding: 4px 7px; z-index: 10; }
+  .note-top { right: -10px; top: 0px; transform: rotate(5deg); }
+  .note-bottom { left: -15px; bottom: 45px; transform: rotate(-4deg); }
   .art-caption { display: none; }
   
-  .hero-bottom { grid-template-columns: 1fr; gap: 10px; font-size: 9px; margin-top: 35px !important; padding-top: 20px; border-top: 1px solid var(--line); position: relative; z-index: 5; }
-  .hero-metric strong { font-size: 20px; }
+  /* Hero Bottom Section - Left Aligned Enclosed Below Workstation */
+  .hero-bottom {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    gap: 14px !important;
+    font-size: 10px !important;
+    margin-top: 40px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    border-top: 1px solid var(--line) !important;
+    border-bottom: 1px solid var(--line) !important;
+    position: relative !important;
+    z-index: 10 !important;
+    width: 100% !important;
+    clear: both !important;
+    background: transparent !important;
+  }
+  .scroll-cue { align-self: flex-start !important; justify-content: flex-start !important; text-align: left !important; }
+  .hero-tech { display: block !important; text-align: left !important; align-self: flex-start !important; font-size: 10px !important; color: var(--muted-foreground) !important; }
+  .hero-tech b { color: var(--orange) !important; }
+  .hero-metric { justify-self: flex-start !important; align-self: flex-start !important; text-align: left !important; }
+  .hero-metric strong { font-size: 22px; }
   
   .statement, .projects, .skills, .experience, .resume, .contact { padding-top: 54px; padding-bottom: 54px; }
   .statement h2, .section-heading h2, .skills h2, .experience h2, .resume h2, .contact h2 { font-size: clamp(2.4rem, 11vw, 4rem); }
@@ -601,8 +642,12 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--orange); outlin
 }
 
 @media (max-width: 420px) {
-  .hero-art { transform: scale(0.50); height: 185px !important; min-height: 185px !important; margin: 10px auto 0; }
-  .hero-bottom { margin-top: 25px !important; }
+  .hero-art { height: 220px !important; min-height: 220px !important; margin: 15px auto 0; }
+  .modern-workstation-container { width: 220px; height: 190px; }
+  .modern-monitor { width: 210px; height: 135px; }
+  .slim-keyboard { width: 180px; height: 36px; }
+  .slim-keyboard span { width: 17px; height: 9px; }
+  .hero-bottom { margin-top: 30px !important; }
   .hero h1 { font-size: clamp(2.1rem, 9.5vw, 3.2rem); }
   .experience-impact-grid { grid-template-columns: 1fr; }
 }
