@@ -123,83 +123,86 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* Interactive Retro Workstation Artwork */}
-        <div className="hero-art reveal delay-1" aria-label="Abstract illustration of a retro developer workstation">
+        {/* Interactive Refined Modern Workstation Desk (Option 3 with Original Brand Orange Colors) */}
+        <div className="hero-art reveal delay-1" aria-label="Illustration of a modern developer workstation desk">
           <div className="art-stamp">SM / 26</div>
+          <div className="floating-note note-top">
+            <span>01</span> curious by default
+          </div>
           <div className="orbit orbit-one" />
           <div className="orbit orbit-two" />
 
           <motion.div
-            className="retro-machine"
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: 'spring', stiffness: 300 }}
+            className="modern-workstation-container"
+            whileHover={{ scale: 1.015 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
           >
-            <div className={`monitor ${screenPowered ? 'powered-on' : 'powered-off'}`}>
-              <div className="monitor-screen">
-                <div className="screen-bar">
-                  <span />
-                  <span />
-                  <span /> <small>build.log</small>
-                </div>
-                {screenPowered ? (
-                  <div className="code-lines">
-                    <i />
-                    <i />
-                    <i />
-                    <i />
-                    <i />
-                    <i />
+            {/* Ambient Glow Reflection */}
+            <div className="monitor-ambient-glow" />
+
+            {/* Brand Orange Modern Curved Monitor */}
+            <div className={`modern-monitor ${screenPowered ? 'powered-on' : 'powered-off'}`}>
+              <div className="monitor-bezel">
+                <div className="monitor-screen">
+                  <div className="screen-header">
+                    <div className="window-dots">
+                      <span className="dot-red" />
+                      <span className="dot-yellow" />
+                      <span className="dot-green" />
+                    </div>
+                    <div className="screen-tabs">
+                      <span className="tab active">App.tsx</span>
+                      <span className="tab">AndroidSDK.kt</span>
+                    </div>
+                    <small className="file-tag">build.log</small>
                   </div>
-                ) : (
-                  <div className="screen-off-msg">SYSTEM PAUSED</div>
-                )}
-                <button
-                  className="screen-status-btn"
-                  onClick={() => setScreenPowered((prev) => !prev)}
-                  title="Toggle Display Power"
-                >
-                  SHIP IT <span className={screenPowered ? 'dot-active' : 'dot-inactive'}>●</span>
-                </button>
+
+                  {screenPowered ? (
+                    <div className="code-lines">
+                      <i className="line-1" />
+                      <i className="line-2" />
+                      <i className="line-3" />
+                      <i className="line-4" />
+                      <i className="line-5" />
+                      <i className="line-6" />
+                    </div>
+                  ) : (
+                    <div className="screen-off-msg">SYSTEM PAUSED</div>
+                  )}
+
+                  <button
+                    className="screen-status-btn"
+                    onClick={() => setScreenPowered((prev) => !prev)}
+                    title="Toggle Display Power"
+                    data-testid="button-toggle-power"
+                  >
+                    SHIP IT <span className={screenPowered ? 'dot-active' : 'dot-inactive'}>●</span>
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="machine-neck" />
-            <div className="keyboard">
-              {Array.from({ length: 12 }).map((_, i) => (
+
+            {/* Brand Orange Monitor Neck & Base */}
+            <div className="slim-monitor-neck" />
+            <div className="slim-monitor-base" />
+
+            {/* Brand Orange Mechanical Keyboard */}
+            <div className="slim-keyboard">
+              {Array.from({ length: 14 }).map((_, i) => (
                 <motion.span
                   key={i}
+                  className={i === 4 || i === 9 ? 'accent-key' : ''}
                   animate={{ y: keyPressed === i ? 2 : 0 }}
-                  whileHover={{ scale: 1.15, backgroundColor: 'hsl(var(--primary))' }}
+                  whileHover={{ scale: 1.1 }}
                   onMouseDown={() => setKeyPressed(i)}
                   onMouseUp={() => setKeyPressed(null)}
                 />
               ))}
             </div>
-            <div className="machine-base" />
           </motion.div>
 
-          <motion.div
-            className="floating-note note-top"
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <span>01</span> curious
-            <br />
-            by default
-          </motion.div>
-          <motion.div
-            className="floating-note note-bottom"
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-          >
-            Kotlin
-            <br />
-            <b>+</b> React
-          </motion.div>
-          <div className="cursor-cross">+</div>
           <div className="art-caption">
-            A small studio of one
-            <br />
-            with a big surface area.
+            A small studio of one<br />with a big surface area.
           </div>
         </div>
 

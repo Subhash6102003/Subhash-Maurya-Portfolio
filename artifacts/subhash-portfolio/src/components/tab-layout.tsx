@@ -74,7 +74,7 @@ export function TabLayout({ children }: TabLayoutProps) {
     <div className="portfolio-shell">
       <div className="grain" aria-hidden="true" />
 
-      {/* Sleek Original Header */}
+      {/* Sleek Header */}
       <header className="site-header">
         <Link className="brand-mark" href="/" data-testid="link-home">
           <span className="brand-symbol">S</span>
@@ -96,10 +96,19 @@ export function TabLayout({ children }: TabLayoutProps) {
               </Link>
             );
           })}
+          {/* Mobile Drawer "Let's Talk" Button */}
+          <a
+            className="mobile-nav-talk-btn"
+            href="#contact"
+            onClick={handleLetsTalkClick}
+            data-testid="link-mobile-drawer-talk"
+          >
+            Let&apos;s talk <ArrowUpRight size={16} />
+          </a>
         </nav>
 
         <div className="header-actions">
-          {/* Theme Toggle Button: Light Theme displays Light icon/label, Dark Theme displays Dark icon/label */}
+          {/* Theme Toggle Button */}
           <button
             className="theme-toggle"
             onClick={() => setDark((value) => !value)}
@@ -109,7 +118,8 @@ export function TabLayout({ children }: TabLayoutProps) {
             {!dark ? <Sun size={16} /> : <Moon size={16} />}
             <span>{!dark ? 'Light' : 'Dark'}</span>
           </button>
-          
+
+          {/* Desktop & Header "Let's Talk" CTA */}
           <a
             className="header-contact"
             href="#contact"
@@ -119,6 +129,7 @@ export function TabLayout({ children }: TabLayoutProps) {
             Let&apos;s talk <ArrowUpRight size={15} />
           </a>
 
+          {/* Mobile Hamburger Drawer Toggle */}
           <button
             className="menu-toggle"
             onClick={() => setMenuOpen((value) => !value)}
