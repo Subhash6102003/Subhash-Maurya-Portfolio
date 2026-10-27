@@ -18,8 +18,9 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-export const RESUME_DRIVE_VIEW_URL = 'https://drive.google.com/file/d/1IMFPHuTJmO3GrGzGOJ-Cgr5zAoCDlIlM/view?usp=sharing';
-export const RESUME_DRIVE_PREVIEW_URL = 'https://drive.google.com/file/d/1IMFPHuTJmO3GrGzGOJ-Cgr5zAoCDlIlM/preview';
+export const RESUME_PDF_LOCAL_URL = '/Subhash_Maurya_Resume.pdf';
+export const RESUME_DRIVE_VIEW_URL = '/Subhash_Maurya_Resume.pdf';
+export const RESUME_DRIVE_PREVIEW_URL = '/Subhash_Maurya_Resume.pdf#toolbar=0';
 
 export default function ResumePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,7 +51,7 @@ export default function ResumePage() {
               <div className="section-kicker"><span>06</span> Paper Trail &amp; Qualifications</div>
               <h2 id="resume-title">The longer<br />version <i>lives here.</i></h2>
               <p>
-                A detailed breakdown of professional software development experience, computer science academic coursework, technical competencies, and verified credentials.
+                Full-stack developer with 1.5+ years of experience shipping products across mobile, web, API, and cloud data layers: Flutter, Kotlin, Jetpack Compose, React, TypeScript, Node.js, and AWS.
               </p>
               <div className="resume-actions">
                 <button
@@ -60,6 +61,14 @@ export default function ResumePage() {
                 >
                   <FileText size={16} /> Open Resume Pop-Up <Sparkles size={14} />
                 </button>
+                <a
+                  className="button button-primary"
+                  href={RESUME_PDF_LOCAL_URL}
+                  download="Subhash_Maurya_Resume.pdf"
+                  data-testid="button-download-resume"
+                >
+                  <Download size={16} /> Download PDF
+                </a>
                 <button
                   className="button button-outline"
                   onClick={() => setIsModalOpen(true)}
@@ -88,11 +97,11 @@ export default function ResumePage() {
               <div className="paper-line medium" />
               <div className="paper-line short" />
               <div className="paper-block">
-                <span>ANDROID SDK &amp; KOTLIN</span>
-                <span>REACT &amp; NODE.JS</span>
-                <span>AWS &amp; AI TOOLING</span>
+                <span>FLUTTER · KOTLIN · REACT</span>
+                <span>NODE.JS &amp; REST APIS</span>
+                <span>AWS &amp; CLAUDE AI PIPELINES</span>
               </div>
-              <div className="paper-footer">Bangalore, KA — India</div>
+              <div className="paper-footer">Bengaluru, Karnataka — India</div>
             </motion.div>
           </div>
         </div>
@@ -108,11 +117,11 @@ export default function ResumePage() {
           >
             <div className="detail-card-header">
               <Briefcase size={20} />
-              <h3>Executive Profile</h3>
+              <h3>Summary &amp; Profile</h3>
             </div>
             <div className="detail-card-body">
               <p className="inst-desc">
-                Software Development Engineer (SDE) specializing in native Android engineering (Kotlin, Jetpack Compose, MVVM) and full-stack web architectures (React.js, Node.js, AWS). Over 1.5 years of experience delivering production web portals, society management applications, and AI recruitment systems with a focus on performance optimization and clean code design.
+                Software Engineer I &amp; Full-Stack Developer with 1.5+ years of experience shipping products across mobile, web, API, and data layers: Flutter and Kotlin/Jetpack Compose apps, and React, TypeScript, and Node.js systems on AWS. Builds complete user flows including loading, empty, error, and retry states, utilizing AI tools (Claude, GitHub Copilot) to move faster while taking full ownership of every line shipped. Bengaluru-based and ready to work in person.
               </p>
             </div>
           </motion.div>
@@ -132,14 +141,14 @@ export default function ResumePage() {
             <div className="detail-card-body">
               <h4>B.Tech in Computer Science &amp; Engineering (AI/ML)</h4>
               <p className="inst-name">Lakshmi Narain College of Technology &amp; Science, Bhopal</p>
-              <span className="inst-date">2022 — 2026 (Final Year)</span>
+              <span className="inst-date">Nov 2022 — Jul 2026 (Final Year)</span>
               <p className="inst-desc">
-                Specialized coursework: Data Structures &amp; Algorithms, Object-Oriented Programming, Database Management Systems (SQL), Operating Systems, Software Engineering, Artificial Intelligence, and Machine Learning algorithms.
+                Specialized Coursework: Data Structures &amp; Algorithms (DSA), Object-Oriented Programming (OOP), Database Management Systems (DBMS), Machine Learning, Deep Learning, Software Engineering, Mobile App Development, Computer Networks.
               </p>
             </div>
           </motion.div>
 
-          {/* Core Capabilities */}
+          {/* Core Technical Skills */}
           <motion.div
             className="resume-detail-card"
             initial={{ opacity: 0, y: 20 }}
@@ -149,27 +158,27 @@ export default function ResumePage() {
           >
             <div className="detail-card-header">
               <Code size={20} />
-              <h3>Core Capabilities</h3>
+              <h3>Technical Skills</h3>
             </div>
             <div className="detail-card-body">
               <ul className="competency-list">
                 <li>
                   <CheckCircle2 size={16} />
-                  <span><strong>Native Mobile Engineering:</strong> Kotlin, Android SDK, Jetpack Compose, Room Database, Retrofit, Coroutines, MVVM, Firebase Firestore/FCM.</span>
+                  <span><strong>Mobile:</strong> Flutter, Dart, Kotlin, Jetpack Compose, MVVM, Clean Architecture, FCM, WorkManager, Play Store.</span>
                 </li>
                 <li>
                   <CheckCircle2 size={16} />
-                  <span><strong>Full-Stack Web Development:</strong> React.js, Next.js, TypeScript, Redux Toolkit, Node.js, Express.js, REST APIs, Tailwind CSS.</span>
+                  <span><strong>Backend &amp; Data:</strong> Node.js, Express.js, REST APIs, Firebase Auth, Firestore, Firebase Storage, real-time sync, AWS.</span>
                 </li>
                 <li>
                   <CheckCircle2 size={16} />
-                  <span><strong>Cloud Services &amp; AI:</strong> AWS EC2, S3, Docker, Nginx, PostgreSQL, MongoDB, GitHub Actions, Claude AI, Copilot, Gemini.</span>
+                  <span><strong>Web &amp; Tooling:</strong> React.js, TypeScript, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, Git, GitHub Actions CI/CD, Razorpay, JIRA, Agile/Scrum, Claude, Copilot.</span>
                 </li>
               </ul>
             </div>
           </motion.div>
 
-          {/* Key Achievements */}
+          {/* Shipped Projects Highlights */}
           <motion.div
             className="resume-detail-card"
             initial={{ opacity: 0, y: 20 }}
@@ -179,21 +188,21 @@ export default function ResumePage() {
           >
             <div className="detail-card-header">
               <Award size={20} />
-              <h3>Key Achievements</h3>
+              <h3>Shipped Projects Highlights</h3>
             </div>
             <div className="detail-card-body">
               <ul className="competency-list">
                 <li>
                   <CheckCircle2 size={16} />
-                  <span>Achieved <strong>30% performance boost</strong> on native Android features at Mobrilz Private Limited.</span>
+                  <span><strong>eGovTalent:</strong> End-to-end AI-powered recruitment platform (React, TypeScript, Node.js, AWS, Claude AI) automating resume extraction and assessments.</span>
                 </li>
                 <li>
                   <CheckCircle2 size={16} />
-                  <span>Delivered <strong>95+ Lighthouse Web Vitals score</strong> on enterprise web applications at AnyTechPros.</span>
+                  <span><strong>Eternity Fitness Club:</strong> Shipped production Flutter app, React/Node.js web app, and Firebase backend with role-based auth, Claude AI fitness coach.</span>
                 </li>
                 <li>
                   <CheckCircle2 size={16} />
-                  <span>Solo-engineered <strong>eGovTalent Platform</strong>: India&apos;s first AI-driven e-governance recruitment ecosystem.</span>
+                  <span><strong>MGB Heights:</strong> Kotlin &amp; Compose residential society app with Firebase Auth (6 RBAC tiers), 14 Firestore collections, WorkManager auto-billing, and Razorpay.</span>
                 </li>
               </ul>
             </div>
@@ -248,13 +257,23 @@ export default function ResumePage() {
 
                   <div className="toolbar-divider" />
 
-                  {/* External Drive Link */}
+                  {/* Direct Download in Toolbar */}
                   <a
-                    href={RESUME_DRIVE_VIEW_URL}
+                    href={RESUME_PDF_LOCAL_URL}
+                    download="Subhash_Maurya_Resume.pdf"
+                    className="modal-icon-btn"
+                    title="Download PDF"
+                  >
+                    <Download size={16} />
+                  </a>
+
+                  {/* Open in new tab Link */}
+                  <a
+                    href={RESUME_PDF_LOCAL_URL}
                     target="_blank"
                     rel="noreferrer"
                     className="modal-icon-btn"
-                    title="Open in Google Drive"
+                    title="Open in New Tab"
                   >
                     <ExternalLink size={16} />
                   </a>
