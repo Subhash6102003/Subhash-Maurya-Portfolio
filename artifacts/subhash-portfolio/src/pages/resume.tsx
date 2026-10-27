@@ -92,7 +92,7 @@ export default function ResumePage() {
                 <span>REACT &amp; NODE.JS</span>
                 <span>AWS &amp; AI TOOLING</span>
               </div>
-              <div className="paper-footer">Bhopal, MP — 462022</div>
+              <div className="paper-footer">Bangalore, KA — India</div>
             </motion.div>
           </div>
         </div>

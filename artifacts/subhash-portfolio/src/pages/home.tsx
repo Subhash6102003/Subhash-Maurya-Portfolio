@@ -97,7 +97,7 @@ export default function Home() {
         >
           <motion.div variants={itemVariants} className="eyebrow">
             <span className="eyebrow-dot" /> Available for thoughtful builds{' '}
-            <span className="eyebrow-city">Bhopal / India</span>
+            <span className="eyebrow-city">Bangalore / India</span>
           </motion.div>
           <motion.p variants={itemVariants} className="hero-index">
             [01 — 06]
@@ -490,7 +490,7 @@ export default function Home() {
         </div>
 
         <div className="contact-footer">
-          <span><MapPin size={15} /> Bhopal, Madhya Pradesh</span>
+          <span><MapPin size={15} /> Bangalore, Karnataka</span>
           <span>© {new Date().getFullYear()} Subhash Maurya</span>
           <a href="#top" data-testid="link-back-top">Back to top <ArrowUpRight size={15} /></a>
         </div>

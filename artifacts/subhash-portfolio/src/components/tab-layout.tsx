@@ -172,7 +172,7 @@ export function TabLayout({ children }: TabLayoutProps) {
             <span>Available for SDE / Mobile / Full-stack roles</span>
           </div>
           <div className="footer-meta">
-            <span><MapPin size={13} /> Bhopal, MP (IST UTC+5:30)</span>
+            <span><MapPin size={13} /> Bangalore, India (IST UTC+5:30)</span>
             <span>© {new Date().getFullYear()} Subhash Maurya</span>
           </div>
         </div>
