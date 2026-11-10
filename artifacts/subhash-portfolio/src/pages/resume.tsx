@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Download,
@@ -17,6 +17,13 @@ import {
   X,
   Sparkles,
 } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { attachCardTilt } from '@/lib/animations';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export const RESUME_PDF_LOCAL_URL = '/Subhash_Maurya_Resume.pdf';
 export const RESUME_DRIVE_VIEW_URL = '/Subhash_Maurya_Resume.pdf';
@@ -26,6 +33,7 @@ export default function ResumePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [zoom, setZoom] = useState(100);
   const [isMaximized, setIsMaximized] = useState(false);
+  const resumeContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -37,17 +45,69 @@ export default function ResumePage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isModalOpen]);
 
+  useEffect(() => {
+    if (!resumeContainerRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Main resume card header & paper entrance
+      gsap.from('.resume-intro-animate', {
+        y: 28,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+      });
+
+      gsap.from('.resume-paper-animate', {
+        scale: 0.94,
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'back.out(1.15)',
+        delay: 0.2,
+      });
+
+      // Detail breakdown cards staggered entrance
+      const detailCards = gsap.utils.toArray<HTMLElement>('.resume-detail-card');
+      if (detailCards.length > 0) {
+        gsap.from(detailCards, {
+          y: 35,
+          opacity: 0,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.resume-expanded-grid',
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        });
+      }
+    }, resumeContainerRef);
+
+    // Desktop 3D Card tilt on breakdown cards
+    const cleanupFns: Array<() => void> = [];
+    if (window.matchMedia('(pointer: fine)').matches) {
+      const cards = resumeContainerRef.current.querySelectorAll<HTMLElement>('.resume-detail-card, .resume-card');
+      cards.forEach((card) => cleanupFns.push(attachCardTilt(card, 5)));
+    }
+
+    return () => {
+      ctx.revert();
+      cleanupFns.forEach((fn) => fn());
+    };
+  }, []);
+
   const handleZoomIn = () => setZoom((prev) => Math.min(prev + 25, 200));
   const handleZoomOut = () => setZoom((prev) => Math.max(prev - 25, 50));
   const handleResetZoom = () => setZoom(100);
 
   return (
-    <div className="resume-page-container">
+    <div ref={resumeContainerRef} className="resume-page-container">
       <section className="resume section-frame" aria-labelledby="resume-title">
         <div className="resume-card-container">
           {/* Main Interactive Desk Pad Paper Preview */}
-          <div className="resume-card">
-            <div className="resume-copy">
+          <div className="resume-card glass-card">
+            <div className="resume-copy resume-intro-animate">
               <div className="section-kicker"><span>06</span> Paper Trail &amp; Qualifications</div>
               <h2 id="resume-title">The longer<br />version <i>lives here.</i></h2>
               <p>
@@ -81,7 +141,7 @@ export default function ResumePage() {
 
             {/* Stylized Desk-Pad Paper Card */}
             <motion.div
-              className="resume-paper"
+              className="resume-paper resume-paper-animate"
               whileHover={{ rotate: -1, scale: 1.02 }}
               transition={{ type: 'spring', stiffness: 260 }}
               onClick={() => setIsModalOpen(true)}
@@ -109,12 +169,7 @@ export default function ResumePage() {
         {/* Extended Resume Detailed Breakdown */}
         <div className="resume-breakdown-grid resume-expanded-grid">
           {/* Professional Summary */}
-          <motion.div
-            className="resume-detail-card"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+          <div className="resume-detail-card glass-card">
             <div className="detail-card-header">
               <Briefcase size={20} />
               <h3>Summary &amp; Profile</h3>
@@ -124,16 +179,10 @@ export default function ResumePage() {
                 Software Engineer I &amp; Full-Stack Developer with 1.5+ years of experience shipping products across mobile, web, API, and data layers: Flutter and Kotlin/Jetpack Compose apps, and React, TypeScript, and Node.js systems on AWS. Builds complete user flows including loading, empty, error, and retry states, utilizing AI tools (Claude, GitHub Copilot) to move faster while taking full ownership of every line shipped. Bengaluru-based and ready to work in person.
               </p>
             </div>
-          </motion.div>
+          </div>
 
           {/* Education Card */}
-          <motion.div
-            className="resume-detail-card"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
+          <div className="resume-detail-card glass-card">
             <div className="detail-card-header">
               <GraduationCap size={20} />
               <h3>Education</h3>
@@ -146,16 +195,10 @@ export default function ResumePage() {
                 Specialized Coursework: Data Structures &amp; Algorithms (DSA), Object-Oriented Programming (OOP), Database Management Systems (DBMS), Machine Learning, Deep Learning, Software Engineering, Mobile App Development, Computer Networks.
               </p>
             </div>
-          </motion.div>
+          </div>
 
           {/* Core Technical Skills */}
-          <motion.div
-            className="resume-detail-card"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
+          <div className="resume-detail-card glass-card">
             <div className="detail-card-header">
               <Code size={20} />
               <h3>Technical Skills</h3>
@@ -176,16 +219,10 @@ export default function ResumePage() {
                 </li>
               </ul>
             </div>
-          </motion.div>
+          </div>
 
           {/* Shipped Projects Highlights */}
-          <motion.div
-            className="resume-detail-card"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-          >
+          <div className="resume-detail-card glass-card">
             <div className="detail-card-header">
               <Award size={20} />
               <h3>Shipped Projects Highlights</h3>
@@ -206,7 +243,7 @@ export default function ResumePage() {
                 </li>
               </ul>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -215,7 +252,7 @@ export default function ResumePage() {
         {isModalOpen && (
           <div className="resume-modal-backdrop" onClick={() => setIsModalOpen(false)}>
             <motion.div
-              className={`resume-modal-container ${isMaximized ? 'is-maximized' : ''}`}
+              className={`resume-modal-container glass-card ${isMaximized ? 'is-maximized' : ''}`}
               initial={{ opacity: 0, scale: 0.92, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, y: 20 }}

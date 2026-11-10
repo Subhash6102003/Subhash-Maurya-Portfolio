@@ -1,6 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Download, ExternalLink, Github, Globe, Search } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { attachCardTilt } from '@/lib/animations';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export const ETERNITY_APK_URL = 'https://drive.google.com/file/d/1_EternityFitness_APK_Download/view?usp=sharing';
 
@@ -130,6 +137,7 @@ const toneSequence: Array<'orange' | 'ink' | 'sand'> = ['orange', 'ink', 'sand']
 export default function ProjectsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTech, setSelectedTech] = useState<string>('All');
+  const scopeRef = useRef<HTMLDivElement | null>(null);
 
   const allTechPills = ['All', 'React', 'Flutter', 'Kotlin', 'TypeScript', 'Node.js', 'Supabase', 'HTML/JS'];
 
@@ -147,8 +155,25 @@ export default function ProjectsPage() {
     return matchesSearch && matchesTech;
   });
 
+  // Attach 3D tilt interaction on desktop
+  useEffect(() => {
+    if (!scopeRef.current) return;
+    const cleanupFns: Array<() => void> = [];
+
+    if (window.matchMedia('(pointer: fine)').matches) {
+      const cards = scopeRef.current.querySelectorAll<HTMLElement>('.project-card');
+      cards.forEach((c) => {
+        cleanupFns.push(attachCardTilt(c));
+      });
+    }
+
+    return () => {
+      cleanupFns.forEach((fn) => fn());
+    };
+  }, [filteredProjects]);
+
   return (
-    <div className="projects-page-container">
+    <div ref={scopeRef} className="projects-page-container">
       <section className="projects section-frame" aria-labelledby="projects-title">
         <div className="section-heading">
           <div className="section-kicker"><span>03</span> Verified Work &amp; Repositories</div>
@@ -188,7 +213,6 @@ export default function ProjectsPage() {
         <div className="project-list" style={{ marginTop: '0' }}>
           <AnimatePresence>
             {filteredProjects.map((project, idx) => {
-              // Enforce strict column symmetry: Col 1 = orange, Col 2 = ink, Col 3 = sand
               const tone = toneSequence[idx % 3];
               const projectNum = String(idx + 1).padStart(2, '0');
 
@@ -196,10 +220,10 @@ export default function ProjectsPage() {
                 <motion.div
                   key={project.id}
                   layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.3, delay: idx * 0.04 }}
+                  initial={{ opacity: 0, y: 24, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{ duration: 0.32, delay: idx * 0.03 }}
                   className={`project-card project-${tone}`}
                   data-testid={`card-project-${projectNum}`}
                 >
@@ -223,7 +247,7 @@ export default function ProjectsPage() {
                         target="_blank"
                         rel="noreferrer"
                         className="button button-primary"
-                        style={{ padding: '8px 14px', fontSize: '10px' }}
+                        style={{ padding: '8px 16px', fontSize: '10.5px' }}
                         data-testid={`link-live-${project.id}`}
                       >
                         {project.isAppUrl ? (
@@ -239,7 +263,7 @@ export default function ProjectsPage() {
                       target="_blank"
                       rel="noreferrer"
                       className="button button-dark"
-                      style={{ padding: '8px 14px', fontSize: '10px' }}
+                      style={{ padding: '8px 16px', fontSize: '10.5px' }}
                       data-testid={`link-github-${project.id}`}
                     >
                       <Github size={13} /> Source Code <ExternalLink size={13} />

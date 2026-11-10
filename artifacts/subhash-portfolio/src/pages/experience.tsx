@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Briefcase,
@@ -13,6 +13,13 @@ import {
   Trophy,
   Zap,
 } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { attachCardTilt } from '@/lib/animations';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface ExperienceItem {
   id: string;
@@ -86,49 +93,107 @@ const experiences: ExperienceItem[] = [
 
 export default function ExperiencePage() {
   const [expandedId, setExpandedId] = useState<string | null>('sde-1');
+  const expRef = useRef<HTMLDivElement | null>(null);
 
   const toggleExpand = (id: string) => {
     setExpandedId((prev) => (prev === id ? null : id));
   };
 
+  useEffect(() => {
+    if (!expRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Heading & Subtitle
+      gsap.from('.exp-title-animate', {
+        y: 26,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+      });
+
+      // Impact stat boxes stagger
+      gsap.from('.impact-box', {
+        y: 22,
+        opacity: 0,
+        scale: 0.95,
+        duration: 0.55,
+        stagger: 0.08,
+        ease: 'back.out(1.15)',
+        delay: 0.15,
+      });
+
+      // Track record card
+      gsap.from('.track-record-card', {
+        y: 28,
+        opacity: 0,
+        duration: 0.7,
+        ease: 'power2.out',
+        delay: 0.35,
+      });
+
+      // Timeline items scroll reveal
+      const timelineItems = gsap.utils.toArray<HTMLElement>('.timeline-item');
+      timelineItems.forEach((item) => {
+        gsap.from(item, {
+          y: 35,
+          opacity: 0,
+          duration: 0.7,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 88%',
+            toggleActions: 'play none none none',
+          },
+        });
+      });
+    }, expRef);
+
+    // Desktop 3D tilt
+    const cleanupFns: Array<() => void> = [];
+    if (window.matchMedia('(pointer: fine)').matches) {
+      const tiltElements = expRef.current.querySelectorAll<HTMLElement>('.impact-box, .track-record-card');
+      tiltElements.forEach((el) => cleanupFns.push(attachCardTilt(el, 8)));
+    }
+
+    return () => {
+      ctx.revert();
+      cleanupFns.forEach((fn) => fn());
+    };
+  }, []);
+
   return (
-    <div className="experience-page-container">
+    <div ref={expRef} className="experience-page-container">
       <section className="experience section-frame" aria-labelledby="experience-title">
         {/* Left Column: Heading + Impact Grid + Track Record Card */}
         <div className="experience-heading-group">
-          <div className="section-kicker"><span>05</span> In the field</div>
-          <h2 id="experience-title">A little<br /><i>momentum.</i></h2>
-          <p className="experience-subtitle">
+          <div className="section-kicker exp-title-animate"><span>05</span> In the field</div>
+          <h2 id="experience-title" className="exp-title-animate">A little<br /><i>momentum.</i></h2>
+          <p className="experience-subtitle exp-title-animate">
             Chronological career path shipping Android applications, full-stack web platforms, and cloud solutions.
           </p>
 
           {/* Impact Statistics Grid */}
           <div className="experience-impact-grid">
-            <div className="impact-box">
+            <div className="impact-box glass-card">
               <strong>1.5+</strong>
               <span>Years Shipping Code</span>
             </div>
-            <div className="impact-box">
+            <div className="impact-box glass-card">
               <strong>30%</strong>
               <span>Android Speed Boost</span>
             </div>
-            <div className="impact-box">
+            <div className="impact-box glass-card">
               <strong>95+</strong>
               <span>Lighthouse Web Score</span>
             </div>
-            <div className="impact-box">
+            <div className="impact-box glass-card">
               <strong>4</strong>
               <span>Engineering Roles</span>
             </div>
           </div>
 
           {/* Track Record & Engineering Highlights Card */}
-          <motion.div
-            className="track-record-card"
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+          <div className="track-record-card glass-card">
             <div className="track-card-header">
               <ShieldCheck size={18} />
               <h3>Engineering Track Record</h3>
@@ -147,7 +212,7 @@ export default function ExperiencePage() {
                 <span><strong>AI Velocity:</strong> Leveraging Claude AI &amp; Copilot to deliver features 100x faster.</span>
               </li>
             </ul>
-          </motion.div>
+          </div>
 
           {/* Domain Capability Badges */}
           <div className="experience-domain-pills">
@@ -162,7 +227,7 @@ export default function ExperiencePage() {
           {experiences.map((exp) => {
             const isExpanded = expandedId === exp.id;
             return (
-              <div key={exp.id} className="timeline-item" data-testid={`timeline-item-${exp.id}`}>
+              <div key={exp.id} className="timeline-item glass-card" data-testid={`timeline-item-${exp.id}`}>
                 <div className="timeline-rail">
                   <span>{exp.number}</span>
                   <i />

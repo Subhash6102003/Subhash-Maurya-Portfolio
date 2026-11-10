@@ -1,7 +1,8 @@
-import { useEffect, useState, ReactNode } from 'react';
+import { useEffect, useState, useRef, ReactNode } from 'react';
 import { useLocation, Link } from 'wouter';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { ArrowUpRight, Menu, Moon, Sun, X, MapPin } from 'lucide-react';
+import gsap from 'gsap';
 
 export const navItems = [
   { label: 'About', path: '/' },
@@ -19,11 +20,34 @@ export function TabLayout({ children }: TabLayoutProps) {
   const [location, setLocation] = useLocation();
   const [dark, setDark] = useState(() => localStorage.getItem('subhash-theme') === 'dark');
   const [menuOpen, setMenuOpen] = useState(false);
+  const cursorGlowRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark);
     localStorage.setItem('subhash-theme', dark ? 'dark' : 'light');
   }, [dark]);
+
+  // Subtle interactive ambient cursor glow for desktop
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    if (isTouch || !cursorGlowRef.current) return;
+
+    const glowEl = cursorGlowRef.current;
+    const moveGlow = (e: MouseEvent) => {
+      gsap.to(glowEl, {
+        x: e.clientX,
+        y: e.clientY,
+        duration: 0.5,
+        ease: 'power2.out',
+      });
+    };
+
+    window.addEventListener('mousemove', moveGlow, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', moveGlow);
+    };
+  }, []);
 
   const activeIndex = navItems.findIndex((item) => item.path === location);
   const currentNavIndex = activeIndex === -1 ? 0 : activeIndex;
@@ -58,9 +82,6 @@ export function TabLayout({ children }: TabLayoutProps) {
     }
   };
 
-  // Footer theme contrast rule:
-  // On Home page: Light Mode -> Light Footer (to alternate with Dark Contact Section above it).
-  // On Other pages: Light Mode -> Dark Footer (to alternate with Light Page Body above it).
   const isHomePage = location === '/' || location === '';
   const footerThemeClass = isHomePage
     ? dark
@@ -72,33 +93,51 @@ export function TabLayout({ children }: TabLayoutProps) {
 
   return (
     <div className="portfolio-shell">
+      {/* Background ambient lighting orbs (as seen in the design mockup) */}
+      <div className="ambient-background" aria-hidden="true">
+        <div className="ambient-orb orb-top-right" />
+        <div className="ambient-orb orb-middle-left" />
+        <div className="ambient-orb orb-bottom-right" />
+      </div>
+
+      {/* Interactive cursor-responsive ambient glow for desktop */}
+      <div ref={cursorGlowRef} className="cursor-ambient-glow" aria-hidden="true" />
+
+      {/* Subtle organic noise grain */}
       <div className="grain" aria-hidden="true" />
 
-      {/* Sleek Header */}
-      <header className="site-header">
+      {/* Floating Glass Header */}
+      <header className="site-header glass-header">
         <Link className="brand-mark" href="/" data-testid="link-home">
           <span className="brand-symbol">S</span>
           <span>SUBHASH<br /><em>MAURYA</em></span>
         </Link>
 
-        <nav className={`main-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Main navigation">
+        <nav className={`main-nav glass-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Main navigation">
           {navItems.map((item) => {
             const isActive = location === item.path || (item.path === '/' && location === '');
             return (
               <Link
                 key={item.path}
                 href={item.path}
-                className={isActive ? 'active' : ''}
+                className={`nav-link-item ${isActive ? 'active' : ''}`}
                 onClick={closeMenu}
                 data-testid={`link-nav-${item.label.toLowerCase()}`}
               >
                 {item.label}
+                {isActive && (
+                  <motion.span
+                    layoutId="active-nav-indicator"
+                    className="active-nav-pill"
+                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  />
+                )}
               </Link>
             );
           })}
           {/* Mobile Drawer "Let's Talk" Button */}
           <a
-            className="mobile-nav-talk-btn"
+            className="mobile-nav-talk-btn glass-btn"
             href="#contact"
             onClick={handleLetsTalkClick}
             data-testid="link-mobile-drawer-talk"
@@ -110,18 +149,18 @@ export function TabLayout({ children }: TabLayoutProps) {
         <div className="header-actions">
           {/* Theme Toggle Button */}
           <button
-            className="theme-toggle"
+            className="theme-toggle glass-action-btn"
             onClick={() => setDark((value) => !value)}
             aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
             data-testid="button-theme-toggle"
           >
-            {!dark ? <Sun size={16} /> : <Moon size={16} />}
+            {!dark ? <Sun size={15} /> : <Moon size={15} />}
             <span>{!dark ? 'Light' : 'Dark'}</span>
           </button>
 
           {/* Desktop & Header "Let's Talk" CTA */}
           <a
-            className="header-contact"
+            className="header-contact glass-talk-btn"
             href="#contact"
             onClick={handleLetsTalkClick}
             data-testid="link-header-contact"
@@ -131,12 +170,12 @@ export function TabLayout({ children }: TabLayoutProps) {
 
           {/* Mobile Hamburger Drawer Toggle */}
           <button
-            className="menu-toggle"
+            className="menu-toggle glass-action-btn"
             onClick={() => setMenuOpen((value) => !value)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             data-testid="button-menu-toggle"
           >
-            {menuOpen ? <X size={21} /> : <Menu size={21} />}
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </header>
@@ -153,10 +192,10 @@ export function TabLayout({ children }: TabLayoutProps) {
         <AnimatePresence mode="wait">
           <motion.div
             key={location}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             className="page-content-wrapper"
           >
             {children}
@@ -164,8 +203,8 @@ export function TabLayout({ children }: TabLayoutProps) {
         </AnimatePresence>
       </motion.main>
 
-      {/* Dynamic Contrast Inverted Footer */}
-      <footer className={`workspace-footer ${footerThemeClass}`}>
+      {/* Dynamic Contrast Glass Footer */}
+      <footer className={`workspace-footer glass-footer ${footerThemeClass}`}>
         <div className="footer-inner">
           <div className="footer-status">
             <span className="status-dot" />

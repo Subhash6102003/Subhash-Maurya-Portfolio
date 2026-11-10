@@ -1,6 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Bot, Code2, Cpu, Database, Layers, Server, ShieldCheck, Sparkles, Terminal } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { attachCardTilt } from '@/lib/animations';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const skillGroups = [
   {
@@ -88,6 +95,7 @@ const skillGroups = [
 export default function SkillsPage() {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const categories = [
     'All',
@@ -102,12 +110,62 @@ export default function SkillsPage() {
     (group) => activeCategory === 'All' || group.category === activeCategory
   );
 
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Header reveal
+      gsap.from('.skills-header-animate', {
+        y: 28,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+      });
+
+      // Filter pills stagger
+      gsap.from('.cat-pill', {
+        y: 16,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.05,
+        ease: 'power2.out',
+        delay: 0.2,
+      });
+
+      // Skill cards staggered scroll reveal
+      gsap.from('.skill-group-animate', {
+        y: 35,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.skills-expanded-board',
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+      });
+    }, containerRef);
+
+    // Desktop 3D Card tilt
+    const cleanupFns: Array<() => void> = [];
+    if (window.matchMedia('(pointer: fine)').matches) {
+      const cards = containerRef.current.querySelectorAll<HTMLElement>('.skill-group-animate');
+      cards.forEach((card) => cleanupFns.push(attachCardTilt(card, 6)));
+    }
+
+    return () => {
+      ctx.revert();
+      cleanupFns.forEach((fn) => fn());
+    };
+  }, [activeCategory]);
+
   return (
-    <div className="skills-page-container">
+    <div ref={containerRef} className="skills-page-container">
       <section className="skills section-frame" aria-labelledby="skills-title">
-        <div className="section-kicker"><span>04</span> Comprehensive Toolbox</div>
+        <div className="section-kicker skills-header-animate"><span>04</span> Comprehensive Toolbox</div>
         <div className="skills-layout">
-          <div>
+          <div className="skills-header-animate">
             <h2 id="skills-title">Sharp tools.<br /><i>Soft edges.</i></h2>
             <p className="skills-lede">
               A comprehensive breakdown of mobile development frameworks, full-stack web platforms, cloud services, and AI developer tooling. Click or drag any skill node to view technical details.
@@ -134,10 +192,10 @@ export default function SkillsPage() {
               return (
                 <motion.div
                   key={group.category}
-                  className="skill-group skill-group-expanded"
+                  className="skill-group skill-group-expanded skill-group-animate glass-card"
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4 }}
+                  transition={{ duration: 0.35 }}
                 >
                   <div className="group-header">
                     <Icon size={22} strokeWidth={1.7} className="group-icon" />
