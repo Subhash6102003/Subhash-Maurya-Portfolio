@@ -45,9 +45,10 @@ export function ProjectInstanceModal({ project, onClose }: ProjectInstanceModalP
 
   return (
     <AnimatePresence>
-      <div className="project-instance-backdrop" onClick={onClose}>
+      <div className="project-instance-backdrop" data-lenis-prevent onClick={onClose}>
         <motion.div
           className="project-instance-sheet glass-card"
+          data-lenis-prevent
           initial={{ opacity: 0, y: 35, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 35, scale: 0.96 }}
@@ -71,7 +72,7 @@ export function ProjectInstanceModal({ project, onClose }: ProjectInstanceModalP
             </button>
           </div>
 
-          <div className="sheet-content-scroll">
+          <div className="sheet-content-scroll" data-lenis-prevent>
             {/* Title & Tagline */}
             <div className="sheet-hero">
               <h2 className="sheet-title">{project.title}</h2>

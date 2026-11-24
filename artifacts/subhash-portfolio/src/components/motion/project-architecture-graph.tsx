@@ -1,113 +1,119 @@
 import { useState, useEffect } from 'react';
-import { Play, Pause, RotateCcw, CheckCircle2, ArrowRight, Cpu, Database, Server, ShieldCheck, Globe, Bot, Layers } from 'lucide-react';
+import { Play, Pause, RotateCcw, ArrowDown, GitBranch } from 'lucide-react';
 import { ProjectInstanceData } from './project-instance-modal';
 
-interface GraphNode {
-  id: string;
-  label: string;
-  sublabel: string;
+interface FlowchartStep {
+  nodeId: string;
+  nodeLabel: string;
+  edgeLabel: string;
   detail: string;
   command: string;
-  badge: string;
+  branch?: 'main' | 'retry' | 'error';
 }
 
-const PROJECT_SPECIFIC_GRAPHS: Record<string, GraphNode[]> = {
-  egovtalent: [
-    { id: '1', label: 'Resume PDF', sublabel: 'React + S3', detail: 'Applicant uploads resume via React portal to encrypted S3 bucket.', command: 'POST /v1/candidates/upload → s3://egov-resumes/2941.pdf', badge: 'INGRESS' },
-    { id: '2', label: 'BullMQ Worker', sublabel: 'Node.js Async', detail: 'Background worker extracts text and normalizes candidate credentials.', command: 'bullmq:parse_pdf → extracted 14 skills, 2.1yr exp', badge: 'PARSE' },
-    { id: '3', label: 'Claude AI Eval', sublabel: 'LLM Scoring', detail: 'Claude AI benchmarks domain competency against e-governance rubrics.', command: 'claude-3-5: score=94/100 [rubric: civic-tech-v2]', badge: 'AI EVAL' },
-    { id: '4', label: 'Civic Shortlist', sublabel: 'PostgreSQL', detail: 'Verified score persisted; automated assessment invitation dispatched.', command: 'INSERT INTO shortlists VALUES (2941, 94) → 200 OK', badge: '94% MATCH' },
-  ],
-  safety_vault: [
-    { id: '1', label: 'App Intent', sublabel: 'Android OS', detail: 'Target enterprise app hidden from launcher and recent-tasks tray.', command: 'PackageManager.setComponentEnabledSetting(DISABLED)', badge: 'STEALTH' },
-    { id: '2', label: 'Gesture Gate', sublabel: 'Hardware Key', detail: 'Intercepts secret volume-key sequence before exposing unlock prompt.', command: 'onKeyDown(KEYCODE_VOLUME_UP x3) → gate_armed=true', badge: 'GATED' },
-    { id: '3', label: 'BiometricPrompt', sublabel: 'CryptoObject', detail: 'Hardware-backed fingerprint/face verification via Android Keystore.', command: 'BiometricPrompt.authenticate(cipher: AES/GCM/NoPadding)', badge: 'AES-256' },
-    { id: '4', label: 'Secure Enclave', sublabel: 'Encrypted DB', detail: 'Encrypted SQLite & app container unlocked strictly in memory.', command: 'SQLCipher.openDatabase(key_enclave) → UNLOCKED [11ms]', badge: 'ISOLATED' },
-  ],
-  upi_double_spend: [
-    { id: '1', label: 'Concurrent Req', sublabel: 'Retry Burst', detail: 'Two identical debit requests arrive simultaneously from flaky network.', command: 'POST /upi/debit x2 { tx: "tx_98421", amt: 450 }', badge: 'CONFLICT' },
-    { id: '2', label: 'Idempotency Key', sublabel: 'SHA-256 Gate', detail: 'First request acquires SHA-256 key; duplicate request blocked (409).', command: 'GET idem:sha256(tx_98421) → req_2 BLOCKED [409]', badge: 'GATED' },
-    { id: '3', label: 'Redis CAS Lock', sublabel: 'Atomic Reserve', detail: 'Compare-And-Swap balance reservation executed in 8ms P99.', command: 'redis-cli SETNX lock:upi:tx_98421 "HELD" EX 15 → (1)', badge: 'LOCKED' },
-    { id: '4', label: 'Saga Ledger', sublabel: 'Zero Slippage', detail: 'Bank ack commits debit or runs compensating rollback on failure.', command: 'saga.commit(tx_98421) → balance_verified [0% loss]', badge: '0% LOSS' },
-  ],
-  flash_sale_oversell: [
-    { id: '1', label: '25K Burst', sublabel: 'Flash Traffic', detail: 'High-concurrency checkout surge hits inventory gateway.', command: 'ws://flash-ingress → 25,000 req/s spike detected', badge: 'SURGE' },
-    { id: '2', label: 'Redis SETNX', sublabel: 'TTL Lease', detail: 'Atomic in-memory token lease prevents negative inventory oversell.', command: 'DECRBY stock:sku_88 1 → remaining=412 [atomic]', badge: 'ATOMIC' },
-    { id: '3', label: 'BullMQ Persist', sublabel: 'Deferred DB', detail: 'Confirmed leases batch-written safely to PostgreSQL.', command: 'bullmq:flush_orders batch=250 → pg_commit OK', badge: 'SYNCED' },
-    { id: '4', label: 'WS Broadcast', sublabel: 'Live Stock', detail: 'WebSocket pushes exact remaining stock to all connected clients.', command: 'io.emit("stock:update", { sku: 88, left: 412 })', badge: '0 OVERSELL' },
-  ],
-  forge: [
-    { id: '1', label: 'Monaco Core', sublabel: 'Desktop IDE', detail: 'Developer edits TypeScript/React AST inside native Monaco workspace.', command: 'monaco.editor.onDidChangeModelContent(ast_hash)', badge: 'EDITOR' },
-    { id: '2', label: 'Studio Brain', sublabel: 'Orchestrator', detail: 'Hierarchical router splits task across specialized local agents.', command: 'studioBrain.dispatch(["architect", "reviewer"])', badge: 'ROUTER' },
-    { id: '3', label: 'Agent Debate', sublabel: 'Multi-Brain', detail: 'Architect & Reviewer agents critique edge cases before patching.', command: 'debate.round(2) → edge_case_guard_approved=true', badge: 'DEBATE' },
-    { id: '4', label: 'Verified Diff', sublabel: '0 Errors', detail: 'Type-checked AST diff applied cleanly to workspace.', command: 'tsc --noEmit → 0 errors · diff applied [142ms]', badge: 'SHIPPED' },
-  ],
-  pdf_suite_monorepo: [
-    { id: '1', label: 'Next.js / Flutter', sublabel: 'Multi-Client', detail: 'Client uploads multi-page PDF for compression and watermarking.', command: 'POST /api/pdf/compress (42.8 MB, 120 pages)', badge: 'UPLOAD' },
-    { id: '2', label: 'Fastify API', sublabel: 'Job Enqueue', detail: 'API validates payload and dispatches async job ID immediately.', command: 'fastify → 202 Accepted { jobId: "job_772" }', badge: 'FASTIFY' },
-    { id: '3', label: 'Python QPDF', sublabel: 'BullMQ Worker', detail: 'Isolated Docker worker slices, compresses, and stamps pages.', command: 'qpdf --linearize --object-streams=generate → 6.4 MB', badge: 'WORKER' },
-    { id: '4', label: 'Prisma + S3', sublabel: 'Ready URL', detail: 'Optimized artifact stored and signed download link returned.', command: 'prisma.document.update(DONE) → signed_url_ready', badge: 'COMPLETE' },
-  ],
+interface ProjectFlowchartSpec {
+  subtitle: string;
+  steps: FlowchartStep[];
+  leftBranchTitle: string;
+  leftBranchEdge: string;
+  leftBranchResult: string;
+  rightBranchEdge: string;
+  rightBranchResult: string;
+  retryLabel: string;
+}
+
+const SPECIFIC_FLOWCHARTS: Record<string, ProjectFlowchartSpec> = {
+  postal_nexus: {
+    subtitle: 'Postal Nexus strictly differentiates between acceptance, queueing, processing, transmission, and downstream delivery verification:',
+    steps: [
+      { nodeId: 'ACCEPTED', nodeLabel: 'ACCEPTED', edgeLabel: 'API Gateway Validates & Authenticates', detail: 'Ingress validates JWT, sliding-window Redis rate limit, and payload schema.', command: 'POST /v1/mail/send → 202 ACCEPTED { id: "msg_901" }', branch: 'main' },
+      { nodeId: 'QUEUED', nodeLabel: 'QUEUED', edgeLabel: 'Pushed to Redis Stream', detail: 'Message appended to partitioned Redis Stream with backpressure control.', command: 'XADD mail:stream * id msg_901 priority high → "173248-0"', branch: 'main' },
+      { nodeId: 'PROCESSING', nodeLabel: 'PROCESSING', edgeLabel: 'Worker Picks Up Job (XREADGROUP)', detail: 'Consumer group worker claims message; transient errors trigger exponential backoff + jitter.', command: 'XREADGROUP GROUP mailers w1 COUNT 10 STREAMS mail:stream >', branch: 'main' },
+      { nodeId: 'SENT', nodeLabel: 'SENT', edgeLabel: 'SMTP MTA Accepts (250 OK)', detail: 'Downstream SMTP MTA accepts payload; awaiting provider delivery webhook.', command: 'SMTP 250 2.0.0 OK queued as 8F4A21C → state=SENT', branch: 'main' },
+      { nodeId: 'DELIVERED', nodeLabel: 'DELIVERED', edgeLabel: 'Downstream Provider Webhook Confirmed', detail: 'Provider webhook confirms recipient inbox delivery and closes telemetry trace.', command: 'WEBHOOK /ses/delivered → XACK mail:stream 173248-0', branch: 'main' },
+    ],
+    leftBranchTitle: 'SENT',
+    leftBranchEdge: 'Downstream Provider Webhook Confirmed',
+    leftBranchResult: 'DELIVERED',
+    rightBranchEdge: 'Retries Exhausted or Fatal 5xx Error -> DLQ',
+    rightBranchResult: 'FAILED',
+    retryLabel: 'Transient Error (Exponential Backoff + Jitter)',
+  },
+  upi_double_spend: {
+    subtitle: 'Idempotent UPI debit pipeline enforcing CAS optimistic balance locking, duplicate gating, and compensating saga rollback:',
+    steps: [
+      { nodeId: 'ACCEPTED', nodeLabel: 'INGRESS', edgeLabel: 'Client Sends Payment + Idempotency Key', detail: 'Concurrent retry requests hit API gateway with identical SHA-256 idempotency key.', command: 'POST /upi/debit { idempotencyKey: "sha256:9f2a", amt: 450 }', branch: 'main' },
+      { nodeId: 'QUEUED', nodeLabel: 'KEY GATED', edgeLabel: 'Redis SETNX Checks Duplicate Key', detail: 'First request acquires key; duplicate concurrent retry immediately receives 409 Conflict.', command: 'SETNX idem:9f2a "LOCKED" EX 30 → (1) | req_2 → 409', branch: 'main' },
+      { nodeId: 'PROCESSING', nodeLabel: 'CAS RESERVED', edgeLabel: 'Optimistic Balance Lock (CAS)', detail: 'Atomic Compare-And-Swap reserves $450 without blocking other accounts.', command: 'UPDATE accounts SET balance=balance-450 WHERE id=12 AND ver=7', branch: 'main' },
+      { nodeId: 'SENT', nodeLabel: 'NPCI ACK', edgeLabel: 'Downstream Bank Gateway (200 OK)', detail: 'NPCI / Bank switch confirms settlement; saga moves to final commit.', command: 'NPCI.settle(tx_98421) → 200 OK [11ms]', branch: 'main' },
+      { nodeId: 'DELIVERED', nodeLabel: 'COMMITTED', edgeLabel: 'Ledger Finalized & Lock Released', detail: 'Immutable ledger entry committed with 0.00% double-spend slippage.', command: 'saga.commit(tx_98421) → LEDGER_COMMITTED', branch: 'main' },
+    ],
+    leftBranchTitle: 'NPCI ACK',
+    leftBranchEdge: 'Ledger Finalized & Lock Released',
+    leftBranchResult: 'COMMITTED',
+    rightBranchEdge: 'Bank Timeout / 5xx -> Compensating Saga',
+    rightBranchResult: 'ROLLED BACK',
+    retryLabel: 'Transient Network Timeout (Idempotent Retry)',
+  },
+  egovtalent: {
+    subtitle: 'eGovTalent AI civic recruitment pipeline differentiating upload, async extraction, Claude AI scoring, and shortlisted dispatch:',
+    steps: [
+      { nodeId: 'ACCEPTED', nodeLabel: 'UPLOADED', edgeLabel: 'Candidate Submits PDF to S3', detail: 'React portal streams applicant resume to encrypted AWS S3 bucket.', command: 'PUT s3://egov-resumes/cand_2941.pdf → 200 OK', branch: 'main' },
+      { nodeId: 'QUEUED', nodeLabel: 'QUEUED', edgeLabel: 'Dispatched to BullMQ Queue', detail: 'Node.js API enqueues non-blocking parsing job and returns instant receipt.', command: 'bullmq.add("parse_resume", { candId: 2941 })', branch: 'main' },
+      { nodeId: 'PROCESSING', nodeLabel: 'CLAUDE EVAL', edgeLabel: 'Text Extracted & Claude AI Scored', detail: 'Claude AI evaluates skills, experience, and civic eligibility criteria.', command: 'claude.evaluate(rubric: "eGov-SDE") → score: 94/100', branch: 'main' },
+      { nodeId: 'SENT', nodeLabel: 'SHORTLISTED', edgeLabel: 'Threshold >= 80 Passed', detail: 'Candidate persisted in PostgreSQL shortlist and queued for assessment.', command: 'INSERT INTO shortlists VALUES (2941, 94) → COMMIT', branch: 'main' },
+      { nodeId: 'DELIVERED', nodeLabel: 'INVITED', edgeLabel: 'Assessment Link Dispatched', detail: 'Automated invitation and assessment token delivered to candidate.', command: 'ses.sendAssessmentInvite(2941) → DELIVERED', branch: 'main' },
+    ],
+    leftBranchTitle: 'SHORTLISTED',
+    leftBranchEdge: 'Assessment Link Dispatched',
+    leftBranchResult: 'INVITED',
+    rightBranchEdge: 'Score < Threshold or Invalid Doc',
+    rightBranchResult: 'ARCHIVED',
+    retryLabel: 'LLM Rate Limit (Exponential Backoff + Jitter)',
+  },
 };
 
-function getGraphNodes(project: ProjectInstanceData): GraphNode[] {
-  if (PROJECT_SPECIFIC_GRAPHS[project.id]) {
-    return PROJECT_SPECIFIC_GRAPHS[project.id];
+function getFlowchartSpec(project: ProjectInstanceData): ProjectFlowchartSpec {
+  if (SPECIFIC_FLOWCHARTS[project.id]) {
+    return SPECIFIC_FLOWCHARTS[project.id];
   }
-
   const s = project.stack;
-  return [
-    {
-      id: '1',
-      label: s[0] || 'Client Layer',
-      sublabel: 'Ingress',
-      detail: `User or event triggers ${project.title} via ${s[0] || 'frontend'} interface.`,
-      command: `ingress.dispatch("${project.id}", { stack: "${s[0] || 'client'}" })`,
-      badge: 'INGRESS',
-    },
-    {
-      id: '2',
-      label: s[1] || 'Core Logic',
-      sublabel: 'Validation',
-      detail: project.problem,
-      command: `validator.verify("${project.id}") → constraints_passed=true`,
-      badge: 'PROTECTED',
-    },
-    {
-      id: '3',
-      label: s[2] || 'Engine',
-      sublabel: 'Execution',
-      detail: project.solution,
-      command: `engine.execute("${s[2] || 'worker'}") → state_transition_ok`,
-      badge: 'COMPUTE',
-    },
-    {
-      id: '4',
-      label: s[3] || 'Persistence',
-      sublabel: 'Verified State',
-      detail: project.metrics?.[0] ? `${project.metrics[0].label}: ${project.metrics[0].value}` : 'Production state committed cleanly.',
-      command: `commit.finalize() → 200 OK [${project.metrics?.[0]?.value || 'VERIFIED'}]`,
-      badge: 'VERIFIED',
-    },
-  ];
+  return {
+    subtitle: `${project.title} execution lifecycle across ${s.slice(0, 4).join(', ')}:`,
+    steps: [
+      { nodeId: 'ACCEPTED', nodeLabel: 'INGRESS', edgeLabel: `${s[0] || 'Client'} Validates & Authenticates`, detail: `Request enters ${project.title} via ${s[0] || 'client'} layer.`, command: `ingress.validate("${project.id}") → 200 OK`, branch: 'main' },
+      { nodeId: 'QUEUED', nodeLabel: 'GATED', edgeLabel: `${s[1] || 'Policy'} Checks Constraints`, detail: project.problem, command: `policy.check("${s[1] || 'guard'}") → PASSED`, branch: 'main' },
+      { nodeId: 'PROCESSING', nodeLabel: 'PROCESSING', edgeLabel: `${s[2] || 'Engine'} Executes Core Logic`, detail: project.solution, command: `worker.run("${s[2] || 'core'}") → STATE_UPDATED`, branch: 'main' },
+      { nodeId: 'SENT', nodeLabel: 'PERSISTED', edgeLabel: `${s[3] || 'Store'} Commits Transaction`, detail: 'State written atomically to persistence layer.', command: `db.commit("${s[3] || 'store'}") → ACK`, branch: 'main' },
+      { nodeId: 'DELIVERED', nodeLabel: 'VERIFIED', edgeLabel: 'Downstream Confirmation Complete', detail: project.metrics?.[0] ? `${project.metrics[0].label}: ${project.metrics[0].value}` : 'Verified production execution.', command: `telemetry.verify() → ${project.metrics?.[0]?.value || 'OK'}`, branch: 'main' },
+    ],
+    leftBranchTitle: 'PERSISTED',
+    leftBranchEdge: 'Downstream Confirmation Complete',
+    leftBranchResult: 'VERIFIED',
+    rightBranchEdge: 'Constraint Violation / Fatal Error',
+    rightBranchResult: 'MITIGATED',
+    retryLabel: 'Transient Error (Backoff + Retry)',
+  };
 }
 
 export function ProjectArchitectureGraph({ project }: { project: ProjectInstanceData }) {
-  const nodes = getGraphNodes(project);
-  const [activeIdx, setActiveIdx] = useState(0);
+  const spec = getFlowchartSpec(project);
+  const [activeStep, setActiveStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isLooping, setIsLooping] = useState(true);
+  const [mode, setMode] = useState<'happy' | 'failure'>('happy');
 
   useEffect(() => {
-    setActiveIdx(0);
+    setActiveStep(0);
     setIsPlaying(true);
+    setMode('happy');
   }, [project.id]);
 
   useEffect(() => {
     if (!isPlaying) return;
     const timer = setInterval(() => {
-      setActiveIdx((prev) => {
-        if (prev === nodes.length - 1) {
+      setActiveStep((prev) => {
+        if (prev >= spec.steps.length - 1) {
           if (!isLooping) {
             setIsPlaying(false);
             return prev;
@@ -116,115 +122,180 @@ export function ProjectArchitectureGraph({ project }: { project: ProjectInstance
         }
         return prev + 1;
       });
-    }, 2400);
+    }, 2200);
     return () => clearInterval(timer);
-  }, [isPlaying, isLooping, nodes.length]);
+  }, [isPlaying, isLooping, spec.steps.length]);
 
-  const accentColor =
+  const accent =
     project.category === 'company'
-      ? '#5350f6'
+      ? '#6a8e6e'
       : project.category === 'pain_points'
-      ? '#d96b43'
+      ? '#d97757'
       : project.category === 'freelance'
-      ? '#4d9e7a'
-      : '#d6b88d';
+      ? '#d49b4b'
+      : '#f4f2ed';
 
-  const icons = [Globe, Cpu, Server, Database];
+  const current = spec.steps[activeStep];
 
   return (
-    <div className="arch-graph-card glass-card">
-      <div className="arch-graph-header">
+    <div className="mermaid-flow-card">
+      {/* Header + Controls */}
+      <div className="mermaid-flow-header">
         <div>
-          <span className="arch-graph-kicker font-mono" style={{ color: accentColor }}>
-            INTERACTIVE ARCHITECTURE WORKFLOW
+          <span className="arch-graph-kicker font-mono" style={{ color: accent }}>
+            LIVE STATE MACHINE &amp; ARCHITECTURAL WORKFLOW
           </span>
-          <h4 className="arch-graph-title">{project.title} — Live System Topology</h4>
+          <p className="mermaid-flow-sub">{spec.subtitle}</p>
         </div>
 
         <div className="telemetry-controls">
           <button
+            className={`ctrl-btn-pill font-mono ${mode === 'happy' ? 'is-on' : ''}`}
+            onClick={() => { setMode('happy'); setActiveStep(0); setIsPlaying(true); }}
+          >
+            Success Path
+          </button>
+          <button
+            className={`ctrl-btn-pill font-mono ${mode === 'failure' ? 'is-on' : ''}`}
+            onClick={() => { setMode('failure'); setActiveStep(2); setIsPlaying(false); }}
+          >
+            Retry / DLQ Branch
+          </button>
+          <button
             className={`ctrl-btn-pill font-mono ${isLooping ? 'is-on' : ''}`}
             onClick={() => setIsLooping((l) => !l)}
-            title="Toggle Continuous Loop"
           >
             Loop: {isLooping ? 'ON' : 'OFF'}
           </button>
           <button
             className="ctrl-btn"
             onClick={() => setIsPlaying((p) => !p)}
-            title={isPlaying ? 'Pause Workflow' : 'Play Workflow'}
+            title={isPlaying ? 'Pause' : 'Play'}
           >
             {isPlaying ? <Pause size={14} /> : <Play size={14} />}
           </button>
           <button
             className="ctrl-btn"
-            onClick={() => {
-              setActiveIdx(0);
-              setIsPlaying(true);
-            }}
-            title="Replay Workflow"
+            onClick={() => { setActiveStep(0); setMode('happy'); setIsPlaying(true); }}
+            title="Replay"
           >
             <RotateCcw size={14} />
           </button>
         </div>
       </div>
 
-      {/* Connected Node Graph */}
-      <div className="arch-nodes-row">
-        {nodes.map((node, idx) => {
-          const Icon = icons[idx % icons.length];
-          const isActive = idx === activeIdx;
-          const isDone = idx < activeIdx;
+      {/* Mermaid-Style Vertical & Branching State Flowchart */}
+      <div className="mermaid-diagram-canvas">
+        <div className="mermaid-entry-dot" style={{ borderColor: accent }} />
+
+        {/* Steps 1 to 3 (Linear Vertical Spine with Edge Labels & Retry Side-Box) */}
+        {[0, 1, 2].map((idx) => {
+          const step = spec.steps[idx];
+          const isActive = activeStep === idx;
+          const isDone = activeStep > idx;
 
           return (
-            <div key={node.id} className="arch-node-step">
-              <button
-                type="button"
-                className={`arch-node-box ${isActive ? 'is-active' : ''} ${isDone ? 'is-done' : ''}`}
-                style={isActive ? { borderColor: accentColor, boxShadow: `0 0 20px ${accentColor}26` } : undefined}
-                onClick={() => {
-                  setActiveIdx(idx);
-                  setIsPlaying(false);
-                }}
-              >
-                <div className="arch-node-top">
-                  <Icon size={15} style={{ color: isDone ? '#4d9e7a' : accentColor }} />
-                  <span className="arch-node-badge font-mono" style={{ color: accentColor }}>
-                    {node.badge}
-                  </span>
-                </div>
-                <strong className="arch-node-label">{node.label}</strong>
-                <span className="arch-node-sub font-mono">{node.sublabel}</span>
-              </button>
+            <div key={step.nodeId} className="mermaid-spine-segment">
+              {/* Animated Vertical Arrow + Edge Label */}
+              <div className="mermaid-edge-vert">
+                <span
+                  className="vert-line"
+                  style={{ background: isDone || isActive ? accent : 'rgba(244,242,237,0.16)' }}
+                />
+                {isActive && <span className="vert-packet" style={{ background: accent }} />}
+                <span className="mermaid-edge-tag font-mono">{step.edgeLabel}</span>
+                <ArrowDown size={13} style={{ color: isDone || isActive ? accent : 'rgba(244,242,237,0.35)' }} />
+              </div>
 
-              {idx < nodes.length - 1 && (
-                <div className="arch-edge-connector" aria-hidden="true">
-                  <span
-                    className="arch-edge-line"
-                    style={{ background: isDone || isActive ? accentColor : 'var(--line)' }}
-                  />
-                  {isActive && (
-                    <span className="arch-edge-packet" style={{ background: accentColor }} />
-                  )}
-                  <ArrowRight size={13} style={{ color: isDone || isActive ? accentColor : 'var(--muted-foreground)' }} />
-                </div>
-              )}
+              {/* Node + Optional Transient Retry Side Loop on Step 3 (PROCESSING) */}
+              <div className={idx === 2 ? 'mermaid-processing-row' : 'mermaid-center-row'}>
+                {idx === 2 && (
+                  <div className={`mermaid-retry-box font-mono ${mode === 'failure' ? 'is-active-err' : ''}`}>
+                    <span>{spec.retryLabel}</span>
+                    <span className="retry-arrow">⇄</span>
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  className={`mermaid-node-pill font-mono ${isActive ? 'is-active' : ''} ${isDone ? 'is-done' : ''}`}
+                  style={isActive ? { borderColor: accent, boxShadow: `0 0 22px ${accent}33` } : undefined}
+                  onClick={() => { setActiveStep(idx); setIsPlaying(false); }}
+                >
+                  {step.nodeLabel}
+                </button>
+              </div>
             </div>
           );
         })}
+
+        {/* Branch Fork from Step 3 (PROCESSING) -> Left (SENT -> DELIVERED) & Right (FAILED / DLQ) */}
+        <div className="mermaid-fork-connector" aria-hidden="true">
+          <span className="fork-stem" style={{ background: activeStep >= 3 ? accent : 'rgba(244,242,237,0.18)' }} />
+          <div className="fork-shoulders">
+            <span className="fork-left" style={{ borderColor: mode === 'happy' && activeStep >= 3 ? accent : 'rgba(244,242,237,0.18)' }} />
+            <span className="fork-right" style={{ borderColor: mode === 'failure' ? '#d97757' : 'rgba(244,242,237,0.18)' }} />
+          </div>
+        </div>
+
+        <div className="mermaid-branches-grid">
+          {/* Left Branch: Happy Path (SENT -> DELIVERED) */}
+          <div className="mermaid-branch-col">
+            <span className="mermaid-edge-tag font-mono">{spec.steps[3].edgeLabel}</span>
+            <button
+              type="button"
+              className={`mermaid-node-pill font-mono ${mode === 'happy' && activeStep === 3 ? 'is-active' : ''} ${mode === 'happy' && activeStep > 3 ? 'is-done' : ''}`}
+              style={mode === 'happy' && activeStep === 3 ? { borderColor: accent, boxShadow: `0 0 20px ${accent}33` } : undefined}
+              onClick={() => { setMode('happy'); setActiveStep(3); setIsPlaying(false); }}
+            >
+              {spec.steps[3].nodeLabel}
+            </button>
+
+            <div className="mermaid-edge-vert short">
+              <span className="vert-line" style={{ background: mode === 'happy' && activeStep >= 4 ? accent : 'rgba(244,242,237,0.16)' }} />
+              <span className="mermaid-edge-tag font-mono">{spec.leftBranchEdge}</span>
+              <ArrowDown size={13} style={{ color: mode === 'happy' && activeStep >= 4 ? accent : 'rgba(244,242,237,0.35)' }} />
+            </div>
+
+            <button
+              type="button"
+              className={`mermaid-node-pill font-mono ${mode === 'happy' && activeStep === 4 ? 'is-active' : ''}`}
+              style={mode === 'happy' && activeStep === 4 ? { borderColor: '#6a8e6e', boxShadow: '0 0 20px rgba(106,142,110,0.35)' } : undefined}
+              onClick={() => { setMode('happy'); setActiveStep(4); setIsPlaying(false); }}
+            >
+              {spec.leftBranchResult}
+            </button>
+          </div>
+
+          {/* Right Branch: Failure / DLQ Path */}
+          <div className="mermaid-branch-col">
+            <span className="mermaid-edge-tag font-mono">{spec.rightBranchEdge}</span>
+            <button
+              type="button"
+              className={`mermaid-node-pill font-mono ${mode === 'failure' ? 'is-active-err' : ''}`}
+              onClick={() => { setMode('failure'); setActiveStep(2); setIsPlaying(false); }}
+            >
+              {spec.rightBranchResult}
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Step Readout + Real Command Execution */}
+      {/* Live Step Readout + Executed Command */}
       <div className="arch-step-readout-stack">
         <div className="arch-step-readout">
-          <span className="arch-step-num font-mono" style={{ color: accentColor }}>
-            STEP 0{activeIdx + 1}:
+          <span className="arch-step-num font-mono" style={{ color: mode === 'failure' ? '#d97757' : accent }}>
+            {mode === 'failure' ? 'RETRY / DLQ:' : `STATE [${current.nodeLabel}]:`}
           </span>
-          <span className="arch-step-detail">{nodes[activeIdx].detail}</span>
+          <span className="arch-step-detail">
+            {mode === 'failure'
+              ? `${spec.retryLabel} — if retries exhaust, routed safely to ${spec.rightBranchResult} without data loss.`
+              : current.detail}
+          </span>
         </div>
         <div className="arch-step-cmd font-mono">
-          <span style={{ color: accentColor }}>$</span>
-          <span>{nodes[activeIdx].command}</span>
+          <span style={{ color: accent }}>$</span>
+          <span>{current.command}</span>
         </div>
       </div>
     </div>
