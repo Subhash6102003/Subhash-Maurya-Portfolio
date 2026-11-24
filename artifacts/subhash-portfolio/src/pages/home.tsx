@@ -26,7 +26,7 @@ import { ScrollytellingArchitecture } from '@/components/motion/scrollytelling-a
 import { LivingTerminal } from '@/components/motion/living-terminal';
 import { LivingDatabase } from '@/components/motion/living-database';
 import { ProjectInstanceModal, ProjectInstanceData } from '@/components/motion/project-instance-modal';
-import { HeroArchitectureCanvas } from '@/components/motion/hero-architecture-canvas';
+import { HeroAcquireShowcase } from '@/components/motion/hero-acquire-showcase';
 import { ALL_PROJECTS_CATALOG } from '@/data/projects-catalog';
 
 if (typeof window !== 'undefined') {
@@ -212,23 +212,32 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* Railway / Vercel Style Live Architecture Canvas */}
+        {/* Acquire.com Style Dual Flag-Box Autonomous Step Showcase */}
         <div className="hero-art-modern">
-          <HeroArchitectureCanvas />
+          <HeroAcquireShowcase />
         </div>
 
-        <div className="hero-bottom">
-          <div className="scroll-cue">
-            <span className="scroll-line" /> Scroll to explore
+        {/* Acquire.com Style 5-Column Metric Strip */}
+        <div className="acquire-metric-strip">
+          <div className="acquire-metric-cell">
+            <strong className="tabular-nums">24+</strong>
+            <span>production systems shipped</span>
           </div>
-          <div className="hero-tech">Kotlin <b>·</b> React <b>·</b> TypeScript <b>·</b> Node.js</div>
-          <div className="hero-metric">
-            <strong>1.5+</strong>
-            <span>
-              years shipping
-              <br />
-              production software
-            </span>
+          <div className="acquire-metric-cell">
+            <strong className="tabular-nums">1.5+ yrs</strong>
+            <span>shipping live software</span>
+          </div>
+          <div className="acquire-metric-cell">
+            <strong className="tabular-nums">95+</strong>
+            <span>Lighthouse web vitals</span>
+          </div>
+          <div className="acquire-metric-cell">
+            <strong className="tabular-nums">14K/s</strong>
+            <span>peak pipeline throughput</span>
+          </div>
+          <div className="acquire-metric-cell">
+            <strong>SDE-1</strong>
+            <span>Founding Member (SM)</span>
           </div>
         </div>
       </section>
