@@ -20,7 +20,10 @@ interface TabLayoutProps {
 
 export function TabLayout({ children }: TabLayoutProps) {
   const [location, setLocation] = useLocation();
-  const [dark, setDark] = useState(() => localStorage.getItem('subhash-theme') === 'dark');
+  const [dark, setDark] = useState(() => {
+    const saved = localStorage.getItem('subhash-theme');
+    return saved !== 'light';
+  });
   const [menuOpen, setMenuOpen] = useState(false);
   const cursorGlowRef = useRef<HTMLDivElement | null>(null);
 
@@ -131,7 +134,7 @@ export function TabLayout({ children }: TabLayoutProps) {
           {/* Mobile Drawer "Let's Talk" Button */}
           <a
             className="mobile-nav-talk-btn glass-btn"
-            href="#contact"
+            href="/#contact"
             onClick={handleLetsTalkClick}
             data-testid="link-mobile-drawer-talk"
           >
@@ -154,7 +157,7 @@ export function TabLayout({ children }: TabLayoutProps) {
           {/* Desktop & Header "Let's Talk" CTA */}
           <a
             className="header-contact glass-talk-btn"
-            href="#contact"
+            href="/#contact"
             onClick={handleLetsTalkClick}
             data-testid="link-header-contact"
           >

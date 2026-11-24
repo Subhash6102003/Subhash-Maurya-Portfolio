@@ -44,57 +44,32 @@ export default function ProjectsPage() {
     return matchesCategory && matchesSearch && matchesTech;
   });
 
-  // GSAP ScrollTrigger & Desktop 3D Card Tilt
+  // Desktop 3D Card Tilt & Header Entrance
   useEffect(() => {
     if (!scopeRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Header entrance
       gsap.from('.projects-header-animate', {
-        y: 28,
+        y: 22,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.6,
         ease: 'power3.out',
       });
-
-      // Filter tabs entrance
-      gsap.from('.project-cat-tab', {
-        y: 16,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.06,
-        ease: 'power2.out',
-        delay: 0.15,
-      });
-
-      // Staggered project cards reveal
-      const cards = scopeRef.current?.querySelectorAll<HTMLElement>('.project-showcase-tile');
-      if (cards && cards.length > 0) {
-        gsap.from(cards, {
-          y: 35,
-          opacity: 0,
-          scale: 0.98,
-          duration: 0.65,
-          stagger: 0.08,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: '.projects-showcase-grid',
-            start: 'top 88%',
-            toggleActions: 'play none none none',
-          },
-        });
-      }
     }, scopeRef);
-
-    // Desktop 3D Card tilt
-    const cleanupFns: Array<() => void> = [];
-    if (window.matchMedia('(pointer: fine)').matches) {
-      const tiltCards = scopeRef.current.querySelectorAll<HTMLElement>('.project-showcase-tile');
-      tiltCards.forEach((card) => cleanupFns.push(attachCardTilt(card, 5)));
-    }
 
     return () => {
       ctx.revert();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!scopeRef.current) return;
+    const cleanupFns: Array<() => void> = [];
+    if (window.matchMedia('(pointer: fine)').matches) {
+      const tiltCards = scopeRef.current.querySelectorAll<HTMLElement>('.project-showcase-tile');
+      tiltCards.forEach((card) => cleanupFns.push(attachCardTilt(card, 4)));
+    }
+    return () => {
       cleanupFns.forEach((fn) => fn());
     };
   }, [selectedCategory, selectedTech, searchTerm]);
@@ -174,16 +149,18 @@ export default function ProjectsPage() {
         <div className="projects-showcase-grid">
           {filteredProjects.map((project, idx) => (
             <motion.div
-              key={project.id}
+              key={`${selectedCategory}-${project.id}`}
               className={`project-showcase-tile glass-card tile-tone-${project.category}`}
               onClick={() => setActiveProject(project)}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
               whileHover={{ y: -4 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.25, delay: Math.min(idx * 0.025, 0.2) }}
               data-testid={`card-project-${project.id}`}
             >
               {/* Card Header Topline */}
               <div className="tile-top-bar">
-                <span className="tile-number font-mono">0{idx + 1}</span>
+                <span className="tile-number font-mono">{String(idx + 1).padStart(2, '0')}</span>
                 <span className="tile-category-tag font-mono">{project.categoryLabel}</span>
               </div>
 

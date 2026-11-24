@@ -395,12 +395,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 01: Scrollytelling Architecture (Cinematic Scroll-Controlled Storytelling) */}
+      {/* 03: Scrollytelling Architecture (Cinematic Scroll-Controlled Storytelling) */}
       <ScrollytellingArchitecture />
 
-      {/* 02: Always-Alive Interface: Living Telemetry Pulse (Terminal + Database) */}
+      {/* 04: Always-Alive Interface: Living Telemetry Pulse (Terminal + Database) */}
       <section className="telemetry-pulse-section section-frame" aria-labelledby="telemetry-title">
-        <div className="section-kicker"><span>02</span> Living Architecture &amp; Telemetry</div>
+        <div className="section-kicker"><span>04</span> Living Architecture &amp; Telemetry</div>
         <div className="section-heading">
           <h2 id="telemetry-title" className="gsap-reveal-heading">
             Always running.<br />
@@ -417,10 +417,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 03: Selected Work Section (eGovTalent, UPI Double-Spend, Forge IDE) */}
+      {/* 05: Selected Work Section (eGovTalent, UPI Double-Spend, Forge IDE) */}
       <section className="projects section-frame" id="projects" aria-labelledby="projects-title">
         <div className="section-heading">
-          <div className="section-kicker"><span>03</span> Selected Architecture &amp; Projects</div>
+          <div className="section-kicker"><span>05</span> Selected Architecture &amp; Projects</div>
           <h2 id="projects-title" className="gsap-reveal-heading">Built to leave<br /><i>a mark.</i></h2>
           <p>Three flagship directions — from civic technology to distributed banking pipelines and developer environments.</p>
         </div>
@@ -467,7 +467,7 @@ export default function Home() {
       {/* Integrated Contact Section */}
       <section className="contact section-frame" id="contact" aria-labelledby="contact-title">
         <div className="contact-top">
-          <div className="section-kicker"><span>04</span> Get in touch</div>
+          <div className="section-kicker"><span>06</span> Get in touch</div>
           <div className="contact-aside">
             Have a problem worth solving?<br />
             <b>Say hello.</b>
@@ -589,12 +589,6 @@ export default function Home() {
               </motion.button>
             </form>
           </div>
-        </div>
-
-        <div className="contact-footer">
-          <span><MapPin size={15} /> Bangalore, Karnataka</span>
-          <span>© {new Date().getFullYear()} Subhash Maurya</span>
-          <a href="#top" data-testid="link-back-top">Back to top <ArrowUpRight size={15} /></a>
         </div>
       </section>
     </div>

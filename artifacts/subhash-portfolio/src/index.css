@@ -680,7 +680,7 @@ button:focus-visible, a:focus-visible {
   right: 10px;
   background: #2a2a2a;
   border: 1px solid #444;
-  color: var(--cream);
+  color: #f5f2eb;
   font: 500 9px var(--mono);
   padding: 4px 8px;
   border-radius: 4px;
@@ -1016,9 +1016,9 @@ button:focus-visible, a:focus-visible {
 }
 
 .project-card h3 {
-  font: 600 clamp(2.2rem, 3.2vw, 3.2rem)/0.92 var(--display);
-  letter-spacing: -0.07em;
-  margin: auto 0 16px;
+  font: 600 clamp(2rem, 2.9vw, 2.8rem)/1.05 var(--display);
+  letter-spacing: -0.04em;
+  margin: 24px 0 12px;
 }
 .project-card p {
   font-size: 13.5px;
@@ -1034,6 +1034,7 @@ button:focus-visible, a:focus-visible {
   flex-wrap: wrap;
   border-top: 1px solid currentColor;
   padding-top: 14px;
+  margin-top: auto;
 }
 .project-stack span {
   font: 9px var(--mono);
@@ -1630,14 +1631,16 @@ button:focus-visible, a:focus-visible {
    ========================================================================== */
 .contact {
   background: #141210;
-  color: var(--cream);
+  color: #f5f2eb;
   width: 100%;
   max-width: none;
+  padding-top: 64px;
+  padding-bottom: 64px;
   padding-left: max(32px, calc((100% - 1320px)/2));
   padding-right: max(32px, calc((100% - 1320px)/2));
   border-radius: 24px;
   box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   margin-top: 40px;
   margin-bottom: 40px;
   position: relative;
@@ -1676,11 +1679,11 @@ button:focus-visible, a:focus-visible {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   gap: 12%;
-  padding: 60px 0 90px;
+  padding: 48px 0 24px;
 }
-.contact h2 { color: var(--cream); }
+.contact h2 { color: #f5f2eb; }
 .contact-info { padding-top: 10px; }
-.contact-info > p { max-width: 350px; }
+.contact-info > p { max-width: 350px; color: rgba(245, 242, 235, 0.8); }
 
 .email-link {
   color: var(--orange);
@@ -1717,41 +1720,42 @@ button:focus-visible, a:focus-visible {
   flex-wrap: wrap;
 }
 .contact-links a {
-  color: rgba(245, 242, 235, 0.75);
+  color: #f5f2eb;
   text-decoration: none;
-  font: 500 10px var(--mono);
+  font: 500 11px var(--mono);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 6px 14px;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 8px 16px;
   border-radius: 99px;
   transition: all 0.2s ease;
 }
 .contact-links a:hover {
   color: var(--orange);
   border-color: var(--orange);
+  background: rgba(244, 119, 53, 0.12);
   transform: translateY(-1px);
 }
 
 .github-spotlight-card {
-  margin-top: 36px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 32px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   padding: 24px;
   border-radius: 14px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 .spotlight-header {
   display: flex;
   align-items: center;
   gap: 10px;
   font: 600 16px var(--display);
-  color: var(--cream);
+  color: #f5f2eb;
 }
 .spotlight-badge {
   margin-left: auto;
@@ -1787,7 +1791,7 @@ button:focus-visible, a:focus-visible {
 }
 .contact-form-card h3 {
   font: 600 22px var(--display);
-  color: var(--cream);
+  color: #f5f2eb;
   margin: 0;
 }
 .form-field-group {
@@ -1797,15 +1801,15 @@ button:focus-visible, a:focus-visible {
 }
 .form-field-group label {
   font: 600 10px var(--mono);
-  color: rgba(245, 242, 235, 0.75);
+  color: rgba(245, 242, 235, 0.8);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 .styled-form-input, .styled-form-textarea {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   padding: 12px 16px;
-  color: var(--cream);
+  color: #f5f2eb;
   font: 13px var(--mono);
   outline: none;
   border-radius: 8px;
@@ -1813,10 +1817,10 @@ button:focus-visible, a:focus-visible {
 }
 .styled-form-input:focus, .styled-form-textarea:focus {
   border-color: var(--orange);
-  background: rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.12);
 }
 .styled-form-input::placeholder, .styled-form-textarea::placeholder {
-  color: rgba(245, 242, 235, 0.35);
+  color: rgba(245, 242, 235, 0.48);
 }
 
 .form-submit-btn {
@@ -1952,7 +1956,8 @@ button:focus-visible, a:focus-visible {
   background: #22c55e;
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
 }
-.footer-meta { display: flex; gap: 20px; align-items: center; }
+.footer-meta { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+.footer-meta span { display: inline-flex; align-items: center; gap: 6px; }
 
 /* Page Transition Container */
 .page-transition-frame {
@@ -2473,31 +2478,78 @@ button:focus-visible, a:focus-visible {
   line-height: 1.6;
 }
 
-.scrolly-topology-board {
+.scrolly-topology-flow {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  padding: 36px 24px;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 28px 24px;
   border-radius: var(--radius-xl);
 }
 
 .scrolly-node {
-  background: var(--glass-bg);
+  flex: 1 1 0;
+  background: var(--card);
   border: 1px solid var(--glass-border);
-  padding: 20px 16px;
+  padding: 22px 18px;
   border-radius: var(--radius);
   position: relative;
   z-index: 2;
   box-shadow: var(--glass-shadow);
-  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.scrolly-node:hover {
+  border-color: rgba(244, 119, 53, 0.45);
+  transform: translateY(-2px);
+}
+
+.scrolly-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  flex-shrink: 0;
+  position: relative;
+  transform-origin: left center;
+}
+
+.connector-line {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(244, 119, 53, 0.3), var(--orange));
+  border-radius: 99px;
+}
+
+.connector-packet {
+  position: absolute;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 8px var(--orange);
+  animation: packetSlide 2s ease-in-out infinite;
+}
+
+@keyframes packetSlide {
+  0% { left: 0%; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { left: calc(100% - 10px); opacity: 0; }
+}
+
+.connector-arrow {
+  color: var(--orange);
+  flex-shrink: 0;
+  margin-left: -4px;
 }
 
 .scrolly-icon-wrap {
   width: 44px;
   height: 44px;
   border-radius: 10px;
-  background: rgba(232, 91, 23, 0.08);
+  background: rgba(232, 91, 23, 0.1);
   display: grid;
   place-items: center;
   margin-bottom: 14px;
@@ -2522,25 +2574,6 @@ button:focus-visible, a:focus-visible {
   font-size: 12px;
   color: var(--muted-foreground);
   line-height: 1.45;
-}
-
-.scrolly-svg-canvas {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.scrolly-path {
-  fill: none;
-  stroke: var(--orange);
-  stroke-width: 2;
-  stroke-linecap: round;
-  opacity: 0.6;
 }
 
 .scrolly-footer-banner {
@@ -3239,8 +3272,8 @@ button:focus-visible, a:focus-visible {
 /* Responsive Overrides */
 @media (max-width: 900px) {
   .live-telemetry-grid { grid-template-columns: 1fr; }
-  .scrolly-topology-board { grid-template-columns: 1fr; gap: 16px; }
-  .scrolly-svg-canvas { display: none; }
+  .scrolly-topology-flow { flex-direction: column; gap: 10px; }
+  .scrolly-connector { width: 100%; height: 26px; transform: rotate(90deg); }
   .projects-showcase-grid { grid-template-columns: 1fr; }
   .sheet-analysis-grid { grid-template-columns: 1fr; }
   .sheet-metrics-row { grid-template-columns: 1fr; }

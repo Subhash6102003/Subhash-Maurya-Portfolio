@@ -48,14 +48,22 @@ const TERMINAL_SCRIPTS: TerminalStep[] = [
 
 export function LivingTerminal({ className = '' }: { className?: string }) {
   const [scriptIndex, setScriptIndex] = useState(0);
-  const [displayedCommand, setDisplayedCommand] = useState('');
-  const [outputLines, setOutputLines] = useState<string[]>([]);
-  const [isTyping, setIsTyping] = useState(true);
+  const [displayedCommand, setDisplayedCommand] = useState(TERMINAL_SCRIPTS[0].command);
+  const [outputLines, setOutputLines] = useState<string[]>(TERMINAL_SCRIPTS[0].outputs);
+  const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     const currentScript = TERMINAL_SCRIPTS[scriptIndex];
     let charIndex = 0;
+
+    if (scriptIndex === 0 && outputLines.length > 0 && displayedCommand === TERMINAL_SCRIPTS[0].command) {
+      // Initial render starts populated; advance to next script after brief pause
+      timeoutId = setTimeout(() => {
+        setScriptIndex(1);
+      }, 2600);
+      return () => clearTimeout(timeoutId);
+    }
 
     setDisplayedCommand('');
     setOutputLines([]);
@@ -74,7 +82,7 @@ export function LivingTerminal({ className = '' }: { className?: string }) {
         currentScript.outputs.forEach((line, idx) => {
           setTimeout(() => {
             setOutputLines((prev) => [...prev, line]);
-          }, (idx + 1) * 220);
+          }, (idx + 1) * 180);
         });
 
         // Advance to next script after duration
@@ -82,7 +90,7 @@ export function LivingTerminal({ className = '' }: { className?: string }) {
           setScriptIndex((prev) => (prev + 1) % TERMINAL_SCRIPTS.length);
         }, currentScript.duration);
       }
-    }, 45);
+    }, 35);
 
     return () => {
       clearInterval(typingInterval);
