@@ -16,44 +16,24 @@ import {
   Send,
   Sparkles,
   Trophy,
+  Activity,
+  Layers,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { attachCardTilt } from '@/lib/animations';
+import { ScrollytellingArchitecture } from '@/components/motion/scrollytelling-architecture';
+import { LivingTerminal } from '@/components/motion/living-terminal';
+import { LivingDatabase } from '@/components/motion/living-database';
+import { ProjectInstanceModal, ProjectInstanceData } from '@/components/motion/project-instance-modal';
+import { ALL_PROJECTS_CATALOG } from '@/data/projects-catalog';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const projects = [
-  {
-    number: '01',
-    title: 'eGovTalent',
-    kind: "India's first AI-powered e-governance job portal",
-    description: 'A full-stack recruitment system built solo from architecture to AWS deployment. Claude AI handles resume extraction, screening, shortlisting, invitations, and assessments.',
-    stack: ['React', 'TypeScript', 'Node.js', 'AWS'],
-    href: 'https://egovtalent.com',
-    tone: 'orange',
-  },
-  {
-    number: '02',
-    title: 'Eternity Gym Ecosystem',
-    kind: 'Comprehensive fitness management platform',
-    description: 'Dual-module ecosystem featuring a full-stack web management portal and a native Android application with Jetpack Compose, offline-first sync, trainer scheduling, and push alerts.',
-    stack: ['Kotlin', 'Compose', 'React', 'TypeScript', 'Node.js'],
-    href: '/projects',
-    tone: 'ink',
-  },
-  {
-    number: '03',
-    title: 'NexLogic',
-    kind: 'Enterprise digital innovation platform',
-    description: 'A modern, high-performance web platform built with React, Node.js, and AWS microservices, engineered for high reliability, fast page loads, and enterprise scalability.',
-    stack: ['React', 'Node.js', 'Express', 'AWS', 'Tailwind'],
-    href: 'https://nexlogic.co.in',
-    tone: 'sand',
-  },
-];
+const featuredProjectIds = ['egovtalent', 'upi_double_spend', 'forge'];
+const featuredProjects = ALL_PROJECTS_CATALOG.filter((p) => featuredProjectIds.includes(p.id));
 
 export default function Home() {
   const [screenPowered, setScreenPowered] = useState(true);
@@ -61,6 +41,7 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [selectedProject, setSelectedProject] = useState<ProjectInstanceData | null>(null);
 
   const homeScopeRef = useRef<HTMLDivElement | null>(null);
   const journeyCardsRef = useRef<HTMLDivElement | null>(null);
@@ -414,50 +395,74 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Selected Work Section (eGovTalent, Eternity Gym Ecosystem, NexLogic) */}
+      {/* 01: Scrollytelling Architecture (Cinematic Scroll-Controlled Storytelling) */}
+      <ScrollytellingArchitecture />
+
+      {/* 02: Always-Alive Interface: Living Telemetry Pulse (Terminal + Database) */}
+      <section className="telemetry-pulse-section section-frame" aria-labelledby="telemetry-title">
+        <div className="section-kicker"><span>02</span> Living Architecture &amp; Telemetry</div>
+        <div className="section-heading">
+          <h2 id="telemetry-title" className="gsap-reveal-heading">
+            Always running.<br />
+            <i>Zero ghost states.</i>
+          </h2>
+          <p>
+            Autonomous background telemetry capturing real distributed events, CAS locks, BullMQ queue slices, and compiler benchmarks.
+          </p>
+        </div>
+
+        <div className="live-telemetry-grid">
+          <LivingTerminal />
+          <LivingDatabase />
+        </div>
+      </section>
+
+      {/* 03: Selected Work Section (eGovTalent, UPI Double-Spend, Forge IDE) */}
       <section className="projects section-frame" id="projects" aria-labelledby="projects-title">
         <div className="section-heading">
-          <div className="section-kicker"><span>03</span> Selected work</div>
+          <div className="section-kicker"><span>03</span> Selected Architecture &amp; Projects</div>
           <h2 id="projects-title" className="gsap-reveal-heading">Built to leave<br /><i>a mark.</i></h2>
-          <p>Three recent directions — from civic technology to enterprise software platforms.</p>
+          <p>Three flagship directions — from civic technology to distributed banking pipelines and developer environments.</p>
         </div>
 
         <div ref={projectListRef} className="project-list">
-          {projects.map((project) => (
-            <a
-              className={`project-card project-${project.tone}`}
-              href={project.href}
-              target={project.href.startsWith('http') ? '_blank' : undefined}
-              rel={project.href.startsWith('http') ? 'noreferrer' : undefined}
-              key={project.number}
-              data-testid={`link-project-${project.number}`}
+          {featuredProjects.map((project, idx) => (
+            <div
+              className={`project-card project-${idx === 0 ? 'orange' : idx === 1 ? 'ink' : 'sand'}`}
+              key={project.id}
+              onClick={() => setSelectedProject(project)}
+              style={{ cursor: 'pointer' }}
+              data-testid={`card-home-project-${project.id}`}
             >
               <div className="project-top">
-                <span>{project.number}</span>
-                <span>{project.kind}</span>
+                <span>0{idx + 1}</span>
+                <span>{project.categoryLabel}</span>
                 <ArrowUpRight size={19} />
               </div>
               <h3>{project.title}</h3>
-              <p>{project.description}</p>
+              <p>{project.tagline}</p>
               <div className="project-stack">
-                {project.stack.map((item) => (
+                {project.stack.slice(0, 4).map((item) => (
                   <span key={item}>{item}</span>
                 ))}
               </div>
               <div className="project-arrow">
-                <span>View project</span>
+                <span>Inspect Live Architecture</span>
                 <ArrowUpRight size={18} />
               </div>
-            </a>
+            </div>
           ))}
         </div>
 
         <div className="projects-redirect-cta">
           <Link className="button button-primary see-all-projects-btn" href="/projects" data-testid="button-see-all-projects">
-            See all projects &amp; live repos <ArrowDownRight size={18} />
+            See all 24 projects &amp; live architectures <ArrowDownRight size={18} />
           </Link>
         </div>
       </section>
+
+      {/* Project Instance Stage Modal */}
+      <ProjectInstanceModal project={selectedProject} onClose={() => setSelectedProject(null)} />
 
       {/* Integrated Contact Section */}
       <section className="contact section-frame" id="contact" aria-labelledby="contact-title">

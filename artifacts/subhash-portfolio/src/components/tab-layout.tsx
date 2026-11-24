@@ -3,6 +3,8 @@ import { useLocation, Link } from 'wouter';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { ArrowUpRight, Menu, Moon, Sun, X, MapPin } from 'lucide-react';
 import gsap from 'gsap';
+import { SmoothScrollProvider } from '@/components/motion/smooth-scroll';
+import { AmbientScene } from '@/components/motion/ambient-scene';
 
 export const navItems = [
   { label: 'About', path: '/' },
@@ -92,22 +94,13 @@ export function TabLayout({ children }: TabLayoutProps) {
     : 'footer-other-light';
 
   return (
-    <div className="portfolio-shell">
-      {/* Background ambient lighting orbs (as seen in the design mockup) */}
-      <div className="ambient-background" aria-hidden="true">
-        <div className="ambient-orb orb-top-right" />
-        <div className="ambient-orb orb-middle-left" />
-        <div className="ambient-orb orb-bottom-right" />
-      </div>
+    <SmoothScrollProvider>
+      <div className="portfolio-shell">
+        {/* Layered 4-Depth Ambient Scene with Zero Neon, Warm Diffusers & Grid */}
+        <AmbientScene />
 
-      {/* Interactive cursor-responsive ambient glow for desktop */}
-      <div ref={cursorGlowRef} className="cursor-ambient-glow" aria-hidden="true" />
-
-      {/* Subtle organic noise grain */}
-      <div className="grain" aria-hidden="true" />
-
-      {/* Floating Glass Header */}
-      <header className="site-header glass-header">
+        {/* Floating Glass Header */}
+        <header className="site-header glass-header">
         <Link className="brand-mark" href="/" data-testid="link-home">
           <span className="brand-symbol">S</span>
           <span>SUBHASH<br /><em>MAURYA</em></span>
@@ -217,5 +210,6 @@ export function TabLayout({ children }: TabLayoutProps) {
         </div>
       </footer>
     </div>
-  );
+  </SmoothScrollProvider>
+);
 }

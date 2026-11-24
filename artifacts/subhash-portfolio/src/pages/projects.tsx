@@ -1,205 +1,166 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, Download, ExternalLink, Github, Globe, Search } from 'lucide-react';
+import { ArrowUpRight, ExternalLink, Github, Search, ShieldCheck, Zap, Terminal, Sparkles, Filter } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { attachCardTilt } from '@/lib/animations';
+import { ALL_PROJECTS_CATALOG } from '@/data/projects-catalog';
+import { ProjectInstanceModal, ProjectInstanceData } from '@/components/motion/project-instance-modal';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-export const ETERNITY_APK_URL = 'https://drive.google.com/file/d/1_EternityFitness_APK_Download/view?usp=sharing';
-
-export interface VerifiedProject {
-  id: string;
-  title: string;
-  kind: string;
-  description: string;
-  stack: string[];
-  liveUrl?: string;
-  githubUrl: string;
-  isAppUrl?: boolean;
-}
-
-export const verifiedProjects: VerifiedProject[] = [
-  {
-    id: 'eternity_gym_web',
-    title: 'Eternity Gym Web Platform',
-    kind: 'Full-stack gym management web application',
-    description: 'Modern, feature-rich web application built with React & Supabase featuring real-time BMI calculator with BMR calorie recommendations, member check-in system with PostgreSQL data, admin stats dashboard, and automated EmailJS notifications.',
-    stack: ['React', 'TypeScript', 'Supabase', 'PostgreSQL', 'EmailJS'],
-    liveUrl: 'https://www.eternityfitnessclub.com/',
-    githubUrl: 'https://github.com/Subhash6102003/EternityGym',
-  },
-  {
-    id: 'eternity_fitness_app',
-    title: 'Eternity Fitness App',
-    kind: 'Cross-platform Mobile Application (Android & iOS)',
-    description: 'Feature-rich mobile application for Eternity Fitness Club built with Flutter. Features AI fitness & diet chart generation, smart home-ingredient recipe creator, calorie counter, step counter, and activity log.',
-    stack: ['Flutter', 'Dart', 'Android', 'iOS', 'AI Generator'],
-    liveUrl: ETERNITY_APK_URL,
-    githubUrl: 'https://github.com/Subhash6102003/Eternity-Fitness-App',
-    isAppUrl: true,
-  },
-  {
-    id: 'rkm_development',
-    title: 'RKM Development',
-    kind: 'Premium digital solutions platform',
-    description: 'One-stop destination for cutting-edge technology solutions to transform business growth. From mobile applications to AI integration, delivering high-performance digital tools.',
-    stack: ['React', 'TypeScript', 'Next.js', 'Vercel', 'Tailwind'],
-    liveUrl: 'https://rkm-development.vercel.app/',
-    githubUrl: 'https://github.com/Subhash6102003/rkm-development',
-  },
-  {
-    id: 'stealth_vault',
-    title: 'Stealth Vault — Privacy App Manager',
-    kind: 'Sophisticated native Android privacy app',
-    description: 'Allows users to hide selected installed apps from home screen and recent apps with custom gesture authentication, biometric security (fingerprint/face unlock), encrypted local storage, and Jetpack Compose UI.',
-    stack: ['Kotlin', 'Android SDK', 'Jetpack Compose', 'Biometrics', 'Encrypted DB'],
-    githubUrl: 'https://github.com/Subhash6102003/Stealth-Vault---Privacy-App-Manager',
-  },
-  {
-    id: 'egovtalent',
-    title: 'eGovTalent Platform',
-    kind: "India's first AI-powered e-governance job portal",
-    description: 'Full-stack recruitment ecosystem solo-built from architecture to AWS deployment. Claude AI handles resume extraction, screening, shortlisting, invitations, and assessments.',
-    stack: ['React', 'TypeScript', 'Node.js', 'AWS', 'Claude AI'],
-    liveUrl: 'https://egovtalent.com',
-    githubUrl: 'https://github.com/Subhash6102003/eGovTalent',
-  },
-  {
-    id: 'mgb_heights',
-    title: 'Society Management App (MGB Heights)',
-    kind: 'Residential society management app (Freelance)',
-    description: 'Production Android application built for MGB Heights residential society featuring RBAC roles, offline-first Firestore architecture, visitor capture, automated billing, FCM notifications, and Razorpay integration.',
-    stack: ['Kotlin', 'Compose', 'Firestore', 'FCM', 'Razorpay'],
-    githubUrl: 'https://github.com/Subhash6102003/MGB-Heights',
-  },
-  {
-    id: 'nexlogic',
-    title: 'NexLogic Innovation',
-    kind: 'Enterprise digital platform',
-    description: 'Production web application built with React.js, Node.js, Express.js, and AWS microservices, engineered for high reliability, fast page loads, and enterprise scalability.',
-    stack: ['React', 'TypeScript', 'Node.js', 'Express', 'AWS'],
-    liveUrl: 'https://nexlogic.co.in',
-    githubUrl: 'https://github.com/Subhash6102003/NexLogic',
-  },
-  {
-    id: 'spine_pain_growth',
-    title: 'Spine Pain Growth Systems',
-    kind: 'Healthcare patient consultation growth framework',
-    description: 'Helps spine & pain clinics increase case acceptance, streamline patient pathways, and build authority using a 7-step diagnostic patient-consultation growth strategy.',
-    stack: ['HTML5', 'CSS3', 'JavaScript', 'GitHub Pages'],
-    liveUrl: 'https://subhash6102003.github.io/Spine-Pain-Growth-Systems/',
-    githubUrl: 'https://github.com/Subhash6102003/Spine-Pain-Growth-Systems',
-  },
-  {
-    id: 'aesthetica_dento_facial',
-    title: 'Aesthetica Dento-Facial Clinic',
-    kind: 'Dental & facial aesthetic clinic web application',
-    description: 'Modern healthcare portal with appointment booking, clinical procedure showcase, patient treatment guides, and responsive layout.',
-    stack: ['HTML5', 'CSS3', 'JavaScript', 'GitHub Pages'],
-    liveUrl: 'https://subhash6102003.github.io/Aesthetica-Dento-Facial-Clinic-Website/',
-    githubUrl: 'https://github.com/Subhash6102003/Aesthetica-Dento-Facial-Clinic-Website',
-  },
-  {
-    id: 'namaste_stays',
-    title: 'Namaste Stays',
-    kind: 'Boutique hospitality booking platform',
-    description: 'Property booking application featuring accommodation showcases, room availability search, guest booking management, and responsive UI.',
-    stack: ['HTML5', 'CSS3', 'JavaScript', 'GitHub Pages'],
-    liveUrl: 'https://subhash6102003.github.io/Namaste-Stays/',
-    githubUrl: 'https://github.com/Subhash6102003/Namaste-Stays',
-  },
-  {
-    id: 'kicking_ninja',
-    title: 'Kicking Ninja',
-    kind: 'Interactive TypeScript action game',
-    description: 'Action game built with TypeScript, custom collision physics, sprite animations, particle effects, and high-score tracking.',
-    stack: ['TypeScript', 'HTML5 Canvas', 'Game Dev', 'GitHub Pages'],
-    liveUrl: 'https://subhash6102003.github.io/Kicking-Ninja/',
-    githubUrl: 'https://github.com/Subhash6102003/Kicking-Ninja',
-  },
-  {
-    id: 'bp_public_school',
-    title: 'B.P. Public School',
-    kind: 'Educational institution web platform',
-    description: 'School administration web portal featuring admissions guide, academic curriculum, student activity showcases, and institutional announcements.',
-    stack: ['HTML5', 'CSS3', 'JavaScript', 'GitHub Pages'],
-    liveUrl: 'https://subhash6102003.github.io/B.P.Public-School/',
-    githubUrl: 'https://github.com/Subhash6102003/B.P.Public-School',
-  },
+const CATEGORY_TABS = [
+  { id: 'all', label: 'All Projects', count: ALL_PROJECTS_CATALOG.length },
+  { id: 'company', label: 'Company Engineering', count: ALL_PROJECTS_CATALOG.filter((p) => p.category === 'company').length },
+  { id: 'pain_points', label: 'Industry Failure Mitigation', count: ALL_PROJECTS_CATALOG.filter((p) => p.category === 'pain_points').length },
+  { id: 'freelance', label: 'Freelance & Client Systems', count: ALL_PROJECTS_CATALOG.filter((p) => p.category === 'freelance').length },
+  { id: 'flagship', label: 'Flagship Platforms & Labs', count: ALL_PROJECTS_CATALOG.filter((p) => p.category === 'flagship').length },
 ];
 
-const toneSequence: Array<'orange' | 'ink' | 'sand'> = ['orange', 'ink', 'sand'];
-
 export default function ProjectsPage() {
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTech, setSelectedTech] = useState<string>('All');
+  const [activeProject, setActiveProject] = useState<ProjectInstanceData | null>(null);
+
   const scopeRef = useRef<HTMLDivElement | null>(null);
 
-  const allTechPills = ['All', 'React', 'Flutter', 'Kotlin', 'TypeScript', 'Node.js', 'Supabase', 'HTML/JS'];
+  // Extract all unique tech tags
+  const allTechs = ['All', ...Array.from(new Set(ALL_PROJECTS_CATALOG.flatMap((p) => p.stack)))].slice(0, 16);
 
-  const filteredProjects = verifiedProjects.filter((project) => {
+  // Filtered project list
+  const filteredProjects = ALL_PROJECTS_CATALOG.filter((p) => {
+    const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory;
     const matchesSearch =
-      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.kind.toLowerCase().includes(searchTerm.toLowerCase());
+      searchTerm === '' ||
+      p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.tagline.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.problem.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.stack.some((tech) => tech.toLowerCase().includes(searchTerm.toLowerCase()));
+    const matchesTech = selectedTech === 'All' || p.stack.includes(selectedTech);
 
-    const matchesTech =
-      selectedTech === 'All' ||
-      (selectedTech === 'HTML/JS' && project.stack.some((s) => s.includes('HTML') || s.includes('JavaScript'))) ||
-      project.stack.some((s) => s.toLowerCase().includes(selectedTech.toLowerCase()));
-
-    return matchesSearch && matchesTech;
+    return matchesCategory && matchesSearch && matchesTech;
   });
 
-  // Attach 3D tilt interaction on desktop
+  // GSAP ScrollTrigger & Desktop 3D Card Tilt
   useEffect(() => {
     if (!scopeRef.current) return;
-    const cleanupFns: Array<() => void> = [];
 
-    if (window.matchMedia('(pointer: fine)').matches) {
-      const cards = scopeRef.current.querySelectorAll<HTMLElement>('.project-card');
-      cards.forEach((c) => {
-        cleanupFns.push(attachCardTilt(c));
+    const ctx = gsap.context(() => {
+      // Header entrance
+      gsap.from('.projects-header-animate', {
+        y: 28,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out',
       });
+
+      // Filter tabs entrance
+      gsap.from('.project-cat-tab', {
+        y: 16,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.06,
+        ease: 'power2.out',
+        delay: 0.15,
+      });
+
+      // Staggered project cards reveal
+      const cards = scopeRef.current?.querySelectorAll<HTMLElement>('.project-showcase-tile');
+      if (cards && cards.length > 0) {
+        gsap.from(cards, {
+          y: 35,
+          opacity: 0,
+          scale: 0.98,
+          duration: 0.65,
+          stagger: 0.08,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.projects-showcase-grid',
+            start: 'top 88%',
+            toggleActions: 'play none none none',
+          },
+        });
+      }
+    }, scopeRef);
+
+    // Desktop 3D Card tilt
+    const cleanupFns: Array<() => void> = [];
+    if (window.matchMedia('(pointer: fine)').matches) {
+      const tiltCards = scopeRef.current.querySelectorAll<HTMLElement>('.project-showcase-tile');
+      tiltCards.forEach((card) => cleanupFns.push(attachCardTilt(card, 5)));
     }
 
     return () => {
+      ctx.revert();
       cleanupFns.forEach((fn) => fn());
     };
-  }, [filteredProjects]);
+  }, [selectedCategory, selectedTech, searchTerm]);
 
   return (
     <div ref={scopeRef} className="projects-page-container">
       <section className="projects section-frame" aria-labelledby="projects-title">
-        <div className="section-heading">
-          <div className="section-kicker"><span>03</span> Verified Work &amp; Repositories</div>
-          <h2 id="projects-title">Built to leave<br /><i>a mark.</i></h2>
-          <p>Verified production applications, cross-platform mobile software, and live web deployments.</p>
+        {/* Section Header */}
+        <div className="section-kicker projects-header-animate">
+          <span>03</span> Architecture &amp; Production Index
         </div>
 
-        {/* Filter & Search Bar */}
-        <div className="project-filter-bar" style={{ marginBottom: '40px' }}>
-          <div className="search-input-box">
+        <div className="projects-header-animate">
+          <h2 id="projects-title">
+            Built to endure.<br />
+            <i>Engineered to scale.</i>
+          </h2>
+          <p className="projects-lede">
+            From high-throughput failure mitigation pipelines and AI e-governance systems to full-stack desktop IDEs and mobile apps. Click any card to inspect its real-time telemetry, live architecture, and failure mitigation models.
+          </p>
+        </div>
+
+        {/* 4-Tier Strategic Category Navigation Bar */}
+        <div className="project-category-bar">
+          {CATEGORY_TABS.map((tab) => {
+            const isActive = selectedCategory === tab.id;
+            return (
+              <button
+                key={tab.id}
+                className={`project-cat-tab ${isActive ? 'is-active' : ''}`}
+                onClick={() => setSelectedCategory(tab.id)}
+                data-testid={`tab-cat-${tab.id}`}
+              >
+                <span>{tab.label}</span>
+                <span className="cat-count font-mono tabular-nums">({tab.count})</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="active-project-pill"
+                    className="active-pill-background"
+                    transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Search Bar & Tech Filter Chips */}
+        <div className="project-filter-toolbar glass-card">
+          <div className="project-search-wrap">
             <Search size={16} className="search-icon" />
             <input
               type="text"
-              placeholder="Search projects or technology..."
+              placeholder="Search by system design, problem, or technology (e.g. UPI, Redis, Claude AI, Jetpack)..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="project-search-field"
-              data-testid="input-project-search"
+              className="project-search-input font-sans"
+              data-testid="input-search-projects"
             />
           </div>
 
-          <div className="tech-pills">
-            {allTechPills.map((tech) => (
+          <div className="project-tech-chips">
+            {allTechs.map((tech) => (
               <button
                 key={tech}
-                className={`tech-pill-btn ${selectedTech === tech ? 'active' : ''}`}
+                className={`tech-filter-pill ${selectedTech === tech ? 'active' : ''}`}
                 onClick={() => setSelectedTech(tech)}
                 data-testid={`pill-tech-${tech.toLowerCase()}`}
               >
@@ -209,72 +170,90 @@ export default function ProjectsPage() {
           </div>
         </div>
 
-        {/* Verified Projects Symmetrical 3-Column Grid */}
-        <div className="project-list" style={{ marginTop: '0' }}>
-          <AnimatePresence>
-            {filteredProjects.map((project, idx) => {
-              const tone = toneSequence[idx % 3];
-              const projectNum = String(idx + 1).padStart(2, '0');
+        {/* Project Showcase Grid */}
+        <div className="projects-showcase-grid">
+          {filteredProjects.map((project, idx) => (
+            <motion.div
+              key={project.id}
+              className={`project-showcase-tile glass-card tile-tone-${project.category}`}
+              onClick={() => setActiveProject(project)}
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.2 }}
+              data-testid={`card-project-${project.id}`}
+            >
+              {/* Card Header Topline */}
+              <div className="tile-top-bar">
+                <span className="tile-number font-mono">0{idx + 1}</span>
+                <span className="tile-category-tag font-mono">{project.categoryLabel}</span>
+              </div>
 
-              return (
-                <motion.div
-                  key={project.id}
-                  layout
-                  initial={{ opacity: 0, y: 24, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.32, delay: idx * 0.03 }}
-                  className={`project-card project-${tone}`}
-                  data-testid={`card-project-${projectNum}`}
-                >
-                  <div className="project-top">
-                    <span>{projectNum}</span>
-                    <span>{project.kind}</span>
-                    <ExternalLink size={17} />
-                  </div>
-                  <h3>{project.title}</h3>
-                  <p>{project.description}</p>
-                  <div className="project-stack">
-                    {project.stack.map((item) => (
-                      <span key={item}>{item}</span>
-                    ))}
-                  </div>
+              {/* Title & Tagline */}
+              <h3 className="tile-title">{project.title}</h3>
+              <p className="tile-tagline">{project.tagline}</p>
 
-                  <div className="project-arrow" style={{ marginTop: '24px', flexWrap: 'wrap', gap: '10px' }}>
-                    {project.liveUrl && (
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="button button-primary"
-                        style={{ padding: '8px 16px', fontSize: '10.5px' }}
-                        data-testid={`link-live-${project.id}`}
-                      >
-                        {project.isAppUrl ? (
-                          <><Download size={13} /> Direct APK Download</>
-                        ) : (
-                          <><Globe size={13} /> Live Demo <ArrowUpRight size={13} /></>
-                        )}
-                      </a>
-                    )}
+              {/* Problem / Architecture Snapshot */}
+              <div className="tile-problem-snippet">
+                <span className="snippet-badge font-mono">
+                  <ShieldCheck size={12} className="text-orange" /> Core Challenge:
+                </span>
+                <p>{project.problem}</p>
+              </div>
 
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="button button-dark"
-                      style={{ padding: '8px 16px', fontSize: '10.5px' }}
-                      data-testid={`link-github-${project.id}`}
-                    >
-                      <Github size={13} /> Source Code <ExternalLink size={13} />
-                    </a>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
+              {/* Primary Metrics */}
+              {project.metrics && project.metrics.length > 0 && (
+                <div className="tile-metrics-strip">
+                  {project.metrics.slice(0, 2).map((m, mIdx) => (
+                    <div key={mIdx} className="mini-metric">
+                      <strong className="font-mono tabular-nums">{m.value}</strong>
+                      <span>{m.label}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Tech Stack Chips */}
+              <div className="tile-stack-chips">
+                {project.stack.slice(0, 4).map((tech) => (
+                  <span key={tech} className="tile-tech-chip font-mono">
+                    {tech}
+                  </span>
+                ))}
+                {project.stack.length > 4 && (
+                  <span className="tile-tech-more font-mono">+{project.stack.length - 4}</span>
+                )}
+              </div>
+
+              {/* Footer Open Stage Trigger */}
+              <div className="tile-footer">
+                <span className="open-stage-btn">
+                  <span>Inspect Live Architecture</span>
+                  <ArrowUpRight size={15} />
+                </span>
+              </div>
+            </motion.div>
+          ))}
         </div>
+
+        {filteredProjects.length === 0 && (
+          <div className="projects-empty-state glass-card">
+            <h4>No projects match your filter.</h4>
+            <p>Try clearing your search query or selecting &quot;All Projects&quot;.</p>
+            <button
+              className="button button-outline"
+              onClick={() => {
+                setSelectedCategory('all');
+                setSelectedTech('All');
+                setSearchTerm('');
+              }}
+            >
+              Reset Filters
+            </button>
+          </div>
+        )}
       </section>
+
+      {/* Interactive Project Stage Modal */}
+      <ProjectInstanceModal project={activeProject} onClose={() => setActiveProject(null)} />
     </div>
   );
 }
