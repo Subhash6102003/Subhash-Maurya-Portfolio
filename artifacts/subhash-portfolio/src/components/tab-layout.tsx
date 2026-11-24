@@ -1,7 +1,7 @@
 import { useEffect, useState, ReactNode } from 'react';
 import { useLocation, Link } from 'wouter';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
-import { ArrowUpRight, Menu, X, MapPin } from 'lucide-react';
+import { ArrowUpRight, Menu, Moon, Sun, X, MapPin } from 'lucide-react';
 import { SmoothScrollProvider } from '@/components/motion/smooth-scroll';
 import { AmbientScene } from '@/components/motion/ambient-scene';
 
@@ -19,12 +19,16 @@ interface TabLayoutProps {
 
 export function TabLayout({ children }: TabLayoutProps) {
   const [location, setLocation] = useLocation();
+  const [dark, setDark] = useState(() => {
+    const saved = localStorage.getItem('subhash-theme');
+    return saved !== 'light';
+  });
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    document.documentElement.classList.add('dark');
-    localStorage.removeItem('subhash-theme');
-  }, []);
+    document.documentElement.classList.toggle('dark', dark);
+    localStorage.setItem('subhash-theme', dark ? 'dark' : 'light');
+  }, [dark]);
 
   const activeIndex = navItems.findIndex((item) => item.path === location);
   const currentNavIndex = activeIndex === -1 ? 0 : activeIndex;
@@ -106,6 +110,17 @@ export function TabLayout({ children }: TabLayoutProps) {
         </nav>
 
         <div className="header-actions">
+          {/* Dual Theme Toggle Button (Dark Default / Crisp White Light) */}
+          <button
+            className="theme-toggle glass-action-btn"
+            onClick={() => setDark((value) => !value)}
+            aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
+            data-testid="button-theme-toggle"
+          >
+            {dark ? <Sun size={15} /> : <Moon size={15} />}
+            <span>{dark ? 'Light' : 'Dark'}</span>
+          </button>
+
           {/* Desktop & Header "Let's Talk" CTA */}
           <a
             className="header-contact glass-talk-btn"
@@ -156,7 +171,7 @@ export function TabLayout({ children }: TabLayoutProps) {
         <div className="footer-inner">
           <div className="footer-status">
             <span className="status-dot" />
-            <span>Available for SDE / Mobile / Full-stack roles</span>
+            <span>Open to Founder&apos;s Office, SDE-1 &amp; Product Engineering roles</span>
           </div>
           <div className="footer-meta">
             <span><MapPin size={13} /> Bangalore, India (IST UTC+5:30)</span>

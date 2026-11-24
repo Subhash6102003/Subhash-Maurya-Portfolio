@@ -180,7 +180,7 @@ export default function Home() {
           <motion.div variants={itemVariants} className="eyebrow">
             <span className="hero-status-pill">
               <span className="eyebrow-dot" />
-              <span>SDE-1 &amp; Founding Member</span>
+              <span>Open to Founder&apos;s Office &amp; SDE-1 Roles</span>
               <span className="eyebrow-city">Bangalore / India</span>
             </span>
           </motion.div>
@@ -198,8 +198,8 @@ export default function Home() {
           </motion.h1>
 
           <motion.p variants={itemVariants} className="hero-intro">
-            Subhash Maurya is a full-stack, native Android &amp; distributed systems engineer shipping clear,
-            durable software across React, Kotlin, Node.js, and AWS.
+            Subhash Maurya is a Founding Member, SDE-1, and Founder&apos;s Office builder shipping 0-to-1 products,
+            hiring automation, and distributed systems across React, Kotlin, Node.js, and AWS.
           </motion.p>
 
           <motion.div variants={itemVariants} className="hero-ctas">
@@ -413,7 +413,7 @@ export default function Home() {
               <i>something useful.</i>
             </h2>
             <div className="contact-info">
-              <p>I&apos;m open to software engineering roles, product conversations, and teams who care about clean design and solid code.</p>
+              <p>I&apos;m actively seeking Founder&apos;s Office, Founding Engineer, and SDE-1 roles with fast-moving teams who value 0-to-1 execution, talent ops, and solid engineering.</p>
 
               <a className="email-link" href="mailto:subhashmaurya6102003@gmail.com" data-testid="link-email">
                 subhashmaurya6102003@gmail.com <ArrowUpRight size={20} />

@@ -109,6 +109,27 @@ const ACQUIRE_STEPS: AcquireStep[] = [
     btnSecondary: 'View Logs',
     btnPrimary: 'Live in Prod ✓',
   },
+  {
+    stepNum: '05',
+    tabLabel: "Founder's Office",
+    card1Title: '0-to-1 Venture Ops',
+    card1Metric: '3 Devs Led',
+    bars: [58, 75, 84, 92, 98],
+    advisorRole: "Founder's Office & HR",
+    advisorName: 'Talent + Execution',
+    card2Kicker: "Step 05 · Founder's Office",
+    card2Title: 'Product, Hiring & GTM Ops',
+    card2Badge: 'Cross-Functional Lead',
+    col1Label: 'Hiring',
+    col1Val: 'Tech + HR Ops',
+    col2Label: 'Strategy',
+    col2Val: '0-to-1 GTM',
+    col3Label: 'Velocity',
+    col3Val: '100x AI',
+    chatLine: '“Built automated hiring pipelines, led sprint reviews & shipped production MVP.”',
+    btnSecondary: 'View Resume',
+    btnPrimary: 'Hire for FO ✓',
+  },
 ];
 
 export function HeroAcquireShowcase() {

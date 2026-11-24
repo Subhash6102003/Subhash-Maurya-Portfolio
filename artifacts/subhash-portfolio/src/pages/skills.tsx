@@ -90,6 +90,20 @@ const skillGroups = [
       { name: 'Postman', desc: 'REST API testing, endpoint documentation, and automation' },
     ],
   },
+  {
+    category: "Founder's Office, HR & Venture Ops",
+    icon: Layers,
+    lede: '0-to-1 venture execution, technical hiring pipelines, HR screening operations, and cross-functional leadership.',
+    items: [
+      { name: "Founder's Office Ops", desc: 'Direct execution support for founders across product, strategy, and hiring' },
+      { name: 'Technical Recruiting & HR', desc: 'Candidate screening, competency rubrics, and automated ATS evaluation' },
+      { name: '0-to-1 Product Execution', desc: 'Taking concepts from rough specs to deployed production MVPs' },
+      { name: 'Team Leadership (3+ Devs)', desc: 'Led associate software developers on eGovTalent and sprint deliveries' },
+      { name: 'GTM & Stakeholder Ops', desc: 'Client discovery, commercial proposals, invoicing OS, and delivery handoffs' },
+      { name: 'Agile & Sprint Cadence', desc: 'Daily Scrum rituals, Git PR reviews, and release milestone tracking' },
+      { name: 'Hiring Pipeline Design', desc: 'End-to-end automated assessment, shortlisting, and interview workflows' },
+    ],
+  },
 ];
 
 export default function SkillsPage() {
@@ -99,6 +113,7 @@ export default function SkillsPage() {
 
   const categories = [
     'All',
+    "Founder's Office, HR & Venture Ops",
     'Android & Mobile Engineering',
     'Frontend & Web Platform',
     'Backend & Cloud Infrastructure',
