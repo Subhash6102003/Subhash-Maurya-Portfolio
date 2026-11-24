@@ -26,6 +26,7 @@ import { ScrollytellingArchitecture } from '@/components/motion/scrollytelling-a
 import { LivingTerminal } from '@/components/motion/living-terminal';
 import { LivingDatabase } from '@/components/motion/living-database';
 import { ProjectInstanceModal, ProjectInstanceData } from '@/components/motion/project-instance-modal';
+import { HeroArchitectureCanvas } from '@/components/motion/hero-architecture-canvas';
 import { ALL_PROJECTS_CATALOG } from '@/data/projects-catalog';
 
 if (typeof window !== 'undefined') {
@@ -179,7 +180,7 @@ export default function Home() {
           <motion.div variants={itemVariants} className="eyebrow">
             <span className="hero-status-pill">
               <span className="eyebrow-dot" />
-              <span>Available for thoughtful builds</span>
+              <span>SDE-1 &amp; Founding Member</span>
               <span className="eyebrow-city">Bangalore / India</span>
             </span>
           </motion.div>
@@ -189,109 +190,31 @@ export default function Home() {
           </motion.p>
 
           <motion.h1 variants={itemVariants} id="hero-title">
-            I build <span>useful</span>
+            Architecting <span>resilient</span>
             <br />
-            things for
+            systems &amp;
             <br />
-            <strong>real people.</strong>
+            <strong>real products.</strong>
           </motion.h1>
 
           <motion.p variants={itemVariants} className="hero-intro">
-            Subhash Maurya is a full-stack developer student and Android / full-stack developer making clear,
-            durable software with a little more character.
+            Subhash Maurya is a full-stack, native Android &amp; distributed systems engineer shipping clear,
+            durable software across React, Kotlin, Node.js, and AWS.
           </motion.p>
 
           <motion.div variants={itemVariants} className="hero-ctas">
             <Link className="button button-primary" href="/projects" data-testid="link-hero-projects">
-              See selected work <ArrowDownRight size={17} />
+              Explore 24 Systems <ArrowDownRight size={17} />
             </Link>
-            <a className="text-link" href="#contact" data-testid="link-hero-contact">
+            <a className="button button-dark" href="#contact" data-testid="link-hero-contact">
               Let&apos;s build together <ArrowUpRight size={16} />
             </a>
           </motion.div>
         </motion.div>
 
-        {/* Interactive Refined Modern Workstation Desk */}
-        <div className="hero-art reveal delay-1" aria-label="Illustration of a modern developer workstation desk">
-          <div className="art-stamp">SM / 26</div>
-          <div className="floating-note note-top">
-            <span>01</span> curious by default
-          </div>
-          <div className="orbit orbit-one" />
-          <div className="orbit orbit-two" />
-
-          <motion.div
-            className="modern-workstation-container"
-            whileHover={{ scale: 1.015 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          >
-            {/* Ambient Glow Reflection */}
-            <div className="monitor-ambient-glow" />
-
-            {/* Brand Orange Modern Curved Monitor */}
-            <div className={`modern-monitor ${screenPowered ? 'powered-on' : 'powered-off'}`}>
-              <div className="monitor-bezel">
-                <div className="monitor-screen">
-                  <div className="screen-header">
-                    <div className="window-dots">
-                      <span className="dot-red" />
-                      <span className="dot-yellow" />
-                      <span className="dot-green" />
-                    </div>
-                    <div className="screen-tabs">
-                      <span className="tab active">App.tsx</span>
-                      <span className="tab">AndroidSDK.kt</span>
-                    </div>
-                    <small className="file-tag">build.log</small>
-                  </div>
-
-                  {screenPowered ? (
-                    <div className="code-lines">
-                      <i className="line-1" />
-                      <i className="line-2" />
-                      <i className="line-3" />
-                      <i className="line-4" />
-                      <i className="line-5" />
-                      <i className="line-6" />
-                    </div>
-                  ) : (
-                    <div className="screen-off-msg">SYSTEM PAUSED</div>
-                  )}
-
-                  <button
-                    className="screen-status-btn"
-                    onClick={() => setScreenPowered((prev) => !prev)}
-                    title="Toggle Display Power"
-                    data-testid="button-toggle-power"
-                  >
-                    SHIP IT <span className={screenPowered ? 'dot-active' : 'dot-inactive'}>●</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Brand Orange Monitor Neck & Base */}
-            <div className="slim-monitor-neck" />
-            <div className="slim-monitor-base" />
-
-            {/* Brand Orange Mechanical Keyboard */}
-            <div className="slim-keyboard">
-              {Array.from({ length: 14 }).map((_, i) => (
-                <motion.span
-                  key={i}
-                  className={i === 4 || i === 9 ? 'accent-key' : ''}
-                  animate={{ y: keyPressed === i ? 2 : 0 }}
-                  whileHover={{ scale: 1.1 }}
-                  onMouseDown={() => setKeyPressed(i)}
-                  onMouseUp={() => setKeyPressed(null)}
-                />
-              ))}
-            </div>
-          </motion.div>
-
-          <div className="art-caption">
-            A small studio of one<br />with a big surface area.
-          </div>
+        {/* Railway / Vercel Style Live Architecture Canvas */}
+        <div className="hero-art-modern">
+          <HeroArchitectureCanvas />
         </div>
 
         <div className="hero-bottom">

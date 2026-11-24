@@ -1,8 +1,7 @@
-import { useEffect, useState, useRef, ReactNode } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { useLocation, Link } from 'wouter';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
-import { ArrowUpRight, Menu, Moon, Sun, X, MapPin } from 'lucide-react';
-import gsap from 'gsap';
+import { ArrowUpRight, Menu, X, MapPin } from 'lucide-react';
 import { SmoothScrollProvider } from '@/components/motion/smooth-scroll';
 import { AmbientScene } from '@/components/motion/ambient-scene';
 
@@ -20,38 +19,11 @@ interface TabLayoutProps {
 
 export function TabLayout({ children }: TabLayoutProps) {
   const [location, setLocation] = useLocation();
-  const [dark, setDark] = useState(() => {
-    const saved = localStorage.getItem('subhash-theme');
-    return saved !== 'light';
-  });
   const [menuOpen, setMenuOpen] = useState(false);
-  const cursorGlowRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', dark);
-    localStorage.setItem('subhash-theme', dark ? 'dark' : 'light');
-  }, [dark]);
-
-  // Subtle interactive ambient cursor glow for desktop
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const isTouch = window.matchMedia('(pointer: coarse)').matches;
-    if (isTouch || !cursorGlowRef.current) return;
-
-    const glowEl = cursorGlowRef.current;
-    const moveGlow = (e: MouseEvent) => {
-      gsap.to(glowEl, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.5,
-        ease: 'power2.out',
-      });
-    };
-
-    window.addEventListener('mousemove', moveGlow, { passive: true });
-    return () => {
-      window.removeEventListener('mousemove', moveGlow);
-    };
+    document.documentElement.classList.add('dark');
+    localStorage.removeItem('subhash-theme');
   }, []);
 
   const activeIndex = navItems.findIndex((item) => item.path === location);
@@ -87,19 +59,10 @@ export function TabLayout({ children }: TabLayoutProps) {
     }
   };
 
-  const isHomePage = location === '/' || location === '';
-  const footerThemeClass = isHomePage
-    ? dark
-      ? 'footer-dark-mode'
-      : 'footer-home-light'
-    : dark
-    ? 'footer-other-dark'
-    : 'footer-other-light';
-
   return (
     <SmoothScrollProvider>
       <div className="portfolio-shell">
-        {/* Layered 4-Depth Ambient Scene with Zero Neon, Warm Diffusers & Grid */}
+        {/* Layered 4-Depth Ambient Scene */}
         <AmbientScene />
 
         {/* Floating Glass Header */}
@@ -143,17 +106,6 @@ export function TabLayout({ children }: TabLayoutProps) {
         </nav>
 
         <div className="header-actions">
-          {/* Theme Toggle Button */}
-          <button
-            className="theme-toggle glass-action-btn"
-            onClick={() => setDark((value) => !value)}
-            aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
-            data-testid="button-theme-toggle"
-          >
-            {!dark ? <Sun size={15} /> : <Moon size={15} />}
-            <span>{!dark ? 'Light' : 'Dark'}</span>
-          </button>
-
           {/* Desktop & Header "Let's Talk" CTA */}
           <a
             className="header-contact glass-talk-btn"
@@ -199,8 +151,8 @@ export function TabLayout({ children }: TabLayoutProps) {
         </AnimatePresence>
       </motion.main>
 
-      {/* Dynamic Contrast Glass Footer */}
-      <footer className={`workspace-footer glass-footer ${footerThemeClass}`}>
+      {/* Unified Dark Glass Footer */}
+      <footer className="workspace-footer glass-footer footer-dark-mode">
         <div className="footer-inner">
           <div className="footer-status">
             <span className="status-dot" />
