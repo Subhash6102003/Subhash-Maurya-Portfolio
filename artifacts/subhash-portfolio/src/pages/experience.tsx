@@ -36,15 +36,15 @@ const experiences: ExperienceItem[] = [
   {
     id: 'sde-1',
     number: '01',
-    role: 'SDE-1',
+    role: 'SDE-1 & Founding Member (SM)',
     company: 'NexLogic Innovation Private Limited',
     period: 'May 2026 — Present',
-    badge: 'Current Role',
-    summary: 'Building full-stack features with React.js, Node.js, Express.js, and AWS while contributing to system design, REST architecture, code reviews, and deployment pipelines.',
+    badge: 'Founding Member · Current',
+    summary: 'Founding engineering member building full-stack features with React.js, Node.js, Express.js, and AWS while leading system design, REST architecture, code reviews, and deployment pipelines.',
     highlights: [
-      'Engineered core React & Node.js services driving cloud integration.',
-      'Participated in system architecture reviews and AWS infrastructure deployments.',
-      'Accelerated feature velocity through standardized REST endpoints and code reviews.',
+      'Architected core React & Node.js services driving cloud integration from inception.',
+      'Led system architecture reviews and AWS production infrastructure deployments.',
+      'Accelerated feature velocity through standardized REST endpoints and peer code reviews.',
     ],
   },
   {
@@ -102,61 +102,14 @@ export default function ExperiencePage() {
   useEffect(() => {
     if (!expRef.current) return;
 
-    const ctx = gsap.context(() => {
-      // Heading & Subtitle
-      gsap.from('.exp-title-animate', {
-        y: 26,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-      });
-
-      // Impact stat boxes stagger
-      gsap.from('.impact-box', {
-        y: 22,
-        opacity: 0,
-        scale: 0.95,
-        duration: 0.55,
-        stagger: 0.08,
-        ease: 'back.out(1.15)',
-        delay: 0.15,
-      });
-
-      // Track record card
-      gsap.from('.track-record-card', {
-        y: 28,
-        opacity: 0,
-        duration: 0.7,
-        ease: 'power2.out',
-        delay: 0.35,
-      });
-
-      // Timeline items scroll reveal
-      const timelineItems = gsap.utils.toArray<HTMLElement>('.timeline-item');
-      timelineItems.forEach((item) => {
-        gsap.from(item, {
-          y: 35,
-          opacity: 0,
-          duration: 0.7,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 88%',
-            toggleActions: 'play none none none',
-          },
-        });
-      });
-    }, expRef);
-
     // Desktop 3D tilt
     const cleanupFns: Array<() => void> = [];
     if (window.matchMedia('(pointer: fine)').matches) {
       const tiltElements = expRef.current.querySelectorAll<HTMLElement>('.impact-box, .track-record-card');
-      tiltElements.forEach((el) => cleanupFns.push(attachCardTilt(el, 8)));
+      tiltElements.forEach((el) => cleanupFns.push(attachCardTilt(el, 4)));
     }
 
     return () => {
-      ctx.revert();
       cleanupFns.forEach((fn) => fn());
     };
   }, []);

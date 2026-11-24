@@ -113,49 +113,14 @@ export default function SkillsPage() {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const ctx = gsap.context(() => {
-      // Header reveal
-      gsap.from('.skills-header-animate', {
-        y: 28,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-      });
-
-      // Filter pills stagger
-      gsap.from('.cat-pill', {
-        y: 16,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.05,
-        ease: 'power2.out',
-        delay: 0.2,
-      });
-
-      // Skill cards staggered scroll reveal
-      gsap.from('.skill-group-animate', {
-        y: 35,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.1,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '.skills-expanded-board',
-          start: 'top 85%',
-          toggleActions: 'play none none none',
-        },
-      });
-    }, containerRef);
-
     // Desktop 3D Card tilt
     const cleanupFns: Array<() => void> = [];
     if (window.matchMedia('(pointer: fine)').matches) {
       const cards = containerRef.current.querySelectorAll<HTMLElement>('.skill-group-animate');
-      cards.forEach((card) => cleanupFns.push(attachCardTilt(card, 6)));
+      cards.forEach((card) => cleanupFns.push(attachCardTilt(card, 4)));
     }
 
     return () => {
-      ctx.revert();
       cleanupFns.forEach((fn) => fn());
     };
   }, [activeCategory]);

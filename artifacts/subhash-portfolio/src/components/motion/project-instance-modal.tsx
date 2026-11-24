@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Github, Download, ShieldCheck, Zap, Layers, Sparkles } from 'lucide-react';
-import { LivingTerminal } from './living-terminal';
-import { LivingDatabase } from './living-database';
-import { WorkflowSimulator, WorkflowType } from './workflow-simulator';
+import { ProjectArchitectureGraph } from './project-architecture-graph';
+import { WorkflowType } from './workflow-simulator';
 
 export interface ProjectInstanceData {
   id: string;
@@ -79,20 +78,9 @@ export function ProjectInstanceModal({ project, onClose }: ProjectInstanceModalP
               <p className="sheet-tagline">{project.tagline}</p>
             </div>
 
-            {/* Living Visual Motion FX Stage */}
+            {/* Living Visual Architecture Graph Stage */}
             <div className="sheet-motion-stage">
-              <div className="stage-frame-header">
-                <span className="stage-badge font-mono">
-                  <Sparkles size={13} className="text-orange" /> Real-Time Architecture Telemetry
-                </span>
-              </div>
-              {project.motionFxType === 'workflow' ? (
-                <WorkflowSimulator initialWorkflow={project.workflowType || 'banking'} />
-              ) : project.motionFxType === 'terminal' ? (
-                <LivingTerminal />
-              ) : (
-                <LivingDatabase />
-              )}
+              <ProjectArchitectureGraph project={project} />
             </div>
 
             {/* Problem & Solution Breakdown Grid */}
