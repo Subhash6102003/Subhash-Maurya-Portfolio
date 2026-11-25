@@ -2,49 +2,12 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
 export function AmbientScene() {
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const pointerGlowRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Check reduced motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    const ctx = gsap.context(() => {
-      // Gentle autonomous floating for ambient lighting orbs
-      gsap.to('.ambient-orb-1', {
-        x: '+=35',
-        y: '-=40',
-        duration: 9,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
-
-      gsap.to('.ambient-orb-2', {
-        x: '-=45',
-        y: '+=30',
-        duration: 11,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay: 1.5,
-      });
-
-      gsap.to('.ambient-orb-3', {
-        x: '+=25',
-        y: '+=35',
-        duration: 8.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay: 0.8,
-      });
-    }, containerRef);
-
-    // Mouse-following ambient glow on desktop only
     const isFinePointer = window.matchMedia('(pointer: fine)').matches;
     if (isFinePointer && pointerGlowRef.current) {
       const glowEl = pointerGlowRef.current;
@@ -57,29 +20,17 @@ export function AmbientScene() {
         });
       };
       window.addEventListener('mousemove', onMouseMove, { passive: true });
-
-      return () => {
-        ctx.revert();
-        window.removeEventListener('mousemove', onMouseMove);
-      };
+      return () => window.removeEventListener('mousemove', onMouseMove);
     }
-
-    return () => {
-      ctx.revert();
-    };
+    return undefined;
   }, []);
 
   return (
-    <div ref={containerRef} className="ambient-depth-environment" aria-hidden="true">
-      {/* Layer 1: Static Architectural Grid Texture */}
+    <div className="ambient-depth-environment" aria-hidden="true">
+      {/* Clean Architectural Dot Grid */}
       <div className="ambient-grid-overlay" />
 
-      {/* Layer 2: Slow-Moving Warm Ambient Diffusers (Zero Neon, strictly warm ivory & brand orange) */}
-      <div className="ambient-orb ambient-orb-1" />
-      <div className="ambient-orb ambient-orb-2" />
-      <div className="ambient-orb ambient-orb-3" />
-
-      {/* Layer 3: Subtle Pointer Responsive Ambient Light (Desktop Only) */}
+      {/* Subtle Pointer Responsive Light (Desktop Only, Monochrome/Indigo) */}
       <div ref={pointerGlowRef} className="cursor-ambient-glow" />
 
       {/* Organic Noise Grain */}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, MessageSquare, ShieldCheck, Cpu, Cloud, Sparkles } from 'lucide-react';
+import { ShieldCheck, MessageSquare, Cpu, Cloud, Activity, Layers } from 'lucide-react';
 
 interface AcquireStep {
   stepNum: string;
@@ -22,6 +22,10 @@ interface AcquireStep {
   chatLine: string;
   btnSecondary: string;
   btnPrimary: string;
+  miniFlex1Label: string;
+  miniFlex1Val: string;
+  miniFlex2Label: string;
+  miniFlex2Val: string;
 }
 
 const ACQUIRE_STEPS: AcquireStep[] = [
@@ -45,6 +49,10 @@ const ACQUIRE_STEPS: AcquireStep[] = [
     chatLine: '“Designing resilient systems from mobile UI down to atomic database locks.”',
     btnSecondary: 'View Stack',
     btnPrimary: 'Explore Systems ✓',
+    miniFlex1Label: 'Core Stack',
+    miniFlex1Val: 'React · Kotlin · Node',
+    miniFlex2Label: 'Reliability',
+    miniFlex2Val: '99.99% SLA',
   },
   {
     stepNum: '02',
@@ -66,6 +74,10 @@ const ACQUIRE_STEPS: AcquireStep[] = [
     chatLine: '“Duplicate retry intercepted via SHA-256 key; balance reserved atomically.”',
     btnSecondary: 'Inspect DAG',
     btnPrimary: 'Saga Committed ✓',
+    miniFlex1Label: 'Lock Engine',
+    miniFlex1Val: 'Redis CAS + Saga',
+    miniFlex2Label: 'Double Debits',
+    miniFlex2Val: '0.00% Loss',
   },
   {
     stepNum: '03',
@@ -87,6 +99,10 @@ const ACQUIRE_STEPS: AcquireStep[] = [
     chatLine: '“@Subhash: Edge-case guard verified on PR #42. Ready for production merge.”',
     btnSecondary: 'Review Diff',
     btnPrimary: 'Approve Merge ✓',
+    miniFlex1Label: 'Orchestration',
+    miniFlex1Val: 'Multi-Brain Debate',
+    miniFlex2Label: 'Typecheck',
+    miniFlex2Val: '0 Errors',
   },
   {
     stepNum: '04',
@@ -108,6 +124,10 @@ const ACQUIRE_STEPS: AcquireStep[] = [
     chatLine: '“Canary shifted to 100% traffic. All 128 health checks reporting 200 OK.”',
     btnSecondary: 'View Logs',
     btnPrimary: 'Live in Prod ✓',
+    miniFlex1Label: 'Deploy Region',
+    miniFlex1Val: 'AWS ap-south-1',
+    miniFlex2Label: 'Edge Latency',
+    miniFlex2Val: '38ms P95',
   },
   {
     stepNum: '05',
@@ -129,6 +149,10 @@ const ACQUIRE_STEPS: AcquireStep[] = [
     chatLine: '“Built automated hiring pipelines, led sprint reviews & shipped production MVP.”',
     btnSecondary: 'View Resume',
     btnPrimary: 'Hire for FO ✓',
+    miniFlex1Label: 'Target Role',
+    miniFlex1Val: "Founder's Office",
+    miniFlex2Label: 'Team Scope',
+    miniFlex2Val: 'Hiring + 0-to-1',
   },
 ];
 
@@ -146,7 +170,7 @@ export function HeroAcquireShowcase() {
 
   return (
     <div className="acquire-hero-showcase" aria-label="Interactive step-by-step engineering workflow showcase">
-      {/* Subtle Geometric Indigo Background Tiles (Acquire.com signature) */}
+      {/* Subtle Geometric Indigo Background Tiles */}
       <div className="acquire-bg-tiles" aria-hidden="true">
         <div className="bg-tile tile-a" />
         <div className="bg-tile tile-b" />
@@ -167,26 +191,25 @@ export function HeroAcquireShowcase() {
         ))}
       </div>
 
-      {/* Staggered Dual Periwinkle Flag Cards + Dotted SVG Connector */}
+      {/* Staggered Dual Flag Cards + Dotted SVG Connector */}
       <div className="acquire-cards-stage">
-        {/* Dotted Connector Path with White Anchor Dots */}
         <svg className="acquire-dotted-svg" viewBox="0 0 520 380" aria-hidden="true">
           <path
             d="M 145 255 L 145 342 Q 145 352 155 352 L 365 352 Q 375 352 375 342 L 375 322"
             fill="none"
-            stroke="rgba(199, 208, 236, 0.35)"
+            stroke="rgba(143, 136, 214, 0.35)"
             strokeWidth="1.5"
             strokeDasharray="4 4"
           />
           <path
             d="M 300 68 L 365 68 Q 375 68 375 78 L 375 130"
             fill="none"
-            stroke="rgba(199, 208, 236, 0.35)"
+            stroke="rgba(143, 136, 214, 0.35)"
             strokeWidth="1.5"
             strokeDasharray="4 4"
           />
-          <circle cx="145" cy="255" r="5" fill="#ffffff" />
-          <circle cx="375" cy="322" r="5" fill="#ffffff" />
+          <circle cx="145" cy="255" r="5" fill="#2A2551" stroke="#ffffff" strokeWidth="2" />
+          <circle cx="375" cy="322" r="5" fill="#2A2551" stroke="#ffffff" strokeWidth="2" />
         </svg>
 
         <AnimatePresence mode="wait">
@@ -198,39 +221,109 @@ export function HeroAcquireShowcase() {
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="acquire-cards-pair"
           >
-            {/* Flag Card 1: Top-Left Periwinkle Metrics Card */}
+            {/* Flag Card 1: Distinct Flexbox Content Per Step! */}
             <div className="acquire-flag-card flag-card-primary">
               <div className="flag-card-head">
                 <span className="flag-card-title">{step.card1Title}</span>
                 <strong className="flag-card-big-num tabular-nums">{step.card1Metric}</strong>
               </div>
 
-              {/* Mini Bar Chart + Donut Visual */}
-              <div className="flag-charts-row">
-                <div className="flag-mini-panel">
-                  <div className="flag-bars">
-                    {step.bars.map((h, i) => (
-                      <span
-                        key={i}
-                        className="flag-bar"
-                        style={{ height: `${h}%`, opacity: 0.45 + i * 0.13 }}
-                      />
-                    ))}
+              {/* STEP 01: Bar Chart + Donut Ring */}
+              {stepIndex === 0 && (
+                <div className="flag-charts-row">
+                  <div className="flag-mini-panel">
+                    <div className="flag-bars">
+                      {step.bars.map((h, i) => (
+                        <span
+                          key={i}
+                          className="flag-bar"
+                          style={{ height: `${h}%`, opacity: 0.45 + i * 0.13 }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flag-mini-panel flag-donut-wrap">
+                    <div className="flag-donut-ring">
+                      <span className="font-mono">{step.stepNum}</span>
+                    </div>
                   </div>
                 </div>
-                <div className="flag-mini-panel flag-donut-wrap">
-                  <div className="flag-donut-ring">
-                    <span className="font-mono">{step.stepNum}</span>
+              )}
+
+              {/* STEP 02: Atomic Lock Race Flexbox */}
+              {stepIndex === 1 && (
+                <div className="lock-race-stack">
+                  <div className="lock-race-item">
+                    <span>req_1 (sha256:9f2a)</span>
+                    <span className="race-tag-ok">CAS LOCKED</span>
+                  </div>
+                  <div className="lock-race-item">
+                    <span>req_2 (duplicate)</span>
+                    <span className="race-tag-block">409 BLOCKED</span>
                   </div>
                 </div>
-              </div>
+              )}
+
+              {/* STEP 03: Multi-Turn Live Chat Thread Flexbox */}
+              {stepIndex === 2 && (
+                <div className="chat-thread-stack">
+                  <div className="chat-msg-bubble">
+                    <strong>@ClaudeAI · Architect</strong>
+                    Verified edge-case guard &amp; strict TypeScript AST diff.
+                  </div>
+                  <div className="chat-msg-bubble is-reply">
+                    <strong>@Subhash · Founding Member</strong>
+                    Approved. Ship to production.
+                  </div>
+                </div>
+              )}
+
+              {/* STEP 04: CI/CD Deployment Matrix Flexbox */}
+              {stepIndex === 3 && (
+                <div className="cicd-matrix-grid">
+                  <div className="cicd-cell">
+                    <span>BUILD</span>
+                    <strong>Docker OK ✓</strong>
+                  </div>
+                  <div className="cicd-cell">
+                    <span>TESTS</span>
+                    <strong>48/48 Pass</strong>
+                  </div>
+                  <div className="cicd-cell">
+                    <span>REGION</span>
+                    <strong>ap-south-1</strong>
+                  </div>
+                  <div className="cicd-cell">
+                    <span>STATUS</span>
+                    <strong>200 Healthy</strong>
+                  </div>
+                </div>
+              )}
+
+              {/* STEP 05: Founder's Office & HR Ops Scorecard Flexbox */}
+              {stepIndex === 4 && (
+                <div className="fo-scorecard-grid">
+                  <div className="fo-row">
+                    <span>Engineering Team Led</span>
+                    <strong>3 Devs</strong>
+                  </div>
+                  <div className="fo-row">
+                    <span>HR Screening Speed</span>
+                    <strong>100x AI</strong>
+                  </div>
+                  <div className="fo-row">
+                    <span>0-to-1 Shipped</span>
+                    <strong>24+ Apps</strong>
+                  </div>
+                </div>
+              )}
 
               <div className="flag-skeleton-lines">
                 <span className="skel-line long" />
                 <span className="skel-line med" />
               </div>
 
-              {/* Overlapping Royal Cobalt Badge Card (Just like Acquire.com M&A Advisor badge) */}
+              {/* Overlapping #2A2551 Badge Card */}
               <div className="flag-floating-badge">
                 <div className="badge-avatar">SM</div>
                 <div className="badge-text">
@@ -240,7 +333,7 @@ export function HeroAcquireShowcase() {
               </div>
             </div>
 
-            {/* Flag Card 2: Bottom-Right Periwinkle Step / Chat Card */}
+            {/* Flag Card 2: Bottom-Right Step / Chat Card */}
             <div className="acquire-flag-card flag-card-secondary">
               <div className="flag2-profile-row">
                 <div className="flag2-avatar-circle">
@@ -282,6 +375,33 @@ export function HeroAcquireShowcase() {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* Extra Animated Mini-Flexboxes */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`mini-${step.stepNum}`}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.3 }}
+          className="hero-extra-flexboxes"
+        >
+          <div className="mini-flex-card">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Layers size={13} style={{ color: 'var(--indigo-tint)' }} />
+              <span>{step.miniFlex1Label}</span>
+            </div>
+            <strong>{step.miniFlex1Val}</strong>
+          </div>
+          <div className="mini-flex-card">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Activity size={13} style={{ color: '#4d9e7a' }} />
+              <span>{step.miniFlex2Label}</span>
+            </div>
+            <strong className="tabular-nums">{step.miniFlex2Val}</strong>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

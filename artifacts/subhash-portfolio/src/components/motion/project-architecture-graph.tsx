@@ -160,7 +160,7 @@ export function ProjectArchitectureGraph({ project }: { project: ProjectInstance
     return () => clearInterval(timer);
   }, [isPlaying, isLooping, spec.steps.length]);
 
-  const accent = '#6a8e6e';
+  const accent = 'var(--indigo-tint, #8f88d6)';
   const current = spec.steps[Math.min(activeStep, spec.steps.length - 1)];
 
   return (
