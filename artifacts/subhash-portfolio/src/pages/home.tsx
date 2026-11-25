@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import {
   ArrowDownRight,
   ArrowUpRight,
+  Calendar,
   Check,
   Compass,
   Copy,
@@ -12,10 +13,10 @@ import {
   HeartOff,
   Linkedin,
   MapPin,
-  Phone,
   Send,
   Sparkles,
   Trophy,
+  Twitter,
   Activity,
   Layers,
 } from 'lucide-react';
@@ -428,11 +429,17 @@ export default function Home() {
               </button>
 
               <div className="contact-links">
-                <a href="tel:+916386145186" data-testid="link-phone">
-                  <Phone size={15} /> +91 63861 45186
-                </a>
-                <a href="https://www.linkedin.com/in/subhash-maurya-656905243" target="_blank" rel="noreferrer" data-testid="link-linkedin">
+                <a href="https://www.linkedin.com/in/subhash-maurya-656905243/" target="_blank" rel="noreferrer" data-testid="link-linkedin">
                   <Linkedin size={15} /> LinkedIn
+                </a>
+                <a href="https://github.com/Subhash6102003" target="_blank" rel="noreferrer" data-testid="link-github">
+                  <Github size={15} /> GitHub
+                </a>
+                <a href="https://tal.club/meet/subhash-maurya" target="_blank" rel="noreferrer" data-testid="link-tal-club">
+                  <Calendar size={15} /> Tal Club
+                </a>
+                <a href="https://x.com/Subhash25488410" target="_blank" rel="noreferrer" data-testid="link-twitter">
+                  <Twitter size={15} /> Twitter / X
                 </a>
               </div>
 
