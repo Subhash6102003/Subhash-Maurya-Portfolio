@@ -2,6 +2,7 @@
   "name": "workspace",
   "version": "0.0.0",
   "license": "MIT",
+  "packageManager": "pnpm@9.15.9",
   "scripts": {
     "dev": "npx pnpm --filter @workspace/subhash-portfolio dev",
     "start": "npx pnpm --filter @workspace/subhash-portfolio dev",
