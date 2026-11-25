@@ -25,9 +25,9 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-export const RESUME_PDF_LOCAL_URL = '/Subhash_Maurya_Resume.pdf';
-export const RESUME_DRIVE_VIEW_URL = '/Subhash_Maurya_Resume.pdf';
-export const RESUME_DRIVE_PREVIEW_URL = '/Subhash_Maurya_Resume.pdf#toolbar=0';
+export const RESUME_PDF_LOCAL_URL = 'https://drive.google.com/uc?export=download&id=17tlOCfyleyMoVmtP2WH4G-qnQYaMccz9';
+export const RESUME_DRIVE_VIEW_URL = 'https://drive.google.com/file/d/17tlOCfyleyMoVmtP2WH4G-qnQYaMccz9/view?usp=sharing';
+export const RESUME_DRIVE_PREVIEW_URL = 'https://drive.google.com/file/d/17tlOCfyleyMoVmtP2WH4G-qnQYaMccz9/preview';
 
 export default function ResumePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -306,7 +306,7 @@ export default function ResumePage() {
 
                   {/* Open in new tab Link */}
                   <a
-                    href={RESUME_PDF_LOCAL_URL}
+                    href={RESUME_DRIVE_VIEW_URL}
                     target="_blank"
                     rel="noreferrer"
                     className="modal-icon-btn"
