@@ -148,7 +148,7 @@
   --line: rgba(162, 155, 232, 0.16);
   --periwinkle: #eae8f2;
   --periwinkle-light: #f5f5f7;
-  --periwinkle-ink: #15132b;
+  --periwinkle-ink: #070e2b;
 
   /* Semantic Sub-Colors */
   --sub-cobalt: #2A2551;
@@ -325,7 +325,7 @@ button:focus-visible, a:focus-visible {
   transform: translateY(-1px);
 }
 .brand-mark em {
-  color: var(--orange);
+  color: var(--indigo-tint);
   font-style: normal;
 }
 .brand-symbol {
@@ -335,7 +335,7 @@ button:focus-visible, a:focus-visible {
   border-radius: 8px;
   display: grid;
   place-items: center;
-  color: var(--orange);
+  color: var(--indigo-tint);
   font: 700 16px var(--display);
   transform: rotate(-6deg);
   background: color-mix(in srgb, var(--orange) 10%, transparent);
@@ -372,7 +372,7 @@ button:focus-visible, a:focus-visible {
   transition: color 0.2s ease;
 }
 .nav-link-item:hover {
-  color: var(--orange);
+  color: var(--indigo-tint);
 }
 .nav-link-item.active {
   color: #ffffff;
@@ -408,8 +408,8 @@ button:focus-visible, a:focus-visible {
   transition: all 0.2s ease;
 }
 .glass-action-btn:hover {
-  color: var(--orange);
-  border-color: var(--orange);
+  color: var(--indigo-tint);
+  border-color: var(--indigo-tint);
   transform: translateY(-1px);
 }
 
@@ -460,7 +460,7 @@ button:focus-visible, a:focus-visible {
 }
 
 .eyebrow, .section-kicker {
-  color: var(--orange);
+  color: var(--indigo-tint);
   font: 600 11px var(--mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -517,7 +517,7 @@ button:focus-visible, a:focus-visible {
 }
 
 .hero h1 span, h2 i {
-  color: var(--orange);
+  color: var(--indigo-tint);
   font-style: normal;
 }
 .hero h1 strong {
@@ -571,7 +571,7 @@ button:focus-visible, a:focus-visible {
 }
 .button-dark:hover {
   background: var(--paper-deep);
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
   color: var(--ink);
   box-shadow: 0 4px 16px rgba(106, 142, 110, 0.16);
 }
@@ -585,8 +585,8 @@ button:focus-visible, a:focus-visible {
   box-shadow: var(--glass-shadow);
 }
 .button-outline:hover {
-  border-color: var(--orange);
-  color: var(--orange);
+  border-color: var(--indigo-tint);
+  color: var(--indigo-tint);
   box-shadow: var(--glass-shadow-hover);
 }
 
@@ -602,9 +602,9 @@ button:focus-visible, a:focus-visible {
   transition: color 0.2s ease, gap 0.2s ease, border-color 0.2s ease;
 }
 .text-link:hover {
-  color: var(--orange);
+  color: var(--indigo-tint);
   gap: 10px;
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
 }
 
 /* ==========================================================================
@@ -689,7 +689,7 @@ button:focus-visible, a:focus-visible {
 
 .screen-tabs { display: flex; gap: 6px; margin-left: 6px; }
 .screen-tabs .tab { font: 500 9px var(--mono); color: #999999; background: #2a2a2a; padding: 2px 8px; border-radius: 4px; }
-.screen-tabs .tab.active { color: var(--orange); background: #3b281f; font-weight: 600; }
+.screen-tabs .tab.active { color: var(--indigo-tint); background: rgba(42, 37, 81, 0.45); font-weight: 600; }
 .file-tag { margin-left: auto; font: 9px var(--mono); color: #777777; }
 
 .code-lines { display: flex; flex-direction: column; gap: 7px; margin-top: 4px; }
@@ -717,7 +717,7 @@ button:focus-visible, a:focus-visible {
   gap: 5px;
   transition: all 0.2s ease;
 }
-.screen-status-btn:hover { border-color: var(--orange); color: var(--orange); }
+.screen-status-btn:hover { border-color: var(--indigo-tint); color: var(--indigo-tint); }
 .dot-active { color: #22c55e; } .dot-inactive { color: #ef4444; }
 .screen-off-msg { flex: 1; display: grid; place-items: center; font: 500 10px var(--mono); color: #777777; letter-spacing: 0.05em; }
 
@@ -745,7 +745,7 @@ button:focus-visible, a:focus-visible {
   position: absolute;
   left: 10px;
   top: 10px;
-  color: var(--orange);
+  color: var(--indigo-tint);
   border: 1px solid var(--orange);
   padding: 6px 10px;
   font: 600 11px var(--mono);
@@ -794,9 +794,9 @@ button:focus-visible, a:focus-visible {
 .scroll-cue { display: flex; align-items: center; gap: 10px; }
 .scroll-line { height: 28px; width: 2px; background: var(--orange); display: inline-block; border-radius: 99px; }
 .hero-tech { text-align: center; }
-.hero-tech b { color: var(--orange); font-weight: 500; padding: 0 5px; }
+.hero-tech b { color: var(--indigo-tint); font-weight: 500; padding: 0 5px; }
 .hero-metric { display: flex; align-items: center; gap: 10px; }
-.hero-metric strong { font: 600 28px var(--display); color: var(--orange); letter-spacing: -0.06em; font-variant-numeric: tabular-nums; }
+.hero-metric strong { font: 600 28px var(--display); color: var(--indigo-tint); letter-spacing: -0.06em; font-variant-numeric: tabular-nums; }
 .hero-metric span { line-height: 1.35; }
 
 /* ==========================================================================
@@ -867,7 +867,7 @@ button:focus-visible, a:focus-visible {
   justify-content: space-between;
 }
 .journey-icon {
-  color: var(--orange);
+  color: var(--indigo-tint);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -880,7 +880,7 @@ button:focus-visible, a:focus-visible {
 .journey-card:hover .journey-arrow {
   transform: translate(3px, -3px);
   opacity: 1;
-  color: var(--orange);
+  color: var(--indigo-tint);
 }
 .journey-icon .love-icon { color: #ef4444; }
 .journey-icon .hate-icon { color: var(--muted-foreground); }
@@ -924,7 +924,7 @@ button:focus-visible, a:focus-visible {
   border-color: rgba(162, 155, 232, 0.35);
 }
 .stat-glass-card span {
-  color: var(--orange);
+  color: var(--indigo-tint);
   font: 600 11px var(--mono);
 }
 .stat-glass-card strong {
@@ -1148,7 +1148,7 @@ button:focus-visible, a:focus-visible {
 .cat-pill:hover, .cat-pill.active {
   background: var(--orange);
   color: #ffffff;
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
 }
 .cat-pill:hover {
   box-shadow: 0 4px 14px rgba(106, 142, 110, 0.25);
@@ -1179,7 +1179,7 @@ button:focus-visible, a:focus-visible {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--orange);
+  color: var(--indigo-tint);
   margin-bottom: 8px;
 }
 .group-header h3 {
@@ -1212,7 +1212,7 @@ button:focus-visible, a:focus-visible {
 .skill-tag-item:hover, .skill-tag-item.is-selected {
   background: var(--orange);
   color: var(--cream);
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
   box-shadow: 0 3px 10px rgba(162, 155, 232, 0.3);
 }
 
@@ -1229,7 +1229,7 @@ button:focus-visible, a:focus-visible {
   color: var(--ink);
 }
 .skill-detail-note svg {
-  color: var(--orange);
+  color: var(--indigo-tint);
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -1285,7 +1285,7 @@ button:focus-visible, a:focus-visible {
 }
 .impact-box strong {
   font: 700 24px var(--display);
-  color: var(--orange);
+  color: var(--indigo-tint);
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
 }
@@ -1314,7 +1314,7 @@ button:focus-visible, a:focus-visible {
   color: var(--ink);
   margin-bottom: 12px;
 }
-.track-card-header svg { color: var(--orange); }
+.track-card-header svg { color: var(--indigo-tint); }
 .track-card-list {
   list-style: none;
   padding: 0;
@@ -1326,7 +1326,7 @@ button:focus-visible, a:focus-visible {
   color: var(--muted-foreground);
 }
 .track-card-list li { display: flex; align-items: flex-start; gap: 8px; }
-.track-card-list svg { color: var(--orange); flex-shrink: 0; margin-top: 2px; }
+.track-card-list svg { color: var(--indigo-tint); flex-shrink: 0; margin-top: 2px; }
 .track-card-list strong { color: var(--ink); font-weight: 600; }
 
 .experience-domain-pills {
@@ -1365,7 +1365,7 @@ button:focus-visible, a:focus-visible {
   align-items: flex-start;
   gap: 12px;
   font: 600 10px var(--mono);
-  color: var(--orange);
+  color: var(--indigo-tint);
 }
 .timeline-rail i {
   width: 9px;
@@ -1387,7 +1387,7 @@ button:focus-visible, a:focus-visible {
   border: 1px solid var(--glass-border);
   padding: 3px 8px;
   border-radius: 99px;
-  color: var(--orange);
+  color: var(--indigo-tint);
 }
 .timeline-main h3 {
   font: 600 28px var(--display);
@@ -1395,7 +1395,7 @@ button:focus-visible, a:focus-visible {
   margin: 14px 0 4px;
 }
 .timeline-main h4 {
-  color: var(--orange);
+  color: var(--indigo-tint);
   font: 500 12px var(--mono);
   margin: 0 0 14px;
 }
@@ -1409,7 +1409,7 @@ button:focus-visible, a:focus-visible {
 .toggle-highlights-btn {
   background: none;
   border: none;
-  color: var(--orange);
+  color: var(--indigo-tint);
   font: 600 11px var(--mono);
   cursor: pointer;
   display: inline-flex;
@@ -1444,7 +1444,7 @@ button:focus-visible, a:focus-visible {
   color: var(--muted-foreground);
 }
 .highlight-bullet {
-  color: var(--orange);
+  color: var(--indigo-tint);
   flex-shrink: 0;
   margin-top: 3px;
 }
@@ -1473,9 +1473,9 @@ button:focus-visible, a:focus-visible {
   position: relative;
   box-shadow: var(--glass-shadow);
 }
-.resume-copy .section-kicker { color: var(--orange); }
+.resume-copy .section-kicker { color: var(--indigo-tint); }
 .resume-copy h2 { color: var(--ink); padding-top: 24px; }
-.resume-copy h2 i { color: var(--orange); }
+.resume-copy h2 i { color: var(--indigo-tint); }
 .resume-copy > p {
   color: var(--muted-foreground);
   max-width: 380px;
@@ -1513,7 +1513,7 @@ button:focus-visible, a:focus-visible {
   font: 600 22px/0.9 var(--display);
   letter-spacing: -0.07em;
 }
-.paper-header b { color: var(--orange); }
+.paper-header b { color: var(--indigo-tint); }
 .paper-rule { margin: 20px 0; height: 2px; background: var(--orange); }
 .paper-line { background: var(--paper-deep); height: 7px; margin: 10px 0; border-radius: 3px; }
 .paper-line.long { width: 90%; }
@@ -1521,7 +1521,7 @@ button:focus-visible, a:focus-visible {
 .paper-line.short { width: 45%; }
 .paper-block { margin-top: 32px; display: grid; gap: 8px; font: 600 10px var(--mono); }
 .paper-block span { border-bottom: 1px solid var(--line); padding-bottom: 6px; }
-.paper-block span:first-child { color: var(--orange); }
+.paper-block span:first-child { color: var(--indigo-tint); }
 .paper-footer { position: absolute; bottom: 22px; left: 30px; color: var(--muted-foreground); font: 9px var(--mono); }
 
 .resume-breakdown-grid {
@@ -1551,17 +1551,17 @@ button:focus-visible, a:focus-visible {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--orange);
+  color: var(--indigo-tint);
   margin-bottom: 16px;
 }
 .detail-card-header h3 { font: 600 18px var(--display); color: var(--ink); margin: 0; }
 .detail-card-body h4 { font: 600 15px var(--display); color: var(--ink); margin: 0 0 4px; }
-.inst-name { font: 500 12px var(--mono); color: var(--orange); margin: 0 0 4px; }
+.inst-name { font: 500 12px var(--mono); color: var(--indigo-tint); margin: 0 0 4px; }
 .inst-date { font: 10px var(--mono); color: var(--muted-foreground); display: block; margin-bottom: 12px; }
 .inst-desc { font-size: 13px; line-height: 1.55; color: var(--muted-foreground); margin: 0; }
 .competency-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; font-size: 13px; color: var(--muted-foreground); }
 .competency-list li { display: flex; align-items: flex-start; gap: 8px; }
-.competency-list svg { color: var(--orange); flex-shrink: 0; margin-top: 3px; }
+.competency-list svg { color: var(--indigo-tint); flex-shrink: 0; margin-top: 3px; }
 
 /* Interactive PDF Modal Viewer */
 .resume-modal-backdrop {
@@ -1637,7 +1637,7 @@ button:focus-visible, a:focus-visible {
   gap: 10px;
   font: 600 12px var(--mono);
 }
-.toolbar-title .doc-icon { color: var(--orange); }
+.toolbar-title .doc-icon { color: var(--indigo-tint); }
 .toolbar-controls { display: flex; align-items: center; gap: 12px; }
 .zoom-group {
   display: flex;
@@ -1661,7 +1661,7 @@ button:focus-visible, a:focus-visible {
   transition: all 0.2s ease;
 }
 .modal-icon-btn:hover {
-  color: var(--orange);
+  color: var(--indigo-tint);
   background: rgba(255, 255, 255, 0.15);
 }
 .toolbar-divider { width: 1px; height: 20px; background: rgba(255, 255, 255, 0.2); }
@@ -1752,7 +1752,7 @@ button:focus-visible, a:focus-visible {
   gap: 6px;
   transition: color 0.2s ease;
 }
-.copy-email:hover { color: var(--orange); }
+.copy-email:hover { color: var(--indigo-tint); }
 
 .contact-links {
   display: flex;
@@ -1774,8 +1774,8 @@ button:focus-visible, a:focus-visible {
   transition: all 0.2s ease;
 }
 .contact-links a:hover {
-  color: var(--orange);
-  border-color: var(--orange);
+  color: var(--indigo-tint);
+  border-color: var(--indigo-tint);
   background: rgba(162, 155, 232, 0.12);
   transform: translateY(-1px);
 }
@@ -1857,7 +1857,7 @@ button:focus-visible, a:focus-visible {
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 .styled-form-input:focus, .styled-form-textarea:focus {
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
   background: rgba(255, 255, 255, 0.12);
 }
 .styled-form-input::placeholder, .styled-form-textarea::placeholder {
@@ -1886,7 +1886,7 @@ button:focus-visible, a:focus-visible {
   gap: 4px;
   transition: color 0.2s ease;
 }
-.contact-footer a:hover { color: var(--orange); }
+.contact-footer a:hover { color: var(--indigo-tint); }
 
 /* ==========================================================================
    Filter & Search Field for Projects
@@ -1914,7 +1914,7 @@ button:focus-visible, a:focus-visible {
   transition: border-color 0.2s ease;
 }
 .search-input-box:focus-within {
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
 }
 .search-icon { color: var(--muted-foreground); }
 .project-search-field {
@@ -1947,7 +1947,7 @@ button:focus-visible, a:focus-visible {
 .tech-pill-btn:hover, .tech-pill-btn.active {
   background: var(--orange);
   color: var(--cream);
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
   box-shadow: 0 4px 14px rgba(162, 155, 232, 0.35);
 }
 
@@ -2148,7 +2148,7 @@ button:focus-visible, a:focus-visible {
   }
   .scroll-cue { align-self: flex-start !important; justify-content: flex-start !important; text-align: left !important; }
   .hero-tech { display: block !important; text-align: left !important; align-self: flex-start !important; font-size: 10px !important; color: var(--muted-foreground) !important; }
-  .hero-tech b { color: var(--orange) !important; }
+  .hero-tech b { color: var(--indigo-tint) !important; }
   .hero-metric { justify-self: flex-start !important; align-self: flex-start !important; text-align: left !important; }
   .hero-metric strong { font-size: 22px; }
 
@@ -2365,12 +2365,12 @@ button:focus-visible, a:focus-visible {
 }
 
 .terminal-prompt {
-  color: var(--orange);
+  color: var(--indigo-tint);
   font-weight: bold;
 }
 
 .cursor-caret {
-  color: var(--orange);
+  color: var(--indigo-tint);
   animation: blink-caret 1s step-end infinite;
 }
 
@@ -2391,7 +2391,7 @@ button:focus-visible, a:focus-visible {
 
 .out-success { color: #10b981; }
 .out-highlight { color: #f59e0b; }
-.out-metric { color: var(--orange); font-weight: 500; }
+.out-metric { color: var(--indigo-tint); font-weight: 500; }
 .out-dim { color: rgba(255, 255, 255, 0.55); }
 
 /* Living Database Component */
@@ -2427,7 +2427,7 @@ button:focus-visible, a:focus-visible {
   gap: 5px;
   font-size: 10px;
   font-family: var(--mono);
-  color: var(--orange);
+  color: var(--indigo-tint);
 }
 
 .db-table-container {
@@ -2463,7 +2463,7 @@ button:focus-visible, a:focus-visible {
   transition: background 0.8s ease-out;
 }
 
-.cell-id { color: var(--orange); font-weight: bold; }
+.cell-id { color: var(--indigo-tint); font-weight: bold; }
 .cell-source { color: var(--foreground); }
 .cell-action { color: var(--muted-foreground); }
 .cell-latency { color: #10b981; font-weight: 500; }
@@ -2482,7 +2482,7 @@ button:focus-visible, a:focus-visible {
 .db-pill-committed { background: rgba(16, 185, 129, 0.14); color: #10b981; }
 .db-pill-leased { background: rgba(245, 158, 11, 0.14); color: #f59e0b; }
 .db-pill-verified { background: rgba(59, 130, 246, 0.14); color: #3b82f6; }
-.db-pill-synced { background: rgba(162, 155, 232, 0.14); color: var(--orange); }
+.db-pill-synced { background: rgba(162, 155, 232, 0.14); color: var(--indigo-tint); }
 
 /* Scrollytelling Architecture Component */
 .scrollytelling-section {
@@ -2580,7 +2580,7 @@ button:focus-visible, a:focus-visible {
 }
 
 .connector-arrow {
-  color: var(--orange);
+  color: var(--indigo-tint);
   flex-shrink: 0;
   margin-left: -4px;
 }
@@ -2597,7 +2597,7 @@ button:focus-visible, a:focus-visible {
 
 .scrolly-node-badge {
   font-size: 9.5px;
-  color: var(--orange);
+  color: var(--indigo-tint);
   display: block;
   margin-bottom: 4px;
   letter-spacing: 0.5px;
@@ -2654,7 +2654,7 @@ button:focus-visible, a:focus-visible {
 .workflow-kicker {
   font-family: var(--mono);
   font-size: 10px;
-  color: var(--orange);
+  color: var(--indigo-tint);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -2729,7 +2729,7 @@ button:focus-visible, a:focus-visible {
 }
 
 .pipeline-node.is-active {
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
   box-shadow: 0 0 16px rgba(162, 155, 232, 0.22);
   transform: translateY(-2px);
 }
@@ -2744,7 +2744,7 @@ button:focus-visible, a:focus-visible {
   height: 38px;
   border-radius: 8px;
   background: rgba(162, 155, 232, 0.08);
-  color: var(--orange);
+  color: var(--indigo-tint);
   display: grid;
   place-items: center;
   position: relative;
@@ -2818,7 +2818,7 @@ button:focus-visible, a:focus-visible {
 }
 
 .telemetry-step-num {
-  color: var(--orange);
+  color: var(--indigo-tint);
   font-weight: bold;
 }
 
@@ -2842,7 +2842,7 @@ button:focus-visible, a:focus-visible {
 
 .ctrl-btn:hover {
   background: var(--glass-bg-heavy);
-  color: var(--orange);
+  color: var(--indigo-tint);
 }
 
 /* Projects Showcase Page Refinements */
@@ -2879,7 +2879,7 @@ button:focus-visible, a:focus-visible {
 .project-cat-tab.is-active {
   color: var(--foreground);
   font-weight: 500;
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
 }
 
 .cat-count {
@@ -2933,7 +2933,7 @@ button:focus-visible, a:focus-visible {
 }
 
 .project-search-input:focus {
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
 }
 
 .project-tech-chips {
@@ -2957,10 +2957,10 @@ button:focus-visible, a:focus-visible {
 .tech-filter-pill.active {
   background: var(--orange);
   color: #ffffff;
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
 }
 .tech-filter-pill:hover {
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
   color: var(--ink);
 }
 
@@ -3003,7 +3003,7 @@ button:focus-visible, a:focus-visible {
 
 .tile-number {
   font-size: 12px;
-  color: var(--orange);
+  color: var(--indigo-tint);
   font-weight: bold;
 }
 
@@ -3045,7 +3045,7 @@ button:focus-visible, a:focus-visible {
   align-items: center;
   gap: 5px;
   font-size: 10px;
-  color: var(--orange);
+  color: var(--indigo-tint);
   font-weight: 600;
   margin-bottom: 4px;
 }
@@ -3074,7 +3074,7 @@ button:focus-visible, a:focus-visible {
 
 .mini-metric strong {
   font-size: 14px;
-  color: var(--orange);
+  color: var(--indigo-tint);
 }
 
 .mini-metric span {
@@ -3103,7 +3103,7 @@ button:focus-visible, a:focus-visible {
   font-size: 10.5px;
   padding: 2px 7px;
   border-radius: 4px;
-  color: var(--orange);
+  color: var(--indigo-tint);
   font-weight: 500;
 }
 
@@ -3119,7 +3119,7 @@ button:focus-visible, a:focus-visible {
   justify-content: space-between;
   font-size: 12.5px;
   font-weight: 500;
-  color: var(--orange);
+  color: var(--indigo-tint);
 }
 
 /* Project Instance Modal / Sheet */
@@ -3161,7 +3161,7 @@ button:focus-visible, a:focus-visible {
   gap: 8px;
   font-family: var(--mono);
   font-size: 11px;
-  color: var(--orange);
+  color: var(--indigo-tint);
   font-weight: 500;
 }
 
@@ -3289,7 +3289,7 @@ button:focus-visible, a:focus-visible {
 
 .metric-tile strong {
   font-size: 22px;
-  color: var(--orange);
+  color: var(--indigo-tint);
   margin-bottom: 2px;
 }
 
@@ -3720,10 +3720,10 @@ button:focus-visible, a:focus-visible {
   transition: all 0.2s ease;
 }
 .acquire-step-pill span { color: var(--muted-foreground); opacity: 0.75; }
-.acquire-step-pill:hover { border-color: var(--orange); color: var(--ink); }
+.acquire-step-pill:hover { border-color: var(--indigo-tint); color: var(--ink); }
 .acquire-step-pill.is-active {
   background: var(--orange);
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
   color: #ffffff;
   font-weight: 600;
 }
@@ -3836,7 +3836,7 @@ button:focus-visible, a:focus-visible {
   height: 38px;
   border-radius: 50%;
   border: 5px solid rgba(17, 18, 16, 0.14);
-  border-top-color: var(--orange);
+  border-top-color: var(--indigo-tint);
   display: grid;
   place-items: center;
   font-size: 10px;
@@ -4197,11 +4197,11 @@ button:focus-visible, a:focus-visible {
 
 .mermaid-node-pill:hover {
   transform: translateY(-1px);
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
 }
 
 .mermaid-node-pill.is-done {
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
   color: var(--ink);
 }
 
@@ -4287,7 +4287,7 @@ button:focus-visible, a:focus-visible {
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 .dag-node-card:hover, .dag-node-card.is-active {
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
   transform: translateY(-2px);
 }
 .dag-node-head {
@@ -4322,10 +4322,10 @@ button:focus-visible, a:focus-visible {
   text-align: left;
   transition: border-color 0.2s ease;
 }
-.topo-tier-box span { display: block; font-size: 9.5px; color: var(--orange); }
+.topo-tier-box span { display: block; font-size: 9.5px; color: var(--indigo-tint); }
 .topo-tier-box strong { display: block; font-size: 13px; color: var(--ink); font-family: var(--display); }
 .topo-tier-box small { margin-left: auto; font-size: 10px; color: var(--muted-foreground); }
-.topo-tier-box.is-active, .topo-tier-box:hover { border-color: var(--orange); }
+.topo-tier-box.is-active, .topo-tier-box:hover { border-color: var(--indigo-tint); }
 
 .topo-connector-down { display: flex; justify-content: center; }
 
@@ -4349,7 +4349,7 @@ button:focus-visible, a:focus-visible {
 }
 .topo-worker-box span { font-size: 10.5px; font-weight: 600; color: var(--ink); }
 .topo-worker-box small { font-size: 10.5px; color: var(--muted-foreground); line-height: 1.35; }
-.topo-worker-box.is-active, .topo-worker-box:hover { border-color: var(--orange); }
+.topo-worker-box.is-active, .topo-worker-box:hover { border-color: var(--indigo-tint); }
 
 /* Pattern 4: 2x2 Autonomous Loop */
 .loop-2x2-grid {
@@ -4371,7 +4371,7 @@ button:focus-visible, a:focus-visible {
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 .loop-quad-card:hover, .loop-quad-card.is-active {
-  border-color: var(--orange);
+  border-color: var(--indigo-tint);
   transform: translateY(-1px);
 }
 .loop-quad-top {
