@@ -34,9 +34,12 @@ export function useGsapContext(
 }
 
 /**
- * Subtle 3D tilt interaction for glass cards
+ * Subtle 3D tilt + pointer specular sheen (--mx, --my) for architectural cards
  */
-export function attachCardTilt(element: HTMLElement, maxTiltAngle = 5) {
+export function attachCardTilt(element: HTMLElement, maxTiltAngle = 3.5) {
+  const xTo = gsap.quickTo(element, 'rotateY', { duration: 0.35, ease: 'power2.out' });
+  const yTo = gsap.quickTo(element, 'rotateX', { duration: 0.35, ease: 'power2.out' });
+
   const handleMouseMove = (e: MouseEvent) => {
     const rect = element.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -44,28 +47,49 @@ export function attachCardTilt(element: HTMLElement, maxTiltAngle = 5) {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((y - centerY) / centerY) * -maxTiltAngle;
-    const rotateY = ((x - centerX) / centerX) * maxTiltAngle;
+    element.style.setProperty('--mx', `${((x / rect.width) * 100).toFixed(1)}%`);
+    element.style.setProperty('--my', `${((y / rect.height) * 100).toFixed(1)}%`);
 
-    gsap.to(element, {
-      rotateX,
-      rotateY,
-      transformPerspective: 1000,
-      duration: 0.35,
-      ease: 'power2.out',
-    });
+    gsap.set(element, { transformPerspective: 1100 });
+    yTo(((y - centerY) / centerY) * -maxTiltAngle);
+    xTo(((x - centerX) / centerX) * maxTiltAngle);
   };
 
   const handleMouseLeave = () => {
-    gsap.to(element, {
-      rotateX: 0,
-      rotateY: 0,
-      duration: 0.5,
-      ease: 'power2.out',
-    });
+    yTo(0);
+    xTo(0);
   };
 
-  element.addEventListener('mousemove', handleMouseMove);
+  element.addEventListener('mousemove', handleMouseMove, { passive: true });
+  element.addEventListener('mouseleave', handleMouseLeave);
+
+  return () => {
+    element.removeEventListener('mousemove', handleMouseMove);
+    element.removeEventListener('mouseleave', handleMouseLeave);
+  };
+}
+
+/**
+ * Restrained magnetic pull for primary CTA buttons
+ */
+export function attachMagnetic(element: HTMLElement, strength = 0.18) {
+  const xTo = gsap.quickTo(element, 'x', { duration: 0.3, ease: 'power3.out' });
+  const yTo = gsap.quickTo(element, 'y', { duration: 0.3, ease: 'power3.out' });
+
+  const handleMouseMove = (e: MouseEvent) => {
+    const rect = element.getBoundingClientRect();
+    const relX = e.clientX - (rect.left + rect.width / 2);
+    const relY = e.clientY - (rect.top + rect.height / 2);
+    xTo(relX * strength);
+    yTo(relY * strength);
+  };
+
+  const handleMouseLeave = () => {
+    xTo(0);
+    yTo(0);
+  };
+
+  element.addEventListener('mousemove', handleMouseMove, { passive: true });
   element.addEventListener('mouseleave', handleMouseLeave);
 
   return () => {

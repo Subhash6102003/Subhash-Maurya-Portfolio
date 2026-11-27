@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { attachCardTilt } from '@/lib/animations';
+import { attachCardTilt, attachMagnetic } from '@/lib/animations';
 import { ScrollytellingArchitecture } from '@/components/motion/scrollytelling-architecture';
 import { LivingTerminal } from '@/components/motion/living-terminal';
 import { LivingDatabase } from '@/components/motion/living-database';
@@ -58,30 +58,62 @@ export default function Home() {
       const headings = gsap.utils.toArray<HTMLElement>('.gsap-reveal-heading');
       headings.forEach((heading) => {
         gsap.from(heading, {
-          y: 28,
+          y: 26,
           opacity: 0,
-          duration: 0.8,
+          duration: 0.72,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: heading,
-            start: 'top 88%',
+            start: 'top 90%',
             toggleActions: 'play none none none',
           },
         });
       });
 
+      // Subtle scrubbed parallax depth on Hero Showcase
+      const heroShowcase = homeScopeRef.current?.querySelector('.hero-art-modern');
+      if (heroShowcase) {
+        gsap.to(heroShowcase, {
+          y: -24,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 0.8,
+          },
+        });
+      }
+
+      // Metric strip staggered entrance
+      const metricCells = gsap.utils.toArray<HTMLElement>('.acquire-metric-cell');
+      if (metricCells.length > 0) {
+        gsap.from(metricCells, {
+          y: 18,
+          opacity: 0,
+          duration: 0.55,
+          stagger: 0.07,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.acquire-metric-strip',
+            start: 'top 92%',
+            toggleActions: 'play none none none',
+          },
+        });
+      }
+
       // Journey cards staggered scroll reveal
       if (journeyCardsRef.current) {
         const cards = journeyCardsRef.current.querySelectorAll('.journey-card');
         gsap.from(cards, {
-          y: 36,
+          y: 30,
           opacity: 0,
-          duration: 0.7,
-          stagger: 0.12,
-          ease: 'power2.out',
+          duration: 0.65,
+          stagger: 0.09,
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: journeyCardsRef.current,
-            start: 'top 85%',
+            start: 'top 86%',
             toggleActions: 'play none none none',
           },
         });
@@ -91,12 +123,12 @@ export default function Home() {
       const statCards = gsap.utils.toArray<HTMLElement>('.stat-glass-card');
       if (statCards.length > 0) {
         gsap.from(statCards, {
-          y: 30,
+          y: 24,
           opacity: 0,
-          scale: 0.96,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: 'back.out(1.2)',
+          scale: 0.97,
+          duration: 0.55,
+          stagger: 0.08,
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: statCards[0],
             start: 'top 88%',
@@ -109,26 +141,30 @@ export default function Home() {
       if (projectListRef.current) {
         const pCards = projectListRef.current.querySelectorAll('.project-card');
         gsap.from(pCards, {
-          y: 40,
+          y: 34,
           opacity: 0,
-          duration: 0.8,
-          stagger: 0.15,
+          duration: 0.72,
+          stagger: 0.11,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: projectListRef.current,
-            start: 'top 85%',
+            start: 'top 86%',
             toggleActions: 'play none none none',
           },
         });
       }
     }, homeScopeRef);
 
-    // Attach subtle 3D tilt physics to cards (desktop only)
+    // Attach subtle 3D tilt + specular sheen & magnetic CTAs (desktop only)
     const cleanupFns: Array<() => void> = [];
     if (window.matchMedia('(pointer: fine)').matches) {
       const tiltCards = homeScopeRef.current.querySelectorAll<HTMLElement>('.journey-card, .project-card, .stat-glass-card');
       tiltCards.forEach((card) => {
         cleanupFns.push(attachCardTilt(card));
+      });
+      const magneticBtns = document.querySelectorAll<HTMLElement>('.button-primary, .glass-talk-btn');
+      magneticBtns.forEach((btn) => {
+        cleanupFns.push(attachMagnetic(btn));
       });
     }
 

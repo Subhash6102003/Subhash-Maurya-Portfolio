@@ -2,8 +2,9 @@ import { useEffect, useState, ReactNode } from 'react';
 import { useLocation, Link } from 'wouter';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { ArrowUpRight, Menu, Moon, Sun, X, MapPin } from 'lucide-react';
-import { SmoothScrollProvider } from '@/components/motion/smooth-scroll';
+import { SmoothScrollProvider, useLenis } from '@/components/motion/smooth-scroll';
 import { AmbientScene } from '@/components/motion/ambient-scene';
+import { ScrollTrigger } from '@/lib/animations';
 
 export const navItems = [
   { label: 'About', path: '/' },
@@ -18,7 +19,16 @@ interface TabLayoutProps {
 }
 
 export function TabLayout({ children }: TabLayoutProps) {
+  return (
+    <SmoothScrollProvider>
+      <TabLayoutInner>{children}</TabLayoutInner>
+    </SmoothScrollProvider>
+  );
+}
+
+function TabLayoutInner({ children }: TabLayoutProps) {
   const [location, setLocation] = useLocation();
+  const { scrollTo } = useLenis();
   const [dark, setDark] = useState(() => {
     const saved = localStorage.getItem('subhash-theme');
     return saved !== 'light';
@@ -29,6 +39,12 @@ export function TabLayout({ children }: TabLayoutProps) {
     document.documentElement.classList.toggle('dark', dark);
     localStorage.setItem('subhash-theme', dark ? 'dark' : 'light');
   }, [dark]);
+
+  useEffect(() => {
+    scrollTo(0, { immediate: true });
+    const id = window.setTimeout(() => ScrollTrigger.refresh(), 180);
+    return () => window.clearTimeout(id);
+  }, [location]);
 
   const activeIndex = navItems.findIndex((item) => item.path === location);
   const currentNavIndex = activeIndex === -1 ? 0 : activeIndex;
@@ -48,29 +64,23 @@ export function TabLayout({ children }: TabLayoutProps) {
     e.preventDefault();
     closeMenu();
     if (location === '/' || location === '') {
-      const contactEl = document.getElementById('contact');
-      if (contactEl) {
-        contactEl.scrollIntoView({ behavior: 'smooth' });
-      }
+      scrollTo('#contact', { offset: -88 });
     } else {
       setLocation('/');
       window.setTimeout(() => {
-        const contactEl = document.getElementById('contact');
-        if (contactEl) {
-          contactEl.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 300);
+        scrollTo('#contact', { offset: -88 });
+      }, 320);
     }
   };
 
   return (
-    <SmoothScrollProvider>
       <div className="portfolio-shell">
-        {/* Layered 4-Depth Ambient Scene */}
+        {/* Layered Ambient Scene */}
         <AmbientScene />
 
         {/* Floating Glass Header */}
         <header className="site-header glass-header">
+        <div className="scroll-progress-bar" aria-hidden="true" />
         <Link className="brand-mark" href="/" data-testid="link-home">
           <span className="brand-symbol">S</span>
           <span>SUBHASH<br /><em>MAURYA</em></span>
@@ -180,6 +190,5 @@ export function TabLayout({ children }: TabLayoutProps) {
         </div>
       </footer>
     </div>
-  </SmoothScrollProvider>
-);
+  );
 }

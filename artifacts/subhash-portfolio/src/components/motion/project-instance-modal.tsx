@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Github, Download, ShieldCheck, Zap, Layers, Sparkles } from 'lucide-react';
 import { ProjectArchitectureGraph } from './project-architecture-graph';
 import { WorkflowType } from './workflow-simulator';
+import { useLenis } from './smooth-scroll';
 
 export interface ProjectInstanceData {
   id: string;
@@ -27,19 +28,23 @@ interface ProjectInstanceModalProps {
 }
 
 export function ProjectInstanceModal({ project, onClose }: ProjectInstanceModalProps) {
+  const { lenis } = useLenis();
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     if (project) {
       document.body.style.overflow = 'hidden';
+      lenis?.stop();
       window.addEventListener('keydown', onKeyDown);
     }
     return () => {
       document.body.style.overflow = '';
+      lenis?.start();
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [project, onClose]);
+  }, [project, onClose, lenis]);
 
   if (!project) return null;
 
