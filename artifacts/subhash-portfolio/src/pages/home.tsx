@@ -279,88 +279,53 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Statement & Personal Journey */}
-      <section className="statement section-frame" id="about" aria-labelledby="about-title">
-        <div className="section-kicker"><span>02</span> The short version &amp; My Journey</div>
-        <div className="statement-grid">
-          <h2 id="about-title" className="gsap-reveal-heading">Software should feel <i>considered.</i></h2>
-          <div className="statement-copy">
-            <p>
-              I&apos;m a developer who likes the space between a rough idea and the moment it starts helping somebody. My work moves between Android, full-stack web, and the systems that make both dependable.
-            </p>
-            <p>
-              Currently finishing a B.Tech in Computer Science &amp; Engineering (AI/ML) at Lakshmi Narain College of Technology &amp; Science, Bhopal — and building things professionally alongside it.
-            </p>
-            <a className="text-link" href="#contact" data-testid="link-about-contact">
-              Start a conversation <ArrowUpRight size={16} />
-            </a>
-          </div>
+      {/* 02: Selected Work Section — Asymmetric 1+2 Flagship Architecture (Right After Hero) */}
+      <section className="projects section-frame" id="projects" aria-labelledby="projects-title">
+        <div className="section-heading">
+          <div className="section-kicker"><span>02</span> Selected Architecture &amp; Projects</div>
+          <h2 id="projects-title" className="gsap-reveal-heading">Built to leave<br /><i>a mark.</i></h2>
+          <p>Three flagship directions — from civic technology to distributed banking pipelines and developer environments.</p>
         </div>
 
-        {/* Personal Story Cards (Matching the design reference) */}
-        <div ref={journeyCardsRef} className="personal-journey-grid">
-          <div className="journey-card" data-testid="card-journey-skills">
-            <div className="journey-header">
-              <div className="journey-icon"><Trophy size={18} /></div>
-              <ArrowUpRight size={16} className="journey-arrow" />
+        <div ref={projectListRef} className="project-list project-list-asymmetric">
+          {featuredProjects.map((project, idx) => (
+            <div
+              className={`project-card project-${idx === 0 ? 'orange project-flagship-wide' : idx === 1 ? 'ink' : 'sand'}`}
+              key={project.id}
+              onClick={() => setSelectedProject(project)}
+              style={{ cursor: 'pointer' }}
+              data-testid={`card-home-project-${project.id}`}
+            >
+              <div className="project-top">
+                <span className="project-index-badge">0{idx + 1}</span>
+                <span>{project.categoryLabel}</span>
+                <ArrowUpRight size={19} />
+              </div>
+              <div className="project-body-flex">
+                <div className="project-body-main">
+                  <h3>{project.title}</h3>
+                  <p>{project.tagline}</p>
+                </div>
+                <div className="project-body-meta">
+                  <div className="project-stack">
+                    {project.stack.slice(0, 4).map((item) => (
+                      <span key={item}>{item}</span>
+                    ))}
+                  </div>
+                  <div className="project-arrow">
+                    <span>Inspect Live Architecture</span>
+                    <ArrowUpRight size={18} />
+                  </div>
+                </div>
+              </div>
             </div>
-            <h3>How I Achieved My Skills</h3>
-            <p>
-              Rather than sticking to textbook theory, I built real production apps early on. From mastering native Android (Kotlin, Jetpack Compose, MVVM) during my internship at Mobrilz to architecting full-stack microservices at AnyTechPros and NexLogic, I honed my craft by shipping code directly to users.
-            </p>
-          </div>
-
-          <div className="journey-card" data-testid="card-journey-hobbies">
-            <div className="journey-header">
-              <div className="journey-icon"><Compass size={18} /></div>
-              <ArrowUpRight size={16} className="journey-arrow" />
-            </div>
-            <h3>Hobbies &amp; What Drives Me</h3>
-            <p>
-              When I&apos;m not writing Kotlin or React, I explore emerging AI tooling (Claude AI, Copilot), benchmark Core Web Vitals, tinker with custom system setups, and dissect open-source architecture patterns to learn how great software is engineered.
-            </p>
-          </div>
-
-          <div className="journey-card" data-testid="card-journey-love">
-            <div className="journey-header">
-              <div className="journey-icon"><Heart size={18} className="love-icon" /></div>
-              <ArrowUpRight size={16} className="journey-arrow" />
-            </div>
-            <h3>What I Love</h3>
-            <p>
-              Clean, modular architecture; sub-second page response times; intuitive user interfaces; detailed micro-animations; and self-documenting code that makes team collaboration seamless.
-            </p>
-          </div>
-
-          <div className="journey-card" data-testid="card-journey-hate">
-            <div className="journey-header">
-              <div className="journey-icon"><HeartOff size={18} className="hate-icon" /></div>
-              <ArrowUpRight size={16} className="journey-arrow" />
-            </div>
-            <h3>What I Hate</h3>
-            <p>
-              Bloated dependencies; silent error swallowing; unconsidered browser defaults; sluggish UI feedback; and rushed code without clear architectural boundaries.
-            </p>
-          </div>
+          ))}
         </div>
 
-        {/* Fact Strip Glass Cards */}
-        <div className="fact-strip">
-          <div className="stat-glass-card">
-            <span>01</span>
-            <strong>30%</strong>
-            <small>performance gain on Android features</small>
-          </div>
-          <div className="stat-glass-card">
-            <span>02</span>
-            <strong>95+</strong>
-            <small>Lighthouse score on shipped web work</small>
-          </div>
-          <div className="stat-glass-card">
-            <span>03</span>
-            <strong>100x</strong>
-            <small>productivity boost with AI tooling</small>
-          </div>
+        <div className="projects-redirect-cta">
+          <Link className="button button-primary see-all-projects-btn" href="/projects" data-testid="button-see-all-projects">
+            See all 24 projects &amp; live architectures <ArrowDownRight size={18} />
+          </Link>
         </div>
       </section>
 
@@ -386,47 +351,88 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 05: Selected Work Section (eGovTalent, UPI Double-Spend, Forge IDE) */}
-      <section className="projects section-frame" id="projects" aria-labelledby="projects-title">
-        <div className="section-heading">
-          <div className="section-kicker"><span>05</span> Selected Architecture &amp; Projects</div>
-          <h2 id="projects-title" className="gsap-reveal-heading">Built to leave<br /><i>a mark.</i></h2>
-          <p>Three flagship directions — from civic technology to distributed banking pipelines and developer environments.</p>
+      {/* 05: Statement & Multi-Color Bento Journey */}
+      <section className="statement section-frame" id="about" aria-labelledby="about-title">
+        <div className="section-kicker"><span>05</span> The short version &amp; My Journey</div>
+        <div className="statement-grid">
+          <h2 id="about-title" className="gsap-reveal-heading">Software should feel <i>considered.</i></h2>
+          <div className="statement-copy">
+            <p>
+              I&apos;m a developer who likes the space between a rough idea and the moment it starts helping somebody. My work moves between Android, full-stack web, and the systems that make both dependable.
+            </p>
+            <p>
+              Currently finishing a B.Tech in Computer Science &amp; Engineering (AI/ML) at Lakshmi Narain College of Technology &amp; Science, Bhopal — and building things professionally alongside it.
+            </p>
+            <a className="text-link" href="#contact" data-testid="link-about-contact">
+              Start a conversation <ArrowUpRight size={16} />
+            </a>
+          </div>
         </div>
 
-        <div ref={projectListRef} className="project-list">
-          {featuredProjects.map((project, idx) => (
-            <div
-              className={`project-card project-${idx === 0 ? 'orange' : idx === 1 ? 'ink' : 'sand'}`}
-              key={project.id}
-              onClick={() => setSelectedProject(project)}
-              style={{ cursor: 'pointer' }}
-              data-testid={`card-home-project-${project.id}`}
-            >
-              <div className="project-top">
-                <span>0{idx + 1}</span>
-                <span>{project.categoryLabel}</span>
-                <ArrowUpRight size={19} />
-              </div>
-              <h3>{project.title}</h3>
-              <p>{project.tagline}</p>
-              <div className="project-stack">
-                {project.stack.slice(0, 4).map((item) => (
-                  <span key={item}>{item}</span>
-                ))}
-              </div>
-              <div className="project-arrow">
-                <span>Inspect Live Architecture</span>
-                <ArrowUpRight size={18} />
-              </div>
+        {/* Multi-Color Asymmetric Bento Journey */}
+        <div ref={journeyCardsRef} className="personal-journey-grid">
+          <div className="journey-card journey-mc-1" data-testid="card-journey-skills">
+            <div className="journey-header">
+              <div className="journey-icon"><Trophy size={18} /></div>
+              <ArrowUpRight size={16} className="journey-arrow" />
             </div>
-          ))}
+            <h3>How I Achieved My Skills</h3>
+            <p>
+              Rather than sticking to textbook theory, I built real production apps early on. From mastering native Android (Kotlin, Jetpack Compose, MVVM) during my internship at Mobrilz to architecting full-stack microservices at AnyTechPros and NexLogic, I honed my craft by shipping code directly to users.
+            </p>
+          </div>
+
+          <div className="journey-card journey-mc-2" data-testid="card-journey-hobbies">
+            <div className="journey-header">
+              <div className="journey-icon"><Compass size={18} /></div>
+              <ArrowUpRight size={16} className="journey-arrow" />
+            </div>
+            <h3>Hobbies &amp; What Drives Me</h3>
+            <p>
+              When I&apos;m not writing Kotlin or React, I explore emerging AI tooling (Claude AI, Copilot), benchmark Core Web Vitals, tinker with custom system setups, and dissect open-source architecture patterns to learn how great software is engineered.
+            </p>
+          </div>
+
+          <div className="journey-card journey-mc-3" data-testid="card-journey-love">
+            <div className="journey-header">
+              <div className="journey-icon"><Heart size={18} className="love-icon" /></div>
+              <ArrowUpRight size={16} className="journey-arrow" />
+            </div>
+            <h3>What I Love</h3>
+            <p>
+              Clean, modular architecture; sub-second page response times; intuitive user interfaces; detailed micro-animations; and self-documenting code that makes team collaboration seamless.
+            </p>
+          </div>
+
+          <div className="journey-card journey-mc-4" data-testid="card-journey-hate">
+            <div className="journey-header">
+              <div className="journey-icon"><HeartOff size={18} className="hate-icon" /></div>
+              <ArrowUpRight size={16} className="journey-arrow" />
+            </div>
+            <h3>What I Hate</h3>
+            <p>
+              Bloated dependencies; silent error swallowing; unconsidered browser defaults; sluggish UI feedback; and rushed code without clear architectural boundaries.
+            </p>
+          </div>
         </div>
 
-        <div className="projects-redirect-cta">
-          <Link className="button button-primary see-all-projects-btn" href="/projects" data-testid="button-see-all-projects">
-            See all 24 projects &amp; live architectures <ArrowDownRight size={18} />
-          </Link>
+        {/* Fact Strip Multi-Color Cards */}
+        <div className="fact-strip">
+          <div className="stat-glass-card stat-mc-1">
+            <span>01</span>
+            <strong>30%</strong>
+            <small>performance gain on Android features</small>
+          </div>
+          <div className="stat-glass-card stat-mc-2">
+            <span>02</span>
+            <strong>95+</strong>
+            <small>Lighthouse score on shipped web work</small>
+          </div>
+          <div className="stat-glass-card stat-mc-3">
+            <span>03</span>
+            <strong>100x</strong>
+            <small>productivity boost with AI tooling</small>
+          </div>
         </div>
       </section>
 

@@ -171,6 +171,87 @@
   --glass-border-subtle: rgba(255, 255, 255, 0.05);
   --glass-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   --glass-shadow-hover: 0 20px 44px -12px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+
+  /* Multi-Color Domain Spectrum */
+  --mc-1: #3B82F6;
+  --mc-2: #10B981;
+  --mc-3: #F59E0B;
+  --mc-4: #F43F5E;
+  --mc-5: #8B5CF6;
+}
+
+:root {
+  --mc-1: #2563EB;
+  --mc-2: #059669;
+  --mc-3: #D97706;
+  --mc-4: #E11D48;
+  --mc-5: #7C3AED;
+}
+
+/* THEME 2: Midnight Cobalt (Cobalt + Cyan + Slate) */
+[data-theme="cobalt"].dark {
+  --background: 229 55% 10%;
+  --card: 229 48% 14%;
+  --primary: 217 91% 60%;
+  --accent: 217 91% 60%;
+  --cream: #0B1026;
+  --paper: #111936;
+  --paper-deep: #18234A;
+  --orange: #3B82F6;
+  --orange-dark: #2563EB;
+  --indigo-tint: #38BDF8;
+  --line: rgba(56, 189, 248, 0.16);
+  --periwinkle: #F0F7FF;
+  --periwinkle-light: #F8FAFC;
+  --periwinkle-ink: #0B1026;
+  --glass-bg: rgba(17, 25, 54, 0.82);
+  --glass-bg-subtle: rgba(24, 35, 74, 0.65);
+  --glass-bg-heavy: rgba(11, 16, 38, 0.95);
+  --glass-border: rgba(56, 189, 248, 0.18);
+}
+
+/* THEME 3: Forest Emerald (Deep Pine + Emerald + Amber Gold) */
+[data-theme="emerald"].dark {
+  --background: 161 53% 6%;
+  --card: 161 45% 10%;
+  --primary: 160 84% 39%;
+  --accent: 160 84% 39%;
+  --cream: #071712;
+  --paper: #0C241C;
+  --paper-deep: #123328;
+  --orange: #10B981;
+  --orange-dark: #059669;
+  --indigo-tint: #FBBF24;
+  --line: rgba(16, 185, 129, 0.18);
+  --periwinkle: #ECFDF5;
+  --periwinkle-light: #F7FEF9;
+  --periwinkle-ink: #071712;
+  --glass-bg: rgba(12, 36, 28, 0.84);
+  --glass-bg-subtle: rgba(18, 51, 40, 0.65);
+  --glass-bg-heavy: rgba(7, 23, 18, 0.95);
+  --glass-border: rgba(16, 185, 129, 0.20);
+}
+
+/* THEME 4: Royal Plum (Deep Velvet + Violet + Rose) */
+[data-theme="plum"].dark {
+  --background: 262 53% 9%;
+  --card: 262 45% 13%;
+  --primary: 271 91% 65%;
+  --accent: 271 91% 65%;
+  --cream: #140B24;
+  --paper: #1D1133;
+  --paper-deep: #271745;
+  --orange: #9333EA;
+  --orange-dark: #7E22CE;
+  --indigo-tint: #F472B6;
+  --line: rgba(244, 114, 182, 0.18);
+  --periwinkle: #FAF5FF;
+  --periwinkle-light: #FDFBFF;
+  --periwinkle-ink: #140B24;
+  --glass-bg: rgba(29, 17, 51, 0.84);
+  --glass-bg-subtle: rgba(39, 23, 69, 0.65);
+  --glass-bg-heavy: rgba(20, 11, 36, 0.95);
+  --glass-border: rgba(192, 132, 252, 0.20);
 }
 
 @layer base {
@@ -4656,4 +4737,121 @@ button:focus-visible, a:focus-visible {
   .acquire-step-pill { font-size: 10.5px; padding: 6px 10px; }
   .contact-links { flex-wrap: wrap; gap: 10px; }
   .projects-grid { grid-template-columns: 1fr; }
+  .project-list-asymmetric { grid-template-columns: 1fr; }
+  .project-flagship-wide { grid-column: span 1; }
+  .project-flagship-wide .project-body-flex { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .project-flagship-wide .project-body-meta { align-items: flex-start; }
+  .theme-toggle-name { display: none; }
 }
+
+/* Multi-Color Theme Switcher & Popover */
+.theme-switcher-wrap { position: relative; }
+.theme-swatch-dots { display: inline-flex; align-items: center; gap: 3px; }
+.theme-swatch-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.theme-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 228px;
+  background: var(--paper);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 20px 44px -10px rgba(0, 0, 0, 0.55);
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.theme-popover-head {
+  font: 600 9.5px var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted-foreground);
+  padding: 6px 8px 4px;
+}
+.theme-option-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink);
+  font: 500 11.5px var(--mono);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.16s ease, border-color 0.16s ease;
+}
+.theme-option-btn:hover {
+  background: var(--paper-deep);
+}
+.theme-option-btn.is-active {
+  background: var(--paper-deep);
+  border-color: var(--orange);
+  font-weight: 600;
+}
+
+/* Asymmetric 1+2 Flagship Project Grid */
+.project-list-asymmetric {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.project-flagship-wide {
+  grid-column: 1 / -1;
+}
+.project-flagship-wide .project-body-flex {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+}
+.project-flagship-wide .project-body-main {
+  max-width: 620px;
+}
+.project-flagship-wide .project-body-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+.project-index-badge {
+  font: 600 11px var(--mono);
+  padding: 3px 9px;
+  border-radius: 99px;
+  background: rgba(255, 79, 24, 0.14);
+  color: var(--orange);
+}
+.project-orange .project-index-badge {
+  background: var(--orange);
+  color: #ffffff;
+}
+
+/* Multi-Color Semantic Accents Across Journey, Stats & Metrics */
+.journey-mc-1 { border-top: 3px solid var(--mc-1); }
+.journey-mc-1 .journey-icon { color: var(--mc-1); }
+.journey-mc-2 { border-top: 3px solid var(--mc-2); }
+.journey-mc-2 .journey-icon { color: var(--mc-2); }
+.journey-mc-3 { border-top: 3px solid var(--mc-4); }
+.journey-mc-3 .journey-icon { color: var(--mc-4); }
+.journey-mc-4 { border-top: 3px solid var(--mc-3); }
+.journey-mc-4 .journey-icon { color: var(--mc-3); }
+
+.stat-mc-1 span { color: var(--mc-1); }
+.stat-mc-2 span { color: var(--mc-2); }
+.stat-mc-3 span { color: var(--mc-3); }
+
+.acquire-metric-cell:nth-child(1) strong { color: var(--indigo-tint); }
+.acquire-metric-cell:nth-child(2) strong { color: var(--mc-1); }
+.acquire-metric-cell:nth-child(3) strong { color: var(--mc-2); }
+.acquire-metric-cell:nth-child(4) strong { color: var(--mc-3); }
+.acquire-metric-cell:nth-child(5) strong { color: var(--mc-5); }
