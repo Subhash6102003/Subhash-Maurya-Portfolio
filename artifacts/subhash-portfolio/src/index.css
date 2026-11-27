@@ -4808,21 +4808,53 @@ button:focus-visible, a:focus-visible {
 }
 .project-flagship-wide {
   grid-column: 1 / -1;
+  min-height: auto !important;
+  padding: 32px 34px;
 }
 .project-flagship-wide .project-body-flex {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 32px;
+  gap: 36px;
 }
 .project-flagship-wide .project-body-main {
-  max-width: 620px;
+  max-width: 580px;
+}
+.project-flagship-summary {
+  margin-top: 12px;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  color: #3f3f46 !important;
 }
 .project-flagship-wide .project-body-meta {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 16px;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.project-flagship-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(96px, auto));
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(9, 9, 11, 0.05);
+  border: 1px solid rgba(9, 9, 11, 0.10);
+}
+.flagship-metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.flagship-metric-item strong {
+  font: 700 18px var(--display);
+  color: var(--orange);
+  letter-spacing: -0.03em;
+}
+.flagship-metric-item span {
+  font: 500 9.5px var(--mono);
+  color: #52525B;
 }
 .project-index-badge {
   font: 600 11px var(--mono);

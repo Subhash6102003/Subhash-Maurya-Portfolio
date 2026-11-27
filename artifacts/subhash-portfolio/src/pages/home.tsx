@@ -305,8 +305,21 @@ export default function Home() {
                 <div className="project-body-main">
                   <h3>{project.title}</h3>
                   <p>{project.tagline}</p>
+                  {idx === 0 && (
+                    <p className="project-flagship-summary">{project.solution}</p>
+                  )}
                 </div>
                 <div className="project-body-meta">
+                  {idx === 0 && project.metrics?.length > 0 && (
+                    <div className="project-flagship-metrics">
+                      {project.metrics.slice(0, 3).map((m) => (
+                        <div key={m.label} className="flagship-metric-item">
+                          <strong className="tabular-nums">{m.value}</strong>
+                          <span>{m.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   <div className="project-stack">
                     {project.stack.slice(0, 4).map((item) => (
                       <span key={item}>{item}</span>
